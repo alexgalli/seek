@@ -7,5 +7,5 @@ class Video(models.Model):
 
 class Timestamp(models.Model):
     video = models.ForeignKey(Video)
-    minute = models.PositiveIntegerField()
-    second = models.PositiveIntegerField()
+    minutes = models.PositiveIntegerField()
+    seconds = models.PositiveIntegerField()

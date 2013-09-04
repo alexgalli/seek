@@ -59,3 +59,35 @@ def get_timestamps(request):
     ts = [{"minutes": t.minutes, "seconds": t.seconds} for t in Timestamp.objects.filter(video=vq[0])]
 
     return HttpResponse(status=200, content_type="application/json", content=json.dumps(ts))
+
+@require_POST
+@login_required
+def set_timestamps(request):
+    # check input
+    if "videoID" not in request.POST or not request.POST["videoID"]:
+        return HttpResponse(status=400, content="must include videoID")
+
+    if "timestamps" not in request.POST or not request.POST["timestamps"]:
+        return HttpResponse(status=400, content="must include timestamps")
+
+    # parse input
+    try:
+        ts = json.loads(request.POST["timestamps"])
+    except ValueError:
+        return HttpResponse(status=400, content="invalid timestamps json")
+
+    if not all(isinstance(t, dict) and "minutes" in t and "seconds" in t for t in ts):
+        return HttpResponse(status=400, content="invalid timestamps json")
+
+    # look up video
+    vq = get_video_query(request.user, request.POST["videoID"])
+    if vq.count() == 0:
+        return HttpResponse(status=404, content="videoID %s does not exist for user" % request.POST["videoID"])
+    v = vq[0]
+
+    # attach timestamps to video
+    timestamps = [Timestamp(video=v, minutes=t["minutes"], seconds=t["seconds"]) for t in ts]
+    for t in timestamps:
+        t.save()
+
+    return HttpResponse(status=200)

@@ -26,6 +26,9 @@ class PlayerTestCase(TestCase):
         c.login(username="user", password="password")
         return c.post("/api/" + method, data=data)
 
+    def get_video(self):
+        return Video.objects.filter(user=self.get_user(), videoID="asdf")[0]
+
     def get_video_count(self):
         return Video.objects.filter(user=self.get_user(), videoID="asdf").count()
 
@@ -38,6 +41,10 @@ class PlayerTestCase(TestCase):
         assert self.get_video_count() == 0
         self.add_video()
         assert self.get_video_count() == 1
+
+    def add_video_with_timestamp(self):
+        v = self.add_video()
+        Timestamp(video=v, minutes=1, seconds=30).save()
 
 class add_video(PlayerTestCase):
     def get_add_response(self, data):
@@ -86,10 +93,6 @@ class get_timestamps(PlayerTestCase):
     def get_get_timestamps(self, data):
         return self.get_response("get_timestamps", data)
 
-    def add_video_with_timestamp(self):
-        v = self.add_video()
-        Timestamp(video=v, minutes=1, seconds=30).save()
-
     def test_valid_videoID_with_no_timestamps_returns_no_timestamps(self):
         self.add_video()
         res = self.get_get_timestamps({'videoID': 'asdf'})
@@ -115,3 +118,39 @@ class get_timestamps(PlayerTestCase):
         self.add_video_with_timestamp()
         assert self.get_get_timestamps({"videoID": 'fdsa'}).status_code == 404
 
+class set_timestamps(PlayerTestCase):
+    def get_set_timestamps(self, data):
+        return self.get_response("set_timestamps", data)
+
+    def test_valid_videoID_with_timestamps_adds_timestamps(self):
+        self.add_video()
+        ts = [
+            {"minutes": 1, "seconds": 30},
+            {"minutes": 2, "seconds": 45}
+        ]
+        assert self.get_set_timestamps({"videoID": "asdf", "timestamps": json.dumps(ts)}).status_code == 200
+
+        ts = Timestamp.objects.filter(video=self.get_video()).order_by("minutes").all()
+        assert len(ts) == 2
+        assert ts[0].minutes == 1
+        assert ts[0].seconds == 30
+        assert ts[1].minutes == 2
+        assert ts[1].seconds == 45
+
+    def test_no_videoID_returns_badrequest(self):
+        assert self.get_set_timestamps({"timestamps": "[]"}).status_code == 400
+
+    def test_bad_videoID_returns_badrequest(self):
+        assert self.get_set_timestamps({"videoID": "", "timestamps": "[]"}).status_code == 400
+
+    def test_wrong_videoID_returns_notfound(self):
+        self.add_video()
+        assert self.get_set_timestamps({"videoID": "fdsa", "timestamps": "[]"}).status_code == 404
+
+    def test_malformed_timestamp_JSON_returns_badrequest(self):
+        self.add_video()
+        assert self.get_set_timestamps({"videoID": "asdf", "timestamps": "[[[}}}asdf"}).status_code == 400
+
+    def test_incomplete_timestamp_JSON_returns_badrequest(self):
+        self.add_video()
+        assert self.get_set_timestamps({"videoID": "asdf", "timestamps": "[{}]"}).status_code == 400

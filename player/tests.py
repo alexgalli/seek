@@ -21,9 +21,10 @@ class PlayerTestCase(TestCase):
     def get_user(self):
         return User.objects.filter(username="user")[0]
 
-    def get_response(self, method, data):
+    def get_response(self, method, data, log_in=True):
         c = Client()
-        c.login(username="user", password="password")
+        if log_in:
+            c.login(username="user", password="password")
         return c.post("/api/" + method, data=data)
 
     def get_video(self):
@@ -32,8 +33,8 @@ class PlayerTestCase(TestCase):
     def get_video_count(self):
         return Video.objects.filter(user=self.get_user(), videoID="asdf").count()
 
-    def add_video(self):
-        v = Video(user=self.get_user(), videoID="asdf")
+    def add_video(self, videoID="asdf"):
+        v = Video(user=self.get_user(), videoID=videoID)
         v.save()
         return v
 
@@ -45,6 +46,37 @@ class PlayerTestCase(TestCase):
     def add_video_with_timestamp(self):
         v = self.add_video()
         Timestamp(video=v, minutes=1, seconds=30).save()
+
+class get_videos(PlayerTestCase):
+    def get_get_videos_response(self, data, log_in=True):
+        return self.get_response("get_videos", data, log_in=log_in)
+
+    def test_logged_in_without_videos_returns_no_videos(self):
+        res = self.get_get_videos_response({})
+        assert res.status_code == 200
+        vs = json.loads(res.content)
+        assert len(vs) == 0
+
+    def test_logged_in_with_videos_returns_videos(self):
+        self.add_video("aaaa")
+        self.add_video("bbbb")
+        self.add_video("cccc")
+        res = self.get_get_videos_response({})
+        assert res.status_code == 200
+        vs = json.loads(res.content)
+        assert len(vs) == 3
+        assert vs[0] == "aaaa"
+        assert vs[1] == "bbbb"
+        assert vs[2] == "cccc"
+
+    def test_not_logged_in_returns_default_videos(self):
+        res = self.get_get_videos_response({}, log_in=False)
+        assert res.status_code == 200
+        vs = json.loads(res.content)
+        assert len(vs) == 3
+        assert vs[0] == "rvdYly4A5W0"
+        assert vs[1] == "iaAkWy55V3A"
+        assert vs[2] == "1ZxN9iQM7OY"
 
 class add_video(PlayerTestCase):
     def get_add_response(self, data):

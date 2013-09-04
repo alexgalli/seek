@@ -10,6 +10,16 @@ def get_video_query(user, videoID):
     return Video.objects.filter(user=user, videoID=videoID)
 
 @require_POST
+def get_videos(request):
+    if request.user.is_authenticated():
+        # TODO refactor into get_video_query
+        vs = [v.videoID for v in Video.objects.filter(user=request.user).order_by("videoID").all()]
+        return HttpResponse(status=200, content=json.dumps(vs))
+    else:
+        vs = ["rvdYly4A5W0", "iaAkWy55V3A", "1ZxN9iQM7OY"]
+        return HttpResponse(status=200, content=json.dumps(vs))
+
+@require_POST
 @login_required
 def add_video(request):
     # check input
@@ -17,6 +27,7 @@ def add_video(request):
         return HttpResponse(status=400, content="must include videoID")
 
     # check to see if video exists for user
+    # TODO refactor to use get_video_query
     if Video.objects.filter(user=request.user, videoID=request.POST["videoID"]).count() != 0:
         return HttpResponse(status=409, content="videoID %s already exists for user" % request.POST["videoID"])
 

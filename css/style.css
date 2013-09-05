@@ -17,6 +17,15 @@ span#footerText {
     font-size: 15px;
 }
 
+/* videos section */
+div#videos {
+    text-align: center;
+}
+
+input[type=button] {
+    margin: 10px 10px;
+}
+
 /* page styling */
 div#header {
     border-bottom: 1px solid gray;
@@ -44,7 +53,7 @@ div#content {
     height: expression(this.scrollHeight > 600 ? "auto" : "600px");
 }
 
-div#songs {
+div#videos {
     float: left;
     width: 200px;
     margin: 0px;

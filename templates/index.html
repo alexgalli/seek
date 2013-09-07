@@ -22,9 +22,13 @@
             <form data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }, click: loadVideo">
             </form>
-            <div id="addVideo" style="display:none; border:1px solid red;">
-                hello world
-            </div>
+            <form id="addVideo" style="display:none;">
+                <!-- TODO accept and parse youtube urls -->
+                <label for="videoID">YouTube VideoID</label>
+                <!-- TODO add jquery watermark -->
+                <input id="videoID" type="text"
+                       data-bind="event: { keypress:  newVideo }" >
+            </form>
         </div>
         <div id="content">
             <div id='player'></div>

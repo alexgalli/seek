@@ -9,6 +9,7 @@ function Video(videoID) {
 
     this.loadVideo = function() {
         $("#player").tubeplayer("cue", videoID);
+        $("#player").tubeplayer("play");
     }
 }
 
@@ -36,6 +37,16 @@ function VideosViewModel() {
 
     self.addVideo = function() {
         $("#addVideo").modal();
+    }
+
+    self.newVideo = function(model, e) {
+        if (e.charCode === 13) {
+            $("#player").tubeplayer("cue", $("#videoID").val());
+            $("#player").tubeplayer("play");
+            $.modal.close();
+            return;
+        }
+        return true;
     }
 }
 

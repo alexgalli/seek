@@ -1,16 +1,26 @@
 /* knockout models */
 
 function Video(videoID) {
-    this.videoID = videoID;
+    var self = this;
 
-    this.getThumbnailUrl = function() {
-        return "http://img.youtube.com/vi/" + this.videoID + "/default.jpg";
+    self.videoID = videoID;
+
+    self.timestamps = ko.observableArray();
+
+    self.getThumbnailUrl = function() {
+        return "http://img.youtube.com/vi/" + self.videoID + "/default.jpg";
     }
 
-    this.loadVideo = function() {
-        model.currentVideo = this;
+    self.loadVideo = function() {
+        model.currentVideo(self);
         $("#player").tubeplayer("cue", videoID);
         $("#player").tubeplayer("play");
+    }
+
+    self.addTimestamp = function() {
+        var playerData = $("#player").tubeplayer("data");
+
+        self.timestamps.push(new Timestamp(playerData.currentTime));
     }
 }
 
@@ -22,7 +32,7 @@ function Timestamp(time) {
     }
 
     this.deleteTimestamp = function() {
-        model.timestamps.remove(this);
+        model.currentVideo().timestamps.remove(this);
     }
 }
 
@@ -30,9 +40,8 @@ function VideosViewModel() {
     var self = this;
 
     self.videos = ko.observableArray();
-    self.timestamps = ko.observableArray();
 
-    self.currentVideo = null;
+    self.currentVideo = ko.observable();
 
     /* API access */
     self.getVideos = function(callback) {
@@ -87,9 +96,7 @@ function VideosViewModel() {
     }
 
     self.onAddTimestamp = function() {
-        var playerData = $("#player").tubeplayer("data");
-
-        self.timestamps.push(new Timestamp(playerData.currentTime));
+        self.currentVideo().addTimestamp();
     }
 }
 
@@ -124,18 +131,16 @@ function setupTubePlayer(videoID) {
 
 /* code */
 
-// file modal dialogs
-
-
 // configure AJAX authentication
 setupCsrf();
 
-// setup knockout
+// instantiate model
 var model = new VideosViewModel();
-ko.applyBindings(model);
 
 // load our videos, and when complete load our player
 model.getVideos(function(videos) {
     setupTubePlayer(videos[0].videoID);
     videos[0].loadVideo();
+
+    ko.applyBindings(model);
 });

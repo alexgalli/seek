@@ -36,7 +36,7 @@
                 <input type="button" value="Add timestamp"
                     data-bind="click: onAddTimestamp"/>
             </form>
-            <table id="timestamps" data-bind="foreach: timestamps">
+            <table id="timestamps" data-bind="foreach: currentVideo().timestamps">
                 <tr>
                     <td class="display" data-bind="text: getDisplay()"></td>
                     <td class="delete" data-bind="click: deleteTimestamp">X</td>

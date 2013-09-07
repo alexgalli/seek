@@ -32,6 +32,13 @@
         </div>
         <div id="content">
             <div id='player'></div>
+            <form id='controls'>
+                <input type="button" value="Add timestamp"
+                    data-bind="click: onAddTimestamp"/>
+            </form>
+            <div id="timestamps" data-bind="foreach: timestamps">
+                <span data-bind="text: getDisplay()"></span>
+            </div>
         </div>
         <div id="footer">
             <span id="footerCopy">&copy; 2013 Alex Gallichotte</span>

@@ -13,10 +13,19 @@ function Video(videoID) {
     }
 }
 
+function Timestamp(time) {
+    this.time = time;
+
+    this.getDisplay = function() {
+        return Math.floor(this.time / 60) + " minutes and " + Math.floor(this.time % 60) + " seconds"
+    }
+}
+
 function VideosViewModel() {
     var self = this;
 
     self.videos = ko.observableArray();
+    self.timestamps = ko.observableArray();
 
     /* API access */
     self.getVideos = function(callback) {
@@ -67,6 +76,12 @@ function VideosViewModel() {
             return;
         }
         return true;
+    }
+
+    self.onAddTimestamp = function() {
+        var playerData = $("#player").tubeplayer("data");
+
+        self.timestamps.push(new Timestamp(playerData.currentTime));
     }
 }
 

@@ -18,7 +18,7 @@
             <span id="logo">CueTube</span>
         </div>
         <div id="videos">
-            <input type="button" value="Add a video" data-bind="click: addVideo">
+            <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
             <form data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }, click: loadVideo">
             </form>
@@ -27,7 +27,7 @@
                 <label for="videoID">YouTube VideoID</label>
                 <!-- TODO add jquery watermark -->
                 <input id="videoID" type="text"
-                       data-bind="event: { keypress:  newVideo }" >
+                       data-bind="event: { keypress:  onAddVideoSubmit }" >
             </form>
         </div>
         <div id="content">

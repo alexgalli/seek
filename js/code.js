@@ -18,6 +18,7 @@ function VideosViewModel() {
 
     self.videos = ko.observableArray();
 
+    /* API access */
     self.getVideos = function(callback) {
         $.ajax(
             "/api/get_videos",
@@ -35,17 +36,29 @@ function VideosViewModel() {
             });
     }
 
-    self.addVideo = function() {
+    self.addVideo = function(videoID) {
+        $.ajax(
+            "/api/add_videos",
+            {
+                method: "post",
+                data: { "videoID": videoID }
+            }
+        );
+    }
+
+    /* event handlers */
+    self.onAddVideoClick = function() {
         $("#addVideo").modal();
     }
 
-    self.newVideo = function(model, e) {
+    self.onAddVideoSubmit = function(model, e) {
         if (e.charCode === 13) {
             var videoID = $("#videoID").val();
             $("#player").tubeplayer("cue", videoID);
             $("#player").tubeplayer("play");
 
             self.videos.unshift(new Video(videoID));
+            self.addVideo(videoID);
 
             $.modal.close();
 

@@ -53,10 +53,18 @@ span#footerTech a {
     margin-left: 10px;
 }
 
-#timestamps span {
-    display: block;
-    width: 100%;
+#timestamps {
     padding-left: 10px;
+    padding-bottom: 8px;
+}
+
+#timestamps .display {
+    width: 560px;
+}
+
+#timestamps .delete {
+    width: 30px;
+    text-align: center;
 }
 
 /* page styling */

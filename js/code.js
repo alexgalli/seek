@@ -19,6 +19,10 @@ function Timestamp(time) {
     this.getDisplay = function() {
         return Math.floor(this.time / 60) + " minutes and " + Math.floor(this.time % 60) + " seconds"
     }
+
+    this.deleteTimestamp = function() {
+        model.timestamps.remove(this);
+    }
 }
 
 function VideosViewModel() {

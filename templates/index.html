@@ -36,9 +36,12 @@
                 <input type="button" value="Add timestamp"
                     data-bind="click: onAddTimestamp"/>
             </form>
-            <div id="timestamps" data-bind="foreach: timestamps">
-                <span data-bind="text: getDisplay()"></span>
-            </div>
+            <table id="timestamps" data-bind="foreach: timestamps">
+                <tr>
+                    <td class="display" data-bind="text: getDisplay()"></td>
+                    <td class="delete" data-bind="click: deleteTimestamp">X</td>
+                </tr>
+            </table>
         </div>
         <div id="footer">
             <span id="footerCopy">&copy; 2013 Alex Gallichotte</span>

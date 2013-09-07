@@ -13,7 +13,7 @@ function VideosViewModel() {
 
     self.videos = ko.observableArray();
 
-    self.loadVideos = function() {
+    self.loadVideos = function(callback) {
         $.ajax(
             "/api/get_videos",
             {
@@ -24,6 +24,8 @@ function VideosViewModel() {
                         return new Video(i);
                     });
                     self.videos(newVideos);
+
+                    if (callback) callback(data);
                 }
             });
     }
@@ -50,10 +52,26 @@ function setupCsrf() {
     }}});
 }
 
+// set up the youtube player
+function setupTubePlayer(videoID) {
+    $("#player").tubeplayer({
+        width: 600,
+        height: 450,
+        allowFullScreen: "true",
+        initialVideo: videoID
+    });
+}
+
 /* code */
 
+// configure AJAX authentication
 setupCsrf();
 
+// setup knockout
 var model = new VideosViewModel();
 ko.applyBindings(model);
-model.loadVideos();
+
+// load our videos, and when complete load our player
+model.loadVideos(function(data) {
+    setupTubePlayer(data[0]);
+});

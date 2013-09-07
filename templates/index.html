@@ -5,6 +5,7 @@
     <link href="/static/style.css" rel="stylesheet" type="text/css" />
     <script src="/static/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="/static/jquery.cookie.js" type="text/javascript"></script>
+    <script src="/static/jquery.tubeplayer.min.js" type="text/javascript"></script>
     <script src="/static/knockout-2.3.0.js" type="text/javascript"></script>
 </head>
 <body>
@@ -18,7 +19,9 @@
                 <img data-bind="attr: { src: getThumbnailUrl() }">
             </form>
         </div>
-        <div id="content">content</div>
+        <div id="content">
+            <div id='player'></div>
+        </div>
         <div id="footer">
             <span id="footerText">&copy; 2013 Alex Gallichotte</span>
         </div>

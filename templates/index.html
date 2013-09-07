@@ -16,7 +16,7 @@
         <div id="videos">
             <input type="button" value="Add a video">
             <form data-bind="foreach: videos">
-                <img data-bind="attr: { src: getThumbnailUrl() }">
+                <img data-bind="attr: { src: getThumbnailUrl() }, click: loadVideo">
             </form>
         </div>
         <div id="content">

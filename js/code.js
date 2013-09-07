@@ -6,6 +6,10 @@ function Video(videoID) {
     this.getThumbnailUrl = function() {
         return "http://img.youtube.com/vi/" + this.videoID + "/default.jpg";
     }
+
+    this.loadVideo = function() {
+        $("#player").tubeplayer("cue", videoID);
+    }
 }
 
 function VideosViewModel() {
@@ -13,7 +17,7 @@ function VideosViewModel() {
 
     self.videos = ko.observableArray();
 
-    self.loadVideos = function(callback) {
+    self.getVideos = function(callback) {
         $.ajax(
             "/api/get_videos",
             {
@@ -30,7 +34,7 @@ function VideosViewModel() {
             });
     }
 
-    self.loadVideos();
+    self.getVideos();
 }
 
 /* private methods */
@@ -72,6 +76,6 @@ var model = new VideosViewModel();
 ko.applyBindings(model);
 
 // load our videos, and when complete load our player
-model.loadVideos(function(data) {
+model.getVideos(function(data) {
     setupTubePlayer(data[0]);
 });

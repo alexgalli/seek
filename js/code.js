@@ -41,9 +41,16 @@ function VideosViewModel() {
 
     self.newVideo = function(model, e) {
         if (e.charCode === 13) {
-            $("#player").tubeplayer("cue", $("#videoID").val());
+            var videoID = $("#videoID").val();
+            $("#player").tubeplayer("cue", videoID);
             $("#player").tubeplayer("play");
+
+            self.videos.unshift(new Video(videoID));
+
             $.modal.close();
+
+            $("#videoID").val("");
+
             return;
         }
         return true;

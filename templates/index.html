@@ -4,6 +4,7 @@
     <title>Youtube Manager</title>
     <link href="/static/style.css" rel="stylesheet" type="text/css" />
     <script src="/static/jquery-1.10.2.min.js" type="text/javascript"></script>
+    <script src="/static/jquery.cookie.js" type="text/javascript"></script>
     <script src="/static/knockout-2.3.0.js" type="text/javascript"></script>
 </head>
 <body>
@@ -13,10 +14,9 @@
         </div>
         <div id="videos">
             <input type="button" value="Add a video">
-            <div data-bind="foreach: videos">
-                <!-- TODO - load videos from endpoint with ajax point -->
+            <form data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }">
-            </div>
+            </form>
         </div>
         <div id="content">content</div>
         <div id="footer">

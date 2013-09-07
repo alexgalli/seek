@@ -8,6 +8,7 @@ function Video(videoID) {
     }
 
     this.loadVideo = function() {
+        model.currentVideo = this;
         $("#player").tubeplayer("cue", videoID);
         $("#player").tubeplayer("play");
     }
@@ -31,6 +32,8 @@ function VideosViewModel() {
     self.videos = ko.observableArray();
     self.timestamps = ko.observableArray();
 
+    self.currentVideo = null;
+
     /* API access */
     self.getVideos = function(callback) {
         $.ajax(
@@ -44,7 +47,7 @@ function VideosViewModel() {
                     });
                     self.videos(newVideos);
 
-                    if (callback) callback(data);
+                    if (callback) callback(newVideos);
                 }
             });
     }
@@ -69,8 +72,8 @@ function VideosViewModel() {
             var videoID = $("#videoID").val();
             var video = new Video(videoID);
 
-            video.loadVideo();
             self.videos.unshift(video);
+            video.loadVideo();
 
             self.addVideo(videoID);
 
@@ -132,6 +135,7 @@ var model = new VideosViewModel();
 ko.applyBindings(model);
 
 // load our videos, and when complete load our player
-model.getVideos(function(data) {
-    setupTubePlayer(data[0]);
+model.getVideos(function(videos) {
+    setupTubePlayer(videos[0].videoID);
+    videos[0].loadVideo();
 });

@@ -34,7 +34,9 @@ function VideosViewModel() {
             });
     }
 
-    self.getVideos();
+    self.addVideo = function() {
+        $("#addVideo").modal();
+    }
 }
 
 /* private methods */
@@ -67,6 +69,9 @@ function setupTubePlayer(videoID) {
 }
 
 /* code */
+
+// file modal dialogs
+
 
 // configure AJAX authentication
 setupCsrf();

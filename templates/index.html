@@ -19,9 +19,9 @@
         </div>
         <div id="videos">
             <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
-            <form data-bind="foreach: videos">
+            <div id="videolist" data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }, click: loadVideo">
-            </form>
+            </div>
             <form id="addVideo" style="display:none;">
                 <!-- TODO accept and parse youtube urls -->
                 <label for="videoID">YouTube VideoID</label>

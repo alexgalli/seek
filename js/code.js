@@ -67,10 +67,11 @@ function VideosViewModel() {
     self.onAddVideoSubmit = function(model, e) {
         if (e.charCode === 13) {
             var videoID = $("#videoID").val();
-            $("#player").tubeplayer("cue", videoID);
-            $("#player").tubeplayer("play");
+            var video = new Video(videoID);
 
-            self.videos.unshift(new Video(videoID));
+            video.loadVideo();
+            self.videos.unshift(video);
+
             self.addVideo(videoID);
 
             $.modal.close();

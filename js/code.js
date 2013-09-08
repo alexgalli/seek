@@ -47,44 +47,6 @@ function VideosViewModel() {
 
     self.currentVideo = ko.observable();
 
-    /* API access */
-    self.getVideos = function(callback) {
-        $.ajax(
-            "/api/get_videos",
-            {
-                method: "post",
-                dataType: "json",
-                success: function(data) {
-                    var newVideos = $.map(data, function(i) {
-                        return new Video(i);
-                    });
-                    self.videos(newVideos);
-
-                    if (callback) callback(newVideos);
-                }
-            });
-    }
-
-    self.addVideo = function(videoID) {
-        $.ajax(
-            "/api/add_video",
-            {
-                method: "post",
-                data: { "videoID": videoID }
-            }
-        );
-    }
-
-    self.deleteVideo = function(videoID) {
-        $.ajax(
-            "/api/del_video",
-            {
-                method: "post",
-                data: { "videoID": videoID }
-            }
-        );
-    }
-
     /* event handlers */
     self.onLoginClick = function() {
         $("#loginModal").modal();
@@ -102,7 +64,7 @@ function VideosViewModel() {
             self.videos.unshift(video);
             video.loadVideo();
 
-            self.addVideo(videoID);
+            api.addVideo(videoID);
 
             $.modal.close();
 
@@ -118,18 +80,18 @@ function VideosViewModel() {
     }
 
     self.onDeleteVideoClick = function() {
-        var i = self.videos.indexOf(self.currentVideo);
+        var i = self.videos.indexOf(self.currentVideo());
 
-        self.deleteVideo(self.currentVideo().videoID);
+        api.deleteVideo(self.currentVideo().videoID);
         self.videos.remove(self.currentVideo());
 
-        if (self.videos.length == 0) {
-            self.currentVideo = null;
+        if (self.videos().length == 0) {
+            self.currentVideo(null);
             return;
         } else if (i > 0) {
             i -= 1;
         }
-        self.currentVideo = self.videos[i];
+        self.videos()[i].loadVideo();
     }
 }
 
@@ -175,8 +137,9 @@ setupCsrf();
 var model = new VideosViewModel();
 
 // load our videos, and when complete load our player
-model.getVideos(function(videos) {
+api.getVideos(function(videos) {
     if (videos.length != 0) {
+        model.videos(videos);
         setupTubePlayer(videos[0].videoID);
         videos[0].loadVideo();
     } else {

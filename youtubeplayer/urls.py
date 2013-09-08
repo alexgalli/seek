@@ -15,11 +15,11 @@ urlpatterns = patterns('',
     url(r'^$', 'player.views.index'),
 
     # api calls
-    url(r'^api/get_videos$', 'player.apiviews.get_videos'),
-    url(r'^api/add_video$', 'player.apiviews.add_video'),
-    url(r'^api/del_video$', 'player.apiviews.del_video'),
-    url(r'^api/get_timestamps$', 'player.apiviews.get_timestamps'),
-    url(r'^api/set_timestamps$', 'player.apiviews.set_timestamps'),
+    url(r'^api/get_videos$', 'player.api.get_videos'),
+    url(r'^api/add_video$', 'player.api.add_video'),
+    url(r'^api/del_video$', 'player.api.del_video'),
+    url(r'^api/get_timestamps$', 'player.api.get_timestamps'),
+    url(r'^api/set_timestamps$', 'player.api.set_timestamps'),
 
     # account calls
     url(r'^account/log_in', 'account.views.log_in'),

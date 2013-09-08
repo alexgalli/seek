@@ -90,10 +90,6 @@ function VideosViewModel() {
         $("#loginModal").modal();
     }
 
-    self.onLogoutClick = function() {
-        document.forms.logoutForm.submit();
-    }
-
     self.onAddVideoClick = function() {
         $("#addVideoModal").modal();
     }

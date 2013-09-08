@@ -18,20 +18,20 @@
             <span id="logo">CueTube</span>
             {% if user.id %}
                 <span id="greet">Hi {{ user.username }}</span>
-                <span id="logout" data-bind="click: onLogoutClick">Log Out</span>
-                <form id="logoutForm" action="/account/log_out" method="post" style="display: none;">
+                <form id="logoutForm" action="/account/log_out" method="post">
                     {% csrf_token %}
+                    <input type="submit" id="logout" value="Log Out" />
                 </form>
             {% else %}
-                <span id="login" data-bind="click: onLoginClick">Log In</span>
+                <input type="button" id="login" value="Log In" data-bind="click: onLoginClick" />
                 <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
-                {% csrf_token %}
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text"><br/>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password"><br/>
-                <input type="submit" value="Log In">
-            </form>
+                    {% csrf_token %}
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text"><br/>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password"><br/>
+                    <input type="submit" value="Log In">
+                </form>
             {% endif %}
         </div>
         <div id="videos">

@@ -5,17 +5,16 @@
 /* header */
 #header span#logo {
     display: block;
-    padding: 10px;
+    padding: 19px;
 
     font-size: 30px;
 }
 
-#header span#login {
+#header #login {
     display: block;
     position: absolute;
     bottom: 10px;
     right: 10px;
-    font-size: 20px;
 }
 
 #header span#greet {
@@ -26,12 +25,10 @@
     font-size: 20px;
 }
 
-#header span#logout {
-    display: block;
+#header #logout {
     position: absolute;
     bottom: 10px;
     right: 10px;
-    font-size: 20px;
 }
 
 /* footer */

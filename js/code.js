@@ -14,7 +14,7 @@ function Video(videoID) {
     self.loadVideo = function() {
         model.currentVideo(self);
         $("#player").tubeplayer("cue", videoID);
-        $("#player").tubeplayer("play");
+        //$("#player").tubeplayer("play");
     }
 
     self.addTimestamp = function(name) {
@@ -75,6 +75,16 @@ function VideosViewModel() {
         );
     }
 
+    self.deleteVideo = function(videoID) {
+        $.ajax(
+            "/api/del_video",
+            {
+                method: "post",
+                data: { "videoID": videoID }
+            }
+        );
+    }
+
     /* event handlers */
     self.onLoginClick = function() {
         $("#loginModal").modal();
@@ -109,6 +119,21 @@ function VideosViewModel() {
 
     self.onAddTimestamp = function() {
         self.currentVideo().addTimestamp(prompt("Name"));
+    }
+
+    self.onDeleteVideoClick = function() {
+        var i = self.videos.indexOf(self.currentVideo);
+
+        self.deleteVideo(self.currentVideo().videoID);
+        self.videos.remove(self.currentVideo());
+
+        if (self.videos.length == 0) {
+            self.currentVideo = null;
+            return;
+        } else if (i > 0) {
+            i -= 1;
+        }
+        self.currentVideo = self.videos[i];
     }
 }
 

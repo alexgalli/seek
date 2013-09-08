@@ -52,6 +52,8 @@
             <form id='controls'>
                 <input type="button" value="Add timestamp"
                     data-bind="click: onAddTimestamp"/>
+                <input type="button" value="Delete video"
+                    data-bind="click: onDeleteVideoClick"/>
             </form>
             <!-- ko if: currentVideo -->
             <table id="timestamps" data-bind="foreach: currentVideo().timestamps">

@@ -58,8 +58,8 @@
             <!-- ko if: currentVideo -->
             <table id="timestamps" data-bind="foreach: currentVideo().timestamps">
                 <tr>
-                    <td class="time" data-bind="text: getDisplay()"></td>
-                    <td class="name" data-bind="text: name"></td>
+                    <td class="time" data-bind="text: getDisplay(), click: seekTimestamp"></td>
+                    <td class="name" data-bind="text: name, click: seekTimestamp"></td>
                     <td class="delete" data-bind="click: deleteTimestamp">X</td>
                 </tr>
             </table>

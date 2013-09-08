@@ -25,18 +25,23 @@ function Video(videoID) {
 }
 
 function Timestamp(time, name) {
-    this.time = time;
-    this.name = name;
+    var self = this;
+    self.time = time;
+    self.name = name;
 
-    this.getDisplay = function() {
+    self.getDisplay = function() {
         // pad a zero if necessary
-        var seconds = ("0" + Math.floor(this.time % 60));
+        var seconds = ("0" + Math.floor(self.time % 60));
         seconds = seconds.substr(seconds.length - 2);
-        return Math.floor(this.time / 60) + ":" + seconds;
+        return Math.floor(self.time / 60) + ":" + seconds;
     }
 
-    this.deleteTimestamp = function() {
-        model.currentVideo().timestamps.remove(this);
+    self.deleteTimestamp = function() {
+        model.currentVideo().timestamps.remove(self);
+    }
+
+    self.seekTimestamp = function(a, b) {
+        $("#player").tubeplayer("seek", self.time);
     }
 }
 

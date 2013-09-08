@@ -5,7 +5,8 @@
 /* header */
 #header span#logo {
     display: block;
-    padding: 19px;
+    padding: 10px;
+    padding-left:20px;
 
     font-size: 30px;
 }

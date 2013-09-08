@@ -58,8 +58,12 @@ span#footerTech a {
     padding-bottom: 8px;
 }
 
-#timestamps .display {
-    width: 560px;
+#timestamps .time {
+    width: 60px;
+}
+
+#timestamps .name {
+    width: 500px;
 }
 
 #timestamps .delete {

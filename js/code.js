@@ -17,18 +17,22 @@ function Video(videoID) {
         $("#player").tubeplayer("play");
     }
 
-    self.addTimestamp = function() {
+    self.addTimestamp = function(name) {
         var playerData = $("#player").tubeplayer("data");
 
-        self.timestamps.push(new Timestamp(playerData.currentTime));
+        self.timestamps.push(new Timestamp(playerData.currentTime, name));
     }
 }
 
-function Timestamp(time) {
+function Timestamp(time, name) {
     this.time = time;
+    this.name = name;
 
     this.getDisplay = function() {
-        return Math.floor(this.time / 60) + " minutes and " + Math.floor(this.time % 60) + " seconds"
+        // pad a zero if necessary
+        var seconds = ("0" + Math.floor(this.time % 60));
+        seconds = seconds.substr(seconds.length - 2);
+        return Math.floor(this.time / 60) + ":" + seconds;
     }
 
     this.deleteTimestamp = function() {
@@ -96,7 +100,7 @@ function VideosViewModel() {
     }
 
     self.onAddTimestamp = function() {
-        self.currentVideo().addTimestamp();
+        self.currentVideo().addTimestamp(prompt("Name"));
     }
 }
 

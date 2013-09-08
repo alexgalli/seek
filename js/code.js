@@ -76,8 +76,12 @@ function VideosViewModel() {
     }
 
     /* event handlers */
+    self.onLoginClick = function() {
+        $("#loginModal").modal();
+    }
+
     self.onAddVideoClick = function() {
-        $("#addVideo").modal();
+        $("#addVideoModal").modal();
     }
 
     self.onAddVideoSubmit = function(model, e) {

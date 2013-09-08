@@ -16,13 +16,21 @@
     <div id="container">
         <div id="header">
             <span id="logo">CueTube</span>
+            <span id="login" data-bind="click: onLoginClick">Log In</span>
+            <form id="loginModal" style="display: none;">
+                <label for="username">Username</label>
+                <input id="username" type="text"><br/>
+                <label for="username">Password</label>
+                <input id="username" type="password"><br/>
+                <input type="button" value="Log In">
+            </form>
         </div>
         <div id="videos">
             <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
             <div id="videolist" data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }, click: loadVideo">
             </div>
-            <form id="addVideo" style="display:none;">
+            <form id="addVideoModal" style="display:none;">
                 <!-- TODO accept and parse youtube urls -->
                 <label for="videoID">YouTube VideoID</label>
                 <!-- TODO add jquery watermark -->

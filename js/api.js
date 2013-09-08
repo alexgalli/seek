@@ -33,5 +33,35 @@ var api = {
                 data: { "videoID": videoID }
             }
         );
+    },
+
+    getTimestamps: function(videoID, callback) {
+        $.ajax(
+            "/api/get_timestamps",
+            {
+                method: "post",
+                data: { "videoID": videoID },
+                success: function(data) {
+                    var newTimestamps = $.map(data, function(i) {
+                        return new Timestamp(i.time, i.name);
+                    });
+
+                    if (callback) callback(newTimestamps);
+                }
+            }
+        );
+    },
+
+    setTimestamps: function(videoID, timestamps) {
+        $.ajax(
+            "/api/set_timestamps",
+            {
+                method: "post",
+                data: {
+                    "videoID": videoID,
+                    "timestamps": JSON.stringify(timestamps)
+                }
+            }
+        );
     }
 }

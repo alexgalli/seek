@@ -45,7 +45,7 @@ class PlayerTestCase(TestCase):
 
     def add_video_with_timestamp(self):
         v = self.add_video()
-        Timestamp(video=v, minutes=1, seconds=30).save()
+        Timestamp(video=v, name="ts", time=90).save()
 
 class get_videos(PlayerTestCase):
     def get_get_videos_response(self, data, log_in=True):
@@ -140,8 +140,8 @@ class get_timestamps(PlayerTestCase):
         ts = json.loads(res.content)
         assert isinstance(ts, list)
         assert len(ts) == 1
-        assert ts[0]["minutes"] == 1
-        assert ts[0]["seconds"] == 30
+        assert ts[0]["name"] == "ts"
+        assert ts[0]["time"] == 90
 
     def test_bad_videoID_returns_badrequest(self):
         assert self.get_get_timestamps({"videoID": ''}).status_code == 400
@@ -157,17 +157,25 @@ class set_timestamps(PlayerTestCase):
     def test_valid_videoID_with_timestamps_adds_timestamps(self):
         self.add_video()
         ts = [
-            {"minutes": 1, "seconds": 30},
-            {"minutes": 2, "seconds": 45}
+            {"name": "verse", "time": 90},
+            {"name": "chorus", "time": 165}
         ]
         assert self.get_set_timestamps({"videoID": "asdf", "timestamps": json.dumps(ts)}).status_code == 200
 
-        ts = Timestamp.objects.filter(video=self.get_video()).order_by("minutes").all()
+        ts = Timestamp.objects.filter(video=self.get_video()).order_by("time").all()
         assert len(ts) == 2
-        assert ts[0].minutes == 1
-        assert ts[0].seconds == 30
-        assert ts[1].minutes == 2
-        assert ts[1].seconds == 45
+        assert ts[0].name == "verse"
+        assert ts[0].time == 90
+        assert ts[1].name == "chorus"
+        assert ts[1].time == 165
+
+    def test_valid_videoID_with_no_timestamps_clears_existing(self):
+        self.add_video_with_timestamp()
+        ts = []
+        assert self.get_set_timestamps({"videoID": "asdf", "timestamps": json.dumps(ts)}).status_code == 200
+
+        ts = Timestamp.objects.filter(video=self.get_video()).all()
+        assert len(ts) == 0
 
     def test_no_videoID_returns_badrequest(self):
         assert self.get_set_timestamps({"timestamps": "[]"}).status_code == 400

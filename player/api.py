@@ -67,7 +67,7 @@ def get_timestamps(request):
         return HttpResponse(status=404, content="videoID %s does not exist for user" % request.POST["videoID"])
 
     # get the list of all timestamps for this video
-    ts = [{"minutes": t.minutes, "seconds": t.seconds} for t in Timestamp.objects.filter(video=vq[0])]
+    ts = [{"name": t.name, "time": t.time} for t in Timestamp.objects.filter(video=vq[0]).order_by("time")]
 
     return HttpResponse(status=200, content_type="application/json", content=json.dumps(ts))
 
@@ -87,7 +87,7 @@ def set_timestamps(request):
     except ValueError:
         return HttpResponse(status=400, content="invalid timestamps json")
 
-    if not all(isinstance(t, dict) and "minutes" in t and "seconds" in t for t in ts):
+    if not all(isinstance(t, dict) and "name" in t and "time" in t for t in ts):
         return HttpResponse(status=400, content="invalid timestamps json")
 
     # look up video
@@ -96,9 +96,12 @@ def set_timestamps(request):
         return HttpResponse(status=404, content="videoID %s does not exist for user" % request.POST["videoID"])
     v = vq[0]
 
+    # clear existing timestamps
+    oldTimestamps = Timestamp.objects.filter(video=v).delete()
+
     # attach timestamps to video
-    timestamps = [Timestamp(video=v, minutes=t["minutes"], seconds=t["seconds"]) for t in ts]
-    for t in timestamps:
+    newTimestamps = [Timestamp(video=v, name=t["name"], time=t["time"]) for t in ts]
+    for t in newTimestamps:
         t.save()
 
     return HttpResponse(status=200)

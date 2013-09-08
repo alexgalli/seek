@@ -14,13 +14,35 @@ function Video(videoID) {
     self.loadVideo = function() {
         model.currentVideo(self);
         $("#player").tubeplayer("cue", videoID);
-        //$("#player").tubeplayer("play");
+        self.getTimestamps();
+    }
+
+    self.getTimestamps = function() {
+        api.getTimestamps(videoID, function(timestamps) {
+            self.timestamps(timestamps);
+        });
+    }
+
+    self.setTimestamps = function() {
+        var ts = $.map(self.timestamps(), function(t) {
+            return {
+                name: t.name,
+                time: t.time
+            };
+        });
+
+        api.setTimestamps(videoID, ts);
     }
 
     self.addTimestamp = function(name) {
         var playerData = $("#player").tubeplayer("data");
 
         self.timestamps.push(new Timestamp(playerData.currentTime, name));
+        self.timestamps.sort(function (a, b) {
+            return a.time === b.time ? 0 :
+                a.time < b.time ? -1 : 1;
+        });
+        self.setTimestamps();
     }
 }
 

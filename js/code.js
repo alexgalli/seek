@@ -75,6 +75,10 @@ function VideosViewModel() {
     self.currentVideo = ko.observable();
 
     /* event handlers */
+    self.onRegisterClick = function() {
+        $("#registerModal").modal();
+    }
+
     self.onLoginClick = function() {
         $("#loginModal").modal();
     }

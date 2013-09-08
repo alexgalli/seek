@@ -23,6 +23,19 @@
                     <input type="submit" id="logout" value="Log Out" />
                 </form>
             {% else %}
+                <input type="button" id="register" value="Register" data-bind="click: onRegisterClick" />
+                <form id="registerModal" action="/account/register" method="post" style="display: none;">
+                    {% csrf_token %}
+                    <label for="username">Username</label>
+                    <input id="username" name="username" type="text"><br/>
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="text"><br/>
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password"><br/>
+                    <label for="repassword">Re-enter Password</label>
+                    <input id="repassword" name="repassword" type="password"><br/>
+                    <input type="submit" value="Register">
+                </form>
                 <input type="button" id="login" value="Log In" data-bind="click: onLoginClick" />
                 <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
                     {% csrf_token %}

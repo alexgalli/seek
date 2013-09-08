@@ -67,7 +67,7 @@ function VideosViewModel() {
 
     self.addVideo = function(videoID) {
         $.ajax(
-            "/api/add_videos",
+            "/api/add_video",
             {
                 method: "post",
                 data: { "videoID": videoID }
@@ -78,6 +78,10 @@ function VideosViewModel() {
     /* event handlers */
     self.onLoginClick = function() {
         $("#loginModal").modal();
+    }
+
+    self.onLogoutClick = function() {
+        document.forms.logoutForm.submit();
     }
 
     self.onAddVideoClick = function() {
@@ -129,6 +133,10 @@ function setupCsrf() {
 
 // set up the youtube player
 function setupTubePlayer(videoID) {
+    if (!videoID) {
+        videoID = 'FGVGFfj7POA';
+    }
+
     $("#player").tubeplayer({
         width: 600,
         height: 450,
@@ -147,8 +155,12 @@ var model = new VideosViewModel();
 
 // load our videos, and when complete load our player
 model.getVideos(function(videos) {
-    setupTubePlayer(videos[0].videoID);
-    videos[0].loadVideo();
+    if (videos.length != 0) {
+        setupTubePlayer(videos[0].videoID);
+        videos[0].loadVideo();
+    } else {
+        setupTubePlayer();
+    }
 
     ko.applyBindings(model);
 });

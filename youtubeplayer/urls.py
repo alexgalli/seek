@@ -21,6 +21,10 @@ urlpatterns = patterns('',
     url(r'^api/get_timestamps$', 'player.apiviews.get_timestamps'),
     url(r'^api/set_timestamps$', 'player.apiviews.set_timestamps'),
 
+    # account calls
+    url(r'^account/log_in', 'account.views.log_in'),
+    url(r'^account/log_out', 'account.views.log_out'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

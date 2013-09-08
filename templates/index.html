@@ -16,14 +16,23 @@
     <div id="container">
         <div id="header">
             <span id="logo">CueTube</span>
-            <span id="login" data-bind="click: onLoginClick">Log In</span>
-            <form id="loginModal" style="display: none;">
+            {% if user.id %}
+                <span id="greet">Hi {{ user.username }}</span>
+                <span id="logout" data-bind="click: onLogoutClick">Log Out</span>
+                <form id="logoutForm" action="/account/log_out" method="post" style="display: none;">
+                    {% csrf_token %}
+                </form>
+            {% else %}
+                <span id="login" data-bind="click: onLoginClick">Log In</span>
+                <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
+                {% csrf_token %}
                 <label for="username">Username</label>
-                <input id="username" type="text"><br/>
-                <label for="username">Password</label>
-                <input id="username" type="password"><br/>
-                <input type="button" value="Log In">
+                <input id="username" name="username" type="text"><br/>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password"><br/>
+                <input type="submit" value="Log In">
             </form>
+            {% endif %}
         </div>
         <div id="videos">
             <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
@@ -44,6 +53,7 @@
                 <input type="button" value="Add timestamp"
                     data-bind="click: onAddTimestamp"/>
             </form>
+            <!-- ko if: currentVideo -->
             <table id="timestamps" data-bind="foreach: currentVideo().timestamps">
                 <tr>
                     <td class="time" data-bind="text: getDisplay()"></td>
@@ -51,6 +61,7 @@
                     <td class="delete" data-bind="click: deleteTimestamp">X</td>
                 </tr>
             </table>
+            <!-- /ko -->
         </div>
         <div id="footer">
             <span id="footerCopy">&copy; 2013 Alex Gallichotte</span>

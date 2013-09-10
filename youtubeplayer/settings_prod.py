@@ -127,7 +127,7 @@ INSTALLED_APPS = (
     'player',
     'account',
     # for Heroku
-    'Gunicorn',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging

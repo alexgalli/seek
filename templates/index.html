@@ -14,10 +14,11 @@
 </head>
 <body>
     <div id="container">
+        <!-- HEADER - contains logo and account management -->
         <div id="header">
-            <span id="logo">CueTube</span>
+            <span id="logo"><b>SEEK.</b>CHAPTERHOUSE<b>.</b>IO</span>
             {% if user.id %}
-                <span id="greet">Hi {{ user.username }}</span>
+                <span id="greet">HI {{ user.username.upper }}</span>
                 <form id="logoutForm" action="/account/log_out" method="post">
                     {% csrf_token %}
                     <input type="submit" id="logout" value="Log Out" />
@@ -47,6 +48,8 @@
                 </form>
             {% endif %}
         </div>
+
+        <!-- VIDEOS - for selecting a video -->
         <div id="videos">
             <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
             <div id="videolist" data-bind="foreach: videos">
@@ -60,6 +63,8 @@
                        data-bind="event: { keypress:  onAddVideoSubmit }" >
             </form>
         </div>
+
+        <!-- CONTENT - the player and timestamps -->
         <div id="content">
             <div id='player'></div>
             <form id='controls'>
@@ -75,18 +80,26 @@
                         <input type="button" data-bind="attr: {value: getDisplay()}, click: seekTimestamp" />
                     </td>
                     <td class="name" data-bind="text: name"></td>
-                    <td class="delete" data-bind="click: deleteTimestamp">X</td>
+                    <td class="delete">
+                        <input type="button" data-bind="click: deleteTimestamp" value="X">
+                    </td>
                 </tr>
             </table>
             <!-- /ko -->
         </div>
+
+        <!-- FOOTER - copyright and technologies -->
         <div id="footer">
-            <span id="footerCopy">&copy; 2013 Alex Gallichotte</span>
-            <span id="footerTech">
+            <span id="copy">
+                &copy; 2013
+                <a href="http://chapterhouse.io">Alex Gallichotte</a>
+            </span>
+            <span id="tech">
                 <a href="https://djangoproject.com/">Django</a>
                 <a href="https://knockoutjs.com/">KnockoutJS</a>
                 <a href="https://jquery.com/">jQuery</a>
                 <a href="http://www.tikku.com/jquery-youtube-tubeplayer-plugin">TubePlayer</a>
+                <a href="https://heroku.com/">Heroku</a>
             </span>
         </div>
     </div>

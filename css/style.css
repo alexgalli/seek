@@ -3,12 +3,19 @@
 }
 
 /* header */
-#header span#logo {
+#header {
+    letter-spacing: 3px;
+    font-size: 15px;
+}
+
+#header #logo {
     display: block;
     padding: 10px;
     padding-left:20px;
+}
 
-    font-size: 30px;
+#logo b {
+    font-size: 20px;
 }
 
 #header #register {
@@ -30,32 +37,31 @@
     position: absolute;
     bottom: 10px;
     right: 100px;
-    font-size: 20px;
 }
 
 #header #logout {
     position: absolute;
-    bottom: 10px;
+    bottom: 5px;
     right: 10px;
 }
 
 /* footer */
-#header span#footerCopy {
+#footer {}
+
+span#copy {
     display: block;
-    padding: 10px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
 
     font-size: 15px;
 }
 
-span#footerTech {
+span#tech {
     display: block;
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 15px;
-}
-
-span#footerTech a {
     font-size: 12px;
 }
 
@@ -138,6 +144,10 @@ div#content {
     width: 600px;
 }
 
+table#timestamps {
+    width: 550px;
+}
+
 div#videos {
     float: left;
     width: 200px;
@@ -150,4 +160,5 @@ div#footer {
     clear: both;
     margin: 0px;
     padding: 0px;
+    height: 30px;
 }

@@ -34,14 +34,19 @@ function Video(videoID) {
         api.setTimestamps(videoID, ts);
     }
 
-    self.addTimestamp = function(name) {
+    self.addTimestamp = function() {
         var playerData = $("#player").tubeplayer("data");
+        var timestamp = new Timestamp(playerData.currentTime, "");
+        timestamp.name = prompt("(" + timestamp.getDisplay() + ") Name");
 
-        self.timestamps.push(new Timestamp(playerData.currentTime, name));
+        // insert the new timestamp
+        self.timestamps.push(timestamp);
         self.timestamps.sort(function (a, b) {
             return a.time === b.time ? 0 :
                 a.time < b.time ? -1 : 1;
         });
+
+        // save to API
         self.setTimestamps();
     }
 }
@@ -104,10 +109,6 @@ function VideosViewModel() {
             return;
         }
         return true;
-    }
-
-    self.onAddTimestamp = function() {
-        self.currentVideo().addTimestamp(prompt("Name"));
     }
 
     self.onDeleteVideoClick = function() {

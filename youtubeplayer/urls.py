@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 admin.autodiscover()
 
+from django.views.generic.base import RedirectView
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'youtubeplayer.views.home', name='home'),
@@ -31,6 +33,10 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
+
+    # favicon
+    # TODO - move to CDN
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 )
 
 # for Heroku to serve via Gunicorn

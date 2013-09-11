@@ -16,7 +16,7 @@ def get_videos(request):
         vs = [v.videoID for v in Video.objects.filter(user=request.user).order_by("videoID").all()]
         return HttpResponse(status=200, content=json.dumps(vs))
     else:
-        vs = ["rvdYly4A5W0", "iaAkWy55V3A", "1ZxN9iQM7OY"]
+        vs = ["_lK4cX5xGiQ", "iaAkWy55V3A", "1ZxN9iQM7OY"]
         return HttpResponse(status=200, content=json.dumps(vs))
 
 @require_POST
@@ -55,11 +55,21 @@ def del_video(request):
     return HttpResponse(status=200)
 
 @require_POST
-@login_required
 def get_timestamps(request):
     # check input
     if "videoID" not in request.POST or not request.POST["videoID"]:
         return HttpResponse(status=400, content="must include videoID")
+
+    # give a default value for Tribute
+    if not request.user.id and request.POST["videoID"] == "_lK4cX5xGiQ":
+        ts = [
+            {"name": "..and he said!", "time": 91},
+            {"name": "we played the first thing", "time": 114},
+            {"name": "ROCK", "time": 162},
+            {"name": "ah - dee - skibbee dibbee - do dee", "time": 208},
+            {"name": "solo", "time": 218}
+        ]
+        return HttpResponse(status=200, content_type="application/json", content=json.dumps(ts))
 
     # look up the video
     vq = get_video_query(request.user, request.POST["videoID"])

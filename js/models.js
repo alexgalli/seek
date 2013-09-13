@@ -59,10 +59,6 @@ function Timestamp(time, name) {
         seconds = seconds.substr(seconds.length - 2);
         return Math.floor(self.time / 60) + ":" + seconds;
     }
-
-    self.seekTimestamp = function(a, b) {
-        $("#player").tubeplayer("seek", self.time);
-    }
 }
 
 function Player() {
@@ -87,7 +83,7 @@ function Player() {
 
     self.loadVideo = function(video) {
         self.currentVideo(video);
-        $("#player").tubeplayer("cue", video.videoID);
+        p.tubeplayer("cue", video.videoID);
         video.getTimestamps();
     }
 
@@ -111,7 +107,11 @@ function Player() {
         return p.tubeplayer("data").duration;
     }
 
-    self.jumpTime = function(model, e) {
+    self.seek = function(timestamp) {
+        p.tubeplayer("seek", timestamp.time);
+    }
+
+    self.seekDiff = function(model, e) {
         var time = parseInt(e.target.value);
         var newTime = self.getTime() + time;
         if (newTime < 0) newTime = 0;

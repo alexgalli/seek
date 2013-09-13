@@ -68,11 +68,11 @@
         <div id="content">
             <div id='player'></div>
             <form id='controls'>
-                <button data-bind="click: player.jumpTime" value="-30">&lt; 30</button>
-                <button data-bind="click: player.jumpTime" value="-5">&lt; 5</button>
+                <button data-bind="click: player.seekDiff" value="-30">&lt; 30</button>
+                <button data-bind="click: player.seekDiff" value="-5">&lt; 5</button>
                 <button data-bind="click: player.playPause">&gt;</button>
-                <button data-bind="click: player.jumpTime" value="5">5 &gt;</button>
-                <button data-bind="click: player.jumpTime" value="30">30 &gt;</button>
+                <button data-bind="click: player.seekDiff" value="5">5 &gt;</button>
+                <button data-bind="click: player.seekDiff" value="30">30 &gt;</button>
 
                 <button data-bind="click: player.addTimestamp">Add timestamp</button>
                 <button data-bind="click: deleteVideo">Delete video</button>
@@ -81,7 +81,7 @@
             <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
                 <tr>
                     <td class="time">
-                        <button data-bind="text: getDisplay(), click: seekTimestamp" />
+                        <button data-bind="text: getDisplay(), click: $parent.player.seek" />
                     </td>
                     <td class="name" data-bind="text: name"></td>
                     <td class="delete">

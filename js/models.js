@@ -116,19 +116,19 @@ function SeekViewModel() {
     self.player = new Player();
 
     /* event handlers */
-    self.onRegisterClick = function() {
+    self.register = function() {
         $("#registerModal").modal();
     }
 
-    self.onLoginClick = function() {
+    self.login = function() {
         $("#loginModal").modal();
     }
 
-    self.onAddVideoClick = function() {
+    self.openVideoModal = function() {
         $("#addVideoModal").modal();
     }
 
-    self.onAddVideoSubmit = function(model, e) {
+    self.addVideo = function(model, e) {
         if (e.charCode === 13) {
             var videoID = $("#videoID").val();
             var video = new Video(videoID);
@@ -147,7 +147,7 @@ function SeekViewModel() {
         return true;
     }
 
-    self.onDeleteVideoClick = function() {
+    self.deleteVideo = function() {
         var i = self.videos.indexOf(self.player.currentVideo());
 
         api.deleteVideo(self.player.currentVideo().videoID);
@@ -161,6 +161,4 @@ function SeekViewModel() {
         }
         self.player.loadVideo(self.videos()[i]);
     }
-
-
 }

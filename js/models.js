@@ -92,15 +92,33 @@ function Player() {
     }
 
     self.playPause = function() {
-        p.tubeplayer("play");
+        // https://developers.google.com/youtube/js_api_reference#Playback_status
+        var state = p.tubeplayer("player").getPlayerState();
+
+        if (state == 1 || state == 3) p.tubeplayer("pause");
+        if (state == -1 || state == 2 || state == 5) p.tubeplayer("play");
+        if (state == 0) {
+            p.tubeplayer("seek", 0);
+            p.tubeplayer("play");
+        }
     }
 
     self.getTime = function() {
         return p.tubeplayer("data").currentTime;
     }
 
-    self.jumpTime = function(time) {
-        p.tubeplayer("seek", self.getTime() + time);
+    self.getMaxTime = function() {
+        return p.tubeplayer("data").duration;
+    }
+
+    self.jumpTime = function(model, e) {
+        var time = parseInt(e.target.value);
+        var newTime = self.getTime() + time;
+        if (newTime < 0) newTime = 0;
+
+        var maxTime = self.getMaxTime();
+        if (newTime > maxTime) newTime = maxTime;
+        p.tubeplayer("seek", newTime);
     }
 
     self.addTimestamp = function() {

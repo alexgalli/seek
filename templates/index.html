@@ -24,7 +24,7 @@
                     <input type="submit" id="logout" value="Log Out" />
                 </form>
             {% else %}
-                <input type="button" id="register" value="Register" data-bind="click: register" />
+                <button id="register" data-bind="click: register">Register</button>
                 <form id="registerModal" action="/account/register" method="post" style="display: none;">
                     {% csrf_token %}
                     <label for="username">Username</label>
@@ -37,7 +37,7 @@
                     <input id="repassword" name="repassword" type="password"><br/>
                     <input type="submit" value="Register">
                 </form>
-                <input type="button" id="login" value="Log In" data-bind="click: login" />
+                <button id="login" data-bind="click: login">Log In</button>
                 <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
                     {% csrf_token %}
                     <label for="username">Username</label>
@@ -51,7 +51,7 @@
 
         <!-- VIDEOS - for selecting a video -->
         <div id="videos">
-            <input type="button" value="Add a video" data-bind="click: openVideoModal">
+            <button data-bind="click: openVideoModal">Add a video</button>
             <div id="videolist" data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl() }, click: model.player.loadVideo">
             </div>
@@ -68,26 +68,24 @@
         <div id="content">
             <div id='player'></div>
             <form id='controls'>
-                <input type="button" value="< 30">
-                <input type="button" value="< 5">
-                <input type="button" value=">">
-                <input type="button" value="5 >">
-                <input type="button" value="30 >">
+                <button data-bind="click: player.jumpTime" value="-30">&lt; 30</button>
+                <button data-bind="click: player.jumpTime" value="-5">&lt; 5</button>
+                <button data-bind="click: player.playPause">&gt;</button>
+                <button data-bind="click: player.jumpTime" value="5">5 &gt;</button>
+                <button data-bind="click: player.jumpTime" value="30">30 &gt;</button>
 
-                <input type="button" value="Add timestamp"
-                    data-bind="click: player.addTimestamp"/>
-                <input type="button" value="Delete video"
-                    data-bind="click: deleteVideo"/>
+                <button data-bind="click: player.addTimestamp">Add timestamp</button>
+                <button data-bind="click: deleteVideo">Delete video</button>
             </form>
             <!-- ko if: player.currentVideo -->
             <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
                 <tr>
                     <td class="time">
-                        <input type="button" data-bind="attr: {value: getDisplay()}, click: seekTimestamp" />
+                        <button data-bind="text: getDisplay(), click: seekTimestamp" />
                     </td>
                     <td class="name" data-bind="text: name"></td>
                     <td class="delete">
-                        <input type="button" data-bind="click: $parent.player.currentVideo().deleteTimestamp" value="X">
+                        <button data-bind="click: $parent.player.currentVideo().deleteTimestamp">X</button>
                     </td>
                 </tr>
             </table>

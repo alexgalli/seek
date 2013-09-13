@@ -10,7 +10,6 @@ function Video(videoID) {
         return "http://img.youtube.com/vi/" + videoID + "/default.jpg";
     }
 
-
     self.getTimestamps = function() {
         api.getTimestamps(videoID, function(timestamps) {
             self.timestamps(timestamps);
@@ -28,9 +27,8 @@ function Video(videoID) {
         api.setTimestamps(videoID, ts);
     }
 
-    self.addTimestamp = function() {
-        var playerData = $("#player").tubeplayer("data");
-        var timestamp = new Timestamp(playerData.currentTime, "");
+    self.addTimestamp = function(time) {
+        var timestamp = new Timestamp(time, "");
         timestamp.name = prompt("(" + timestamp.getDisplay() + ") Name");
 
         // insert the new timestamp
@@ -41,6 +39,11 @@ function Video(videoID) {
         });
 
         // save to API
+        self.setTimestamps();
+    }
+
+    self.deleteTimestamp = function(ts) {
+        self.timestamps.remove(ts);
         self.setTimestamps();
     }
 }
@@ -57,12 +60,51 @@ function Timestamp(time, name) {
         return Math.floor(self.time / 60) + ":" + seconds;
     }
 
-    self.deleteTimestamp = function() {
-        model.currentVideo().timestamps.remove(self);
-    }
-
     self.seekTimestamp = function(a, b) {
         $("#player").tubeplayer("seek", self.time);
+    }
+}
+
+function Player() {
+    var self = this;
+
+    self.currentVideo = ko.observable();
+
+    var p = $("#player");
+
+    self.init = function(videoID) {
+        if (!videoID) {
+            videoID = 'FGVGFfj7POA';
+        }
+
+        p.tubeplayer({
+            width: 600,
+            height: 450,
+            allowFullScreen: "true",
+            initialVideo: videoID
+        });
+    }
+
+    self.loadVideo = function(video) {
+        self.currentVideo(video);
+        $("#player").tubeplayer("cue", video.videoID);
+        video.getTimestamps();
+    }
+
+    self.playPause = function() {
+        p.tubeplayer("play");
+    }
+
+    self.getTime = function() {
+        return p.tubeplayer("data").currentTime;
+    }
+
+    self.jumpTime = function(time) {
+        p.tubeplayer("seek", self.getTime() + time);
+    }
+
+    self.addTimestamp = function() {
+        self.currentVideo().addTimestamp(self.getTime());
     }
 }
 
@@ -71,7 +113,7 @@ function SeekViewModel() {
 
     self.videos = ko.observableArray();
 
-    self.currentVideo = ko.observable();
+    self.player = new Player();
 
     /* event handlers */
     self.onRegisterClick = function() {
@@ -92,7 +134,7 @@ function SeekViewModel() {
             var video = new Video(videoID);
 
             self.videos.unshift(video);
-            video.loadVideo();
+            self.player.loadVideo(video);
 
             api.addVideo(videoID);
 
@@ -106,24 +148,19 @@ function SeekViewModel() {
     }
 
     self.onDeleteVideoClick = function() {
-        var i = self.videos.indexOf(self.currentVideo());
+        var i = self.videos.indexOf(self.player.currentVideo());
 
-        api.deleteVideo(self.currentVideo().videoID);
-        self.videos.remove(self.currentVideo());
+        api.deleteVideo(self.player.currentVideo().videoID);
+        self.videos.remove(self.player.currentVideo());
 
         if (self.videos().length == 0) {
-            self.currentVideo(null);
+            self.player.currentVideo(null);
             return;
         } else if (i > 0) {
             i -= 1;
         }
-        self.videos()[i].loadVideo();
+        self.player.loadVideo(self.videos()[i]);
     }
 
-    self.loadVideo = function(video) {
-        self.currentVideo(video);
-        $("#player").tubeplayer("cue", video.videoID);
-        video.getTimestamps();
-    }
 
 }

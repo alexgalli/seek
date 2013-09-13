@@ -53,7 +53,7 @@
         <div id="videos">
             <input type="button" value="Add a video" data-bind="click: onAddVideoClick">
             <div id="videolist" data-bind="foreach: videos">
-                <img data-bind="attr: { src: getThumbnailUrl() }, click: model.loadVideo">
+                <img data-bind="attr: { src: getThumbnailUrl() }, click: model.player.loadVideo">
             </div>
             <form id="addVideoModal" style="display:none;">
                 <!-- TODO accept and parse youtube urls -->
@@ -75,19 +75,19 @@
                 <input type="button" value="30 >">
 
                 <input type="button" value="Add timestamp"
-                    data-bind="click: currentVideo().addTimestamp"/>
+                    data-bind="click: player.addTimestamp"/>
                 <input type="button" value="Delete video"
                     data-bind="click: onDeleteVideoClick"/>
             </form>
-            <!-- ko if: currentVideo -->
-            <table id="timestamps" data-bind="foreach: currentVideo().timestamps">
+            <!-- ko if: player.currentVideo -->
+            <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
                 <tr>
                     <td class="time">
                         <input type="button" data-bind="attr: {value: getDisplay()}, click: seekTimestamp" />
                     </td>
                     <td class="name" data-bind="text: name"></td>
                     <td class="delete">
-                        <input type="button" data-bind="click: deleteTimestamp" value="X">
+                        <input type="button" data-bind="click: $parent.player.currentVideo().deleteTimestamp" value="X">
                     </td>
                 </tr>
             </table>

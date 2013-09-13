@@ -1,5 +1,3 @@
-
-
 /* private methods */
 
 // configure ajax requests to pass csrf cookie
@@ -19,20 +17,6 @@ function setupCsrf() {
     }}});
 }
 
-// set up the youtube player
-function setupTubePlayer(videoID) {
-    if (!videoID) {
-        videoID = 'FGVGFfj7POA';
-    }
-
-    $("#player").tubeplayer({
-        width: 600,
-        height: 450,
-        allowFullScreen: "true",
-        initialVideo: videoID
-    });
-}
-
 /* code */
 
 // configure AJAX authentication
@@ -45,10 +29,10 @@ var model = new SeekViewModel();
 api.getVideos(function(videos) {
     if (videos.length != 0) {
         model.videos(videos);
-        setupTubePlayer(videos[0].videoID);
-        model.loadVideo(videos[0]);
+        model.player.init(videos[0].videoID);
+        model.player.loadVideo(videos[0]);
     } else {
-        setupTubePlayer();
+        model.player.init();
     }
 
     ko.applyBindings(model);

@@ -5,6 +5,11 @@ function Video(videoID) {
 
     self.videoID = videoID;
     self.timestamps = ko.observableArray();
+    self.timestampObjs = ko.computed(function() {
+        return $.map(self.timestamps(), function(t) {
+            return {name: t.name, time: t.time};
+        });
+    });
 
     self.getThumbnailUrl = function() {
         return "http://img.youtube.com/vi/" + videoID + "/default.jpg";
@@ -17,28 +22,18 @@ function Video(videoID) {
     }
 
     self.setTimestamps = function() {
-        var ts = $.map(self.timestamps(), function(t) {
-            return {
-                name: t.name,
-                time: t.time
-            };
-        });
-
-        api.setTimestamps(videoID, ts);
+        api.setTimestamps(videoID, self.timestampObjs());
     }
 
     self.addTimestamp = function(time) {
         var timestamp = new Timestamp(time, "");
         timestamp.name = prompt("(" + timestamp.getDisplay() + ") Name");
 
-        // insert the new timestamp
         self.timestamps.push(timestamp);
         self.timestamps.sort(function (a, b) {
-            return a.time === b.time ? 0 :
-                a.time < b.time ? -1 : 1;
+            return a.time === b.time ? 0 : a.time < b.time ? -1 : 1;
         });
 
-        // save to API
         self.setTimestamps();
     }
 
@@ -114,12 +109,11 @@ function Player() {
                     html5: 1,
                     controls: 1,
                     modestbranding: 1,
-                    showinfo: 0,
-                    rel: 0
+                    showinfo: 0
                 },
                 events: {
                     'onReady': function() {
-                        // if we've not loaded a video, and were passed one in our constructor, load one up
+                        // if we've not loaded a video, and were passed one in our constructor, load it up
                         if (!self.currentVideo() && video) {
                             self.loadVideo(video);
                         }
@@ -270,7 +264,7 @@ function SeekViewModel() {
 
             $.modal.close();
 
-            $("#videoID").val("");
+            $("#youtubeUrl").val("");
 
             return;
         }

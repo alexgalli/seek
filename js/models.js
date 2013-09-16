@@ -80,6 +80,15 @@ function Player() {
         }
     });
 
+    self.testTimeInLoop = ko.computed(function() {
+        return function() {
+            if (!self.startPoint()) return true;
+            var time = self.getTime();
+            var endTime = self.endPoint() ? self.endPoint().time : self.getMaxTime();
+            return time >= self.startPoint().time && time <= endTime;
+        }
+    });
+
     /*
     self.playbackRates = ko.computed(function() {
         // update every time a video is loaded
@@ -117,6 +126,16 @@ function Player() {
 
                         // update our observable
                         self.isPlayerReady(true);
+
+                        // start checking for loop
+                        window.setInterval(function() {
+                            var state = p.getPlayerState();
+                            if (state == 1 || state == 3) {
+                                if (!self.testTimeInLoop()()) {
+                                    self.seek(self.startPoint());
+                                }
+                            }
+                        }, 100);
                     }
                 }
             });

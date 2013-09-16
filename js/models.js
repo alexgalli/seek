@@ -69,6 +69,9 @@ function Player() {
     self.currentVideo = ko.observable();
     self.isPlayerReady = ko.observable(false);
 
+    self.startPoint = ko.observable(null);
+    self.endPoint = ko.observable(null);
+
     self.playbackRates = ko.computed(function() {
         // update every time a video is loaded
         // TODO - figure out why getAvailable doesn't return rates even when it's ready
@@ -82,6 +85,7 @@ function Player() {
     self.init = function(video) {
         var videoID = video ? video.videoID: 'FGVGFfj7POA';
 
+        // TODO add dynamic youtube script tag loader
         window.onYouTubePlayerAPIReady = function () {
             p = new YT.Player('player', {
                 width: 600,
@@ -153,8 +157,30 @@ function Player() {
         self.currentVideo().addTimestamp(self.getTime());
     }
 
+    self.deleteTimestamp = function(timestamp) {
+        if (self.startPoint() == timestamp) self.startPoint(null);
+        if (self.endPoint() == timestamp) self.endPoint(null);
+        self.currentVideo().deleteTimestamp(timestamp);
+    }
+
     self.setPlaybackRate = function(model, e) {
         p.setPlaybackRate(e.target.value);
+    }
+
+    self.setStartPoint = function(timestamp) {
+        if (! self.startPoint()) {
+            self.startPoint(timestamp);
+        } else {
+            self.startPoint(null);
+        }
+    }
+
+    self.setEndPoint = function(timestamp) {
+        if (! self.endPoint()) {
+            self.endPoint(timestamp);
+        } else {
+            self.endPoint(null);
+        }
     }
 }
 

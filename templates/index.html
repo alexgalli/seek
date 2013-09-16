@@ -89,13 +89,11 @@
                         <button data-bind="text: getDisplay(), click: $parent.player.seek" />
                     </td>
                     <td class="name" data-bind="text: name"></td>
-                    <td class="start">
+                    <td class="loop">
                         <button data-bind="click: $parent.player.setStartPoint,
-                                           enable: $parent.player.showStartPoint($data)">Start</button>
-                    </td>
-                    <td class="end">
+                                           visible: $parent.player.showStartPoint($data)">Start</button>
                         <button data-bind="click: $parent.player.setEndPoint,
-                                           enable: $parent.player.showEndPoint($data, $index())">End</button>
+                                           visible: $parent.player.showEndPoint($data, $index())">End</button>
                     </td>
                     <td class="delete">
                         <button data-bind="click: $parent.player.deleteTimestamp">X</button>

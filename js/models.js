@@ -124,7 +124,7 @@ function Player() {
                         // start checking for loop
                         window.setInterval(function() {
                             var state = p.getPlayerState();
-                            if (state == 1 || state == 3) {
+                            if (state == 1) {
                                 if (!self.testTimeInLoop()()) {
                                     self.seek(self.startPoint());
                                 }

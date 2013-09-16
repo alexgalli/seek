@@ -29,8 +29,7 @@ var model = new SeekViewModel();
 api.getVideos(function(videos) {
     if (videos.length != 0) {
         model.videos(videos);
-        model.player.init(videos[0].videoID);
-        model.player.loadVideo(videos[0]);
+        model.player.init(videos[0]);
     } else {
         model.player.init();
     }

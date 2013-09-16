@@ -64,51 +64,79 @@ function Timestamp(time, name) {
 function Player() {
     var self = this;
 
+    var p;
+
     self.currentVideo = ko.observable();
+    self.isPlayerReady = ko.observable(false);
 
-    var p = $("#player");
-
-    self.init = function(videoID) {
-        if (!videoID) {
-            videoID = 'FGVGFfj7POA';
+    self.playbackRates = ko.computed(function() {
+        // update every time a video is loaded
+        // TODO - figure out why getAvailable doesn't return rates even when it's ready
+        var rates = p ? p.getAvailablePlaybackRates() : null;
+        if (self.isPlayerReady() && self.currentVideo() && rates) {
+            return rates;
         }
+        return [1.0];
+    });
 
-        p.tubeplayer({
-            width: 600,
-            height: 450,
-            allowFullScreen: "true",
-            initialVideo: videoID
-        });
+    self.init = function(video) {
+        var videoID = video ? video.videoID: 'FGVGFfj7POA';
+
+        window.onYouTubePlayerAPIReady = function () {
+            p = new YT.Player('player', {
+                width: 600,
+                height: 450,
+                videoId: videoID,
+                playerVars: {
+                    html5: 1,
+                    controls: 1,
+                    modestbranding: 1,
+                    showinfo: 0,
+                    rel: 0
+                },
+                events: {
+                    'onReady': function() {
+                        // if we've not loaded a video, and were passed on in our constructor, load one up
+                        if (!self.currentVideo() && video) {
+                            self.loadVideo(video);
+                        }
+
+                        // update our observable
+                        self.isPlayerReady(true);
+                    }
+                }
+            });
+        };
     }
 
     self.loadVideo = function(video) {
         self.currentVideo(video);
-        p.tubeplayer("cue", video.videoID);
+        p.cueVideoById(video.videoID);
         video.getTimestamps();
     }
 
     self.playPause = function() {
         // https://developers.google.com/youtube/js_api_reference#Playback_status
-        var state = p.tubeplayer("player").getPlayerState();
+        var state = p.getPlayerState();
 
-        if (state == 1 || state == 3) p.tubeplayer("pause");
-        if (state == -1 || state == 2 || state == 5) p.tubeplayer("play");
+        if (state == 1 || state == 3) p.pauseVideo();
+        if (state == -1 || state == 2 || state == 5) p.playVideo();
         if (state == 0) {
-            p.tubeplayer("seek", 0);
-            p.tubeplayer("play");
+            p.seekTo(0);
+            p.playVideo();
         }
     }
 
     self.getTime = function() {
-        return p.tubeplayer("data").currentTime;
+        return p.getCurrentTime();
     }
 
     self.getMaxTime = function() {
-        return p.tubeplayer("data").duration;
+        return p.getDuration();
     }
 
     self.seek = function(timestamp) {
-        p.tubeplayer("seek", timestamp.time);
+        p.seekTo(timestamp.time);
     }
 
     self.seekDiff = function(model, e) {
@@ -118,11 +146,15 @@ function Player() {
 
         var maxTime = self.getMaxTime();
         if (newTime > maxTime) newTime = maxTime;
-        p.tubeplayer("seek", newTime);
+        p.seekTo(newTime);
     }
 
     self.addTimestamp = function() {
         self.currentVideo().addTimestamp(self.getTime());
+    }
+
+    self.setPlaybackRate = function(model, e) {
+        p.setPlaybackRate(e.target.value);
     }
 }
 

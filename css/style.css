@@ -83,7 +83,7 @@ span#tech {
     margin: 0.5em 0;
 }
 
-#controls button {
+#controls > * {
     float: left;
     margin-bottom: 0.625em;
     margin-left: 0.625em;

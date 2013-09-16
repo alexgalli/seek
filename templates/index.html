@@ -91,13 +91,11 @@
                     <td class="name" data-bind="text: name"></td>
                     <td class="start">
                         <button data-bind="click: $parent.player.setStartPoint,
-                                           disable: $parent.player.startPoint()
-                                                    && $data != $parent.player.startPoint()">Start</button>
+                                           enable: $parent.player.showStartPoint($data)">Start</button>
                     </td>
                     <td class="end">
                         <button data-bind="click: $parent.player.setEndPoint,
-                                           disable: $parent.player.endPoint()
-                                           && $data != $parent.player.endPoint()">End</button>
+                                           enable: $parent.player.showEndPoint($data, $index())">End</button>
                     </td>
                     <td class="delete">
                         <button data-bind="click: $parent.player.deleteTimestamp">X</button>

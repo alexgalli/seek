@@ -72,6 +72,15 @@ function Player() {
     self.startPoint = ko.observable(null);
     self.endPoint = ko.observable(null);
 
+    self.startPointIndex = ko.computed(function() {
+        if (self.currentVideo()) {
+            return self.currentVideo().timestamps().indexOf(self.startPoint());
+        } else {
+            return -1;
+        }
+    });
+
+    /*
     self.playbackRates = ko.computed(function() {
         // update every time a video is loaded
         // TODO - figure out why getAvailable doesn't return rates even when it's ready
@@ -81,6 +90,7 @@ function Player() {
         }
         return [1.0];
     });
+    */
 
     self.init = function(video) {
         var videoID = video ? video.videoID: 'FGVGFfj7POA';
@@ -100,7 +110,7 @@ function Player() {
                 },
                 events: {
                     'onReady': function() {
-                        // if we've not loaded a video, and were passed on in our constructor, load one up
+                        // if we've not loaded a video, and were passed one in our constructor, load one up
                         if (!self.currentVideo() && video) {
                             self.loadVideo(video);
                         }
@@ -172,6 +182,7 @@ function Player() {
             self.startPoint(timestamp);
         } else {
             self.startPoint(null);
+            self.endPoint(null);
         }
     }
 
@@ -180,6 +191,22 @@ function Player() {
             self.endPoint(timestamp);
         } else {
             self.endPoint(null);
+        }
+    }
+
+    self.showStartPoint = function(timestamp) {
+        return !self.startPoint() || self.startPoint() == timestamp;
+    }
+
+    self.showEndPoint = function(timestamp, index) {
+        if (!self.startPoint()) {
+            return false;
+        } else {
+            if (self.endPoint()) {
+                return timestamp == self.endPoint();
+            } else {
+                return index > self.startPointIndex();
+            }
         }
     }
 }

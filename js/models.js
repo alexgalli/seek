@@ -105,7 +105,7 @@ function Player() {
                 height: 450,
                 videoId: videoID,
                 playerVars: {
-                    //html5: 1,
+                    html5: 1,
                     //origin: 'http://127.0.0.1:8000',
                     controls: 1,
                     modestbranding: 1,
@@ -136,8 +136,11 @@ function Player() {
             });
         };
 
-        var tag = $("<script src='https://www.youtube.com/iframe_api' />");
-        tag.insertBefore("script:first");
+        // Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
 
     self.loadVideo = function(video) {

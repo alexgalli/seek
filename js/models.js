@@ -97,9 +97,8 @@ function Player() {
     */
 
     self.init = function(video) {
-        var videoID = video ? video.videoID: 'FGVGFfj7POA';
+        var videoID = video ? video.videoID : 'FGVGFfj7POA';
 
-        // TODO add dynamic youtube script tag loader
         window.onYouTubePlayerAPIReady = function () {
             p = new YT.Player('player', {
                 width: 600,
@@ -134,6 +133,9 @@ function Player() {
                 }
             });
         };
+
+        var tag = $("<script src='https://www.youtube.com/iframe_api' />");
+        $("script").first().insertBefore(tag);
     }
 
     self.loadVideo = function(video) {

@@ -105,10 +105,12 @@ function Player() {
                 height: 450,
                 videoId: videoID,
                 playerVars: {
-                    html5: 1,
+                    //html5: 1,
+                    //origin: 'http://127.0.0.1:8000',
                     controls: 1,
                     modestbranding: 1,
-                    showinfo: 0
+                    showinfo: 0,
+                    rel: 0
                 },
                 events: {
                     'onReady': function() {
@@ -135,7 +137,7 @@ function Player() {
         };
 
         var tag = $("<script src='https://www.youtube.com/iframe_api' />");
-        $("script").first().insertBefore(tag);
+        tag.insertBefore("script:first");
     }
 
     self.loadVideo = function(video) {

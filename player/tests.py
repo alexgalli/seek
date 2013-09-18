@@ -14,6 +14,9 @@ from django.contrib.auth.models import User
 from models import Video, Timestamp
 
 class PlayerTestCase(TestCase):
+    # charlie bit my finger, figure that's not going anywhere
+    videoID = '_OBlgSz8sSM'
+
     def setUp(self):
         u = User.objects.create_user("user", password="password")
         u.save()
@@ -74,7 +77,7 @@ class get_videos(PlayerTestCase):
         assert res.status_code == 200
         vs = json.loads(res.content)
         assert len(vs) == 3
-        assert vs[0] == "rvdYly4A5W0"
+        assert vs[0] == "_lK4cX5xGiQ"
         assert vs[1] == "iaAkWy55V3A"
         assert vs[2] == "1ZxN9iQM7OY"
 
@@ -82,11 +85,11 @@ class add_video(PlayerTestCase):
     def get_add_response(self, data):
         return self.get_response("add_video", data)
 
-    def test_valid_ID_creates_video(self):
-        res = self.get_add_response({"videoID": "asdf"})
+    def test_valid_ID_creates_video_and_returns_info(self):
+        res = self.get_add_response({"videoID": self.videoID})
         assert res.status_code == 201
-
-        assert Video.objects.filter(user=self.get_user(), videoID="asdf").count() == 1
+        assert Video.objects.filter(user=self.get_user(), videoID=self.videoID).count() == 1
+        assert res.content == '{"videoID": "_OBlgSz8sSM", "title": "Charlie bit my finger - again !"}'
 
     def test_no_ID_returns_badrequest(self):
         res = self.get_add_response({})
@@ -97,8 +100,8 @@ class add_video(PlayerTestCase):
         assert res.status_code == 400
 
     def test_duplicate_ID_returns_conflict(self):
-        self.get_add_response({"videoID": "asdf"})
-        res = self.get_add_response({"videoID": "asdf"})
+        self.get_add_response({"videoID": self.videoID})
+        res = self.get_add_response({"videoID": self.videoID})
         assert res.status_code == 409
 
 class del_video(PlayerTestCase):

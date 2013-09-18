@@ -26,16 +26,23 @@ def add_video(request):
     if "videoID" not in request.POST or not request.POST["videoID"]:
         return HttpResponse(status=400, content="must include videoID")
 
+    videoID = request.POST["videoID"]
+
     # check to see if video exists for user
     # TODO refactor to use get_video_query
-    if Video.objects.filter(user=request.user, videoID=request.POST["videoID"]).count() != 0:
-        return HttpResponse(status=409, content="videoID %s already exists for user" % request.POST["videoID"])
+    if Video.objects.filter(user=request.user, videoID=videoID).count() != 0:
+        return HttpResponse(status=409, content="videoID %s already exists for user" % videoID)
+
+    # look up video in youtube api
+    from gdata.youtube.service import YouTubeService
+    yt_service = YouTubeService()
+    data = yt_service.GetYouTubeVideoEntry(video_id=videoID)
 
     # save new video for user
-    v = Video(videoID = request.POST["videoID"], user = request.user)
+    v = Video(videoID=videoID, user=request.user, title=data.media.title.text)
     v.save()
 
-    return HttpResponse(status=201)
+    return HttpResponse(status=201, content=json.dumps({"videoID": v.videoID, "title": v.title}))
 
 @require_POST
 @login_required

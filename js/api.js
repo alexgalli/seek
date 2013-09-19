@@ -15,14 +15,17 @@ var api = {
             });
     },
 
-    addVideo: function(videoID) {
+    addVideo: function(videoID, callback) {
         $.ajax(
             "/api/add_video",
             {
                 method: "post",
+                dataType: "json",
                 data: { "videoID": videoID }
             }
-        );
+        ).done(function(data) {
+            if (callback) callback(data);
+        });
     },
 
     deleteVideo: function(videoID) {

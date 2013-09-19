@@ -4,7 +4,7 @@ function Video(videoID, title) {
     var self = this;
 
     self.videoID = videoID;
-    self.title = title;
+    self.title = ko.observable(title);
     self.timestamps = ko.observableArray();
     self.timestampObjs = ko.computed(function() {
         return $.map(self.timestamps(), function(t) {
@@ -268,7 +268,9 @@ function SeekViewModel() {
             self.videos.unshift(video);
             self.player.loadVideo(video);
 
-            api.addVideo(videoID);
+            api.addVideo(videoID, function(data) {
+                video.title(data.title);
+            });
 
             $.modal.close();
 

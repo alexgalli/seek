@@ -36,8 +36,8 @@ class PlayerTestCase(TestCase):
     def get_video_count(self):
         return Video.objects.filter(user=self.get_user(), videoID="asdf").count()
 
-    def add_video(self, videoID="asdf"):
-        v = Video(user=self.get_user(), videoID=videoID)
+    def add_video(self, videoID="asdf", title="title"):
+        v = Video(user=self.get_user(), videoID=videoID, title=title)
         v.save()
         return v
 
@@ -61,16 +61,20 @@ class get_videos(PlayerTestCase):
         assert len(vs) == 0
 
     def test_logged_in_with_videos_returns_videos(self):
-        self.add_video("aaaa")
-        self.add_video("bbbb")
-        self.add_video("cccc")
+        self.add_video("aaaa", "a")
+        self.add_video("bbbb", "b")
+        self.add_video("cccc", "c")
         res = self.get_get_videos_response({})
         assert res.status_code == 200
         vs = json.loads(res.content)
         assert len(vs) == 3
-        assert vs[0] == "aaaa"
-        assert vs[1] == "bbbb"
-        assert vs[2] == "cccc"
+        assert all("videoID" in v and "title" in v for v in vs)
+        assert vs[0]["videoID"] == "aaaa"
+        assert vs[0]["title"] == "a"
+        assert vs[1]["videoID"] == "bbbb"
+        assert vs[1]["title"] == "b"
+        assert vs[2]["videoID"] == "cccc"
+        assert vs[2]["title"] == "c"
 
     def test_not_logged_in_returns_default_videos(self):
         res = self.get_get_videos_response({}, log_in=False)

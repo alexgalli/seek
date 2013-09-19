@@ -13,10 +13,15 @@ def get_video_query(user, videoID):
 def get_videos(request):
     if request.user.is_authenticated():
         # TODO refactor into get_video_query
-        vs = [v.videoID for v in Video.objects.filter(user=request.user).order_by("videoID").all()]
+        vs = [{"videoID": v.videoID, "title": v.title} for v in Video.objects.filter(user=request.user).order_by("videoID").all()]
         return HttpResponse(status=200, content=json.dumps(vs))
     else:
-        vs = ["_lK4cX5xGiQ", "iaAkWy55V3A", "1ZxN9iQM7OY"]
+        vs = [
+            {"videoID": "_lK4cX5xGiQ", "title": "asdf"},
+            {"videoID": "iaAkWy55V3A", "title": "asdf"},
+            {"videoID": "1ZxN9iQM7OY", "title": "asdf"}
+        ]
+
         return HttpResponse(status=200, content=json.dumps(vs))
 
 @require_POST

@@ -6,8 +6,8 @@ var api = {
                 method: "post",
                 dataType: "json",
                 success: function(data) {
-                    var newVideos = $.map(data, function(i) {
-                        return new Video(i);
+                    var newVideos = $.map(data, function(v) {
+                        return new Video(v.videoID);
                     });
 
                     if (callback) callback(newVideos);

@@ -1,9 +1,10 @@
 /* knockout models */
 
-function Video(videoID) {
+function Video(videoID, title) {
     var self = this;
 
     self.videoID = videoID;
+    self.title = title;
     self.timestamps = ko.observableArray();
     self.timestampObjs = ko.computed(function() {
         return $.map(self.timestamps(), function(t) {

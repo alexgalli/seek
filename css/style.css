@@ -152,6 +152,10 @@ div#content {
     width: 37.5em;
 }
 
+#title h3 {
+    margin-bottom: 0.25em;
+}
+
 #controls {
 
 }

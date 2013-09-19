@@ -52,7 +52,7 @@
         <div id="videos">
             <button data-bind="click: openVideoModal">Add a video</button>
             <div id="videolist" data-bind="foreach: videos">
-                <img data-bind="attr: { src: getThumbnailUrl() }, click: model.player.loadVideo">
+                <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
             </div>
             <form id="addVideoModal" style="display:none;">
                 <label for="youtubeUrl">YouTube Video URL</label>
@@ -64,6 +64,9 @@
 
         <!-- CONTENT - the player and timestamps -->
         <div id="content">
+            <div id="title" data-bind="if: model.player.currentVideo()">
+                <h3 data-bind="text: model.player.currentVideo().title"></h3>
+            </div>
             <div id='player'></div>
             <form id='controls'>
                 <button data-bind="click: player.seekDiff" value="-30">&lt; 30</button>

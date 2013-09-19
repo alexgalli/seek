@@ -17,9 +17,9 @@ def get_videos(request):
         return HttpResponse(status=200, content=json.dumps(vs))
     else:
         vs = [
-            {"videoID": "_lK4cX5xGiQ", "title": "asdf"},
-            {"videoID": "iaAkWy55V3A", "title": "asdf"},
-            {"videoID": "1ZxN9iQM7OY", "title": "asdf"}
+            {"videoID": "_lK4cX5xGiQ", "title": "Tenacious D - Tribute"},
+            {"videoID": "iaAkWy55V3A", "title": "30 Shredders In One Solo!"},
+            {"videoID": "1ZxN9iQM7OY", "title": "Otis Redding - Hard To Handle"}
         ]
 
         return HttpResponse(status=200, content=json.dumps(vs))

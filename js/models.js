@@ -146,6 +146,8 @@ function Player() {
 
     self.loadVideo = function(video) {
         self.currentVideo(video);
+        self.startPoint(null);
+        self.endPoint(null);
         p.cueVideoById(video.videoID);
         video.getTimestamps();
     }

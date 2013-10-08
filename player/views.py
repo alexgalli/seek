@@ -6,6 +6,6 @@ def index(request):
     c = RequestContext(request)
     c["user"] = request.user
 
-    t = get_template('index.html')
+    t = get_template('juan.html')
     html = t.render(c)
     return HttpResponse(html)

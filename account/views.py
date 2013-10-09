@@ -24,7 +24,6 @@ def log_in(request):
     else:
         return HttpResponseRedirect("/?error=invalid")
 
-@require_POST
 def log_out(request):
     logout(request)
     return HttpResponseRedirect("/")

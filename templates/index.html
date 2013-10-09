@@ -42,44 +42,49 @@
     <div class="container">
         <!-- HEADER - contains logo and account management -->
         <header>
-            <div class="container"><div class="twelve columns">
-                <span id="logo"><b>SEEK.</b>CHAPTERHOUSE<b>.</b>IO</span>
-                {% if user.id %}
-                    <span id="greet">HI {{ user.username.upper }}</span>
-                    <form id="logoutForm" action="/account/log_out" method="post">
-                        {% csrf_token %}
-                        <input type="submit" id="logout" value="Log Out" />
-                    </form>
-                {% else %}
-                    <button id="register" data-bind="click: register">Register</button>
-                    <form id="registerModal" action="/account/register" method="post" style="display: none;">
-                        {% csrf_token %}
-                        <label for="username">Username</label>
-                        <input id="username" name="username" type="text"><br/>
-                        <label for="email">Email</label>
-                        <input id="email" name="email" type="text"><br/>
-                        <label for="password">Password</label>
-                        <input id="password" name="password" type="password"><br/>
-                        <label for="repassword">Re-enter Password</label>
-                        <input id="repassword" name="repassword" type="password"><br/>
-                        <input type="submit" value="Register">
-                    </form>
-                    <button id="login" data-bind="click: login">Log In</button>
-                    <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
-                        {% csrf_token %}
-                        <label for="username">Username</label>
-                        <input id="username" name="username" type="text"><br/>
-                        <label for="password">Password</label>
-                        <input id="password" name="password" type="password"><br/>
-                        <input type="submit" value="Log In">
-                    </form>
-                {% endif %}
-            </div></div>
+            <div class="container">
+                <div class="twelve columns">
+                    <div class="two columns alpha">
+                        <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
+                    </div>
+                    <div class="ten columns omega">
+                        {% if not user.id %}
+                            <a id="register" data-bind="click: register">REGISTER</a>
+                            <form id="registerModal" action="/account/register" method="post" style="display: none;">
+                                {% csrf_token %}
+                                <label for="username">Username</label>
+                                <input id="username" name="username" type="text"><br/>
+                                <label for="email">Email</label>
+                                <input id="email" name="email" type="text"><br/>
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password"><br/>
+                                <label for="repassword">Re-enter Password</label>
+                                <input id="repassword" name="repassword" type="password"><br/>
+                                <input type="submit" value="Register">
+                            </form>
+                            <a id="login" data-bind="click: login">LOGIN</a>
+                            <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
+                                {% csrf_token %}
+                                <label for="username">Username</label>
+                                <input id="username" name="username" type="text"><br/>
+                                <label for="password">Password</label>
+                                <input id="password" name="password" type="password"><br/>
+                                <input type="submit" value="Log In">
+                            </form>
+                        {% else %}
+                            <a href="#">{{ user.username.upper }}</a>
+                            <a href="/account/log_out">LOGOUT</a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="four columns">
+                    <a class="add-video" data-bind="click: openVideoModal">+ ADD VIDEO</a>
+                </div>
+            </div>
         </header>
 
         <!-- VIDEOS - for selecting a video -->
         <div id="videos">
-            <button data-bind="click: openVideoModal">Add a video</button>
             <div id="videolist" data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
             </div>

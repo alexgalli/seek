@@ -84,7 +84,7 @@
         </header>
 
         <!-- VIDEOS - for selecting a video -->
-        <div id="videos">
+        <div id="videos" class="four columns sidebar">
             <div id="videolist" data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
             </div>
@@ -97,7 +97,7 @@
         </div>
 
         <!-- CONTENT - the player and timestamps -->
-        <div id="content">
+        <div id="content" class="twelve columns alpha omega video-box">
             <div id="title" data-bind="if: model.player.currentVideo()">
                 <h3 data-bind="text: model.player.currentVideo().title"></h3>
             </div>

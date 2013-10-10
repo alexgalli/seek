@@ -17,7 +17,7 @@ body {
 
 .sprite { 
 	display: block; 
-	background: url(imgs/sprite.png) 0 0 no-repeat; 
+	background: url(/static/sprite.png) 0 0 no-repeat;
 	position: relative; 
 	z-index: 99; 
 }
@@ -277,6 +277,50 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	padding: 0;
 }
 
+.video-box { float: left; position: relative; z-index: 1; }
+
+
+.volume-control {
+    display: block;
+	width: 30px;
+	height: 100%;
+	position: absolute;
+	left: -35px;
+	top: 0;
+	overflow: hidden;
+}
+
+.volume-bar-box {
+	height: 475px;
+	overflow: hidden;
+}
+
+.volume-bar {
+	width: 3px;
+	height: 475px;
+	border-left: 11px solid #fff;
+	border-right: 11px solid #fff;
+	border-top: 475px solid transparent;
+	/*                                 volume percentage |here|        */
+	background: -webkit-linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
+	background: -moz-linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
+	background: linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
+	/* rough edges fix: */
+	-webkit-transform: rotate(0.01deg);
+	-moz-transform: rotateY(0.001turn);
+	transform: rotateY(0.001turn);
+
+    opacity: 0;
+}
+
+.volume-bar:hover { opacity: 1; }
+
+
+.volume-control .volume-wheel {
+	position: absolute;
+    top: 488px;
+}
+
 .controls {
 	float: left;
 	width: 100%;
@@ -287,51 +331,6 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	background: -moz-linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
 	background: linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
 }
-
-.video-box { float: left; position: relative; z-index: 1; }
-
-
-.volume-control {
-    display: block;
-	width: 30px;
-	height: 100%;
-	position: absolute;
-	left: -40px;
-	top: 0;
-	overflow: hidden;
-    margin-top: 5px;
-
-    opacity: 0;
-}
-
-.video-box:hover .volume-control { opacity: 1; }
-
-.volume-bar-box {
-	height: 480px;
-	overflow: hidden;
-}
-
-.volume-bar {
-	width: 4px;
-	height: 480px;
-	border-left: 11px solid #fff;
-	border-right: 11px solid #fff;
-	border-top: 480px solid transparent;
-	/*                                 volume percentage |here|        */
-	background: -webkit-linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
-	background: -moz-linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
-	background: linear-gradient(bottom, rgb(0,0,0) 80%, rgb(242,242,242) 0%, rgb(242,242,242) 100%);
-	/* rough edges fix: */
-	-webkit-transform: rotate(0.01deg);
-	-moz-transform: rotateY(0.001turn);
-	transform: rotateY(0.001turn);
-}
-
-.volume-control .volume-wheel {
-	position: absolute;
-	bottom: 0;
-}
-
 
 .controls button {
 	float: left;

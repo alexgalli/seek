@@ -42,64 +42,50 @@
     <div class="container">
         <!-- HEADER - contains logo and account management -->
         <header>
-            <div class="container">
-                <div class="twelve columns">
-                    <div class="two columns alpha">
-                        <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
-                    </div>
-                    <div class="ten columns omega">
-                        {% if not user.id %}
-                            <a id="register" data-bind="click: register">REGISTER</a>
-                            <form id="registerModal" action="/account/register" method="post" style="display: none;">
-                                {% csrf_token %}
-                                <label for="username">Username</label>
-                                <input id="username" name="username" type="text"><br/>
-                                <label for="email">Email</label>
-                                <input id="email" name="email" type="text"><br/>
-                                <label for="password">Password</label>
-                                <input id="password" name="password" type="password"><br/>
-                                <label for="repassword">Re-enter Password</label>
-                                <input id="repassword" name="repassword" type="password"><br/>
-                                <input type="submit" value="Register">
-                            </form>
-                            <a id="login" data-bind="click: login">LOGIN</a>
-                            <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
-                                {% csrf_token %}
-                                <label for="username">Username</label>
-                                <input id="username" name="username" type="text"><br/>
-                                <label for="password">Password</label>
-                                <input id="password" name="password" type="password"><br/>
-                                <input type="submit" value="Log In">
-                            </form>
-                        {% else %}
-                            <a href="#">{{ user.username.upper }}</a>
-                            <a href="/account/log_out">LOGOUT</a>
-                        {% endif %}
-                    </div>
+            <div class="twelve columns">
+                <div class="two columns alpha">
+                    <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
                 </div>
-                <div class="four columns">
-                    <a class="add-video" data-bind="click: openVideoModal">+ ADD VIDEO</a>
+                <div class="ten columns omega">
+                    {% if not user.id %}
+                        <a data-bind="click: register">REGISTER</a>
+                        <form id="registerModal" action="/account/register" method="post" style="display: none;">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <input id="username" name="username" type="text"><br/>
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="text"><br/>
+                            <label for="password">Password</label>
+                            <input id="password" name="password" type="password"><br/>
+                            <label for="repassword">Re-enter Password</label>
+                            <input id="repassword" name="repassword" type="password"><br/>
+                            <input type="submit" value="Register">
+                        </form>
+                        <a data-bind="click: login">LOGIN</a>
+                        <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
+                            {% csrf_token %}
+                            <label for="username">Username</label>
+                            <input id="username" name="username" type="text"><br/>
+                            <label for="password">Password</label>
+                            <input id="password" name="password" type="password"><br/>
+                            <input type="submit" value="Log In">
+                        </form>
+                    {% else %}
+                        <a href="#">{{ user.username.upper }}</a>
+                        <a href="/account/log_out">LOGOUT</a>
+                    {% endif %}
                 </div>
+            </div>
+            <div class="four columns">
+                <a class="add-video" data-bind="click: openVideoModal">+ ADD VIDEO</a>
             </div>
         </header>
 
-        <!-- VIDEOS - for selecting a video -->
-        <div id="videos" class="four columns sidebar">
-            <div id="videolist" data-bind="foreach: videos">
-                <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
-            </div>
-            <form id="addVideoModal" style="display:none;">
-                <label for="youtubeUrl">YouTube Video URL</label>
-                <!-- TODO add jquery watermark -->
-                <input id="youtubeUrl" type="text"
-                       data-bind="event: { keypress: addVideo }" >
-            </form>
-        </div>
-
         <!-- CONTENT - the player and timestamps -->
-        <div id="content" class="twelve columns alpha omega video-box">
-            <div id="title" data-bind="if: model.player.currentVideo()">
-                <h3 data-bind="text: model.player.currentVideo().title"></h3>
+        <div class="twelve columns">
+            <div class="nine columns alpha video-title"
+                 data-bind="if: model.player.currentVideo()">
+                <h2 data-bind="text: model.player.currentVideo().title"></h2>
             </div>
             <div id='player'></div>
             <form id='controls'>
@@ -140,8 +126,21 @@
             <!-- /ko -->
         </div>
 
+        <!-- VIDEOS - for selecting a video -->
+        <div class="four columns sidebar">
+            <div data-bind="foreach: videos">
+                <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
+            </div>
+            <form id="addVideoModal" style="display:none;">
+                <label for="youtubeUrl">YouTube Video URL</label>
+                <!-- TODO add jquery watermark -->
+                <input id="youtubeUrl" type="text"
+                       data-bind="event: { keypress: addVideo }" >
+            </form>
+        </div>
+
         <!-- FOOTER - copyright and technologies -->
-        <div id="footer">
+        <div id="footer" class="sixteen columns">
             <span id="copy">
                 &copy; 2013
                 <a href="http://chapterhouse.io">Alex Gallichotte</a>

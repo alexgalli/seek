@@ -43,10 +43,16 @@
         <!-- HEADER - contains logo and account management -->
         <header>
             <div class="twelve columns">
+                <!-- logo-->
                 <div class="two columns alpha">
                     <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
                 </div>
-                <div class="ten columns omega">
+                <!-- title -->
+                <div class="five columns" data-bind="if: model.player.currentVideo()">
+                    <h3 data-bind="text: model.player.currentVideo().title"></h3>
+                </div>
+                <!-- nav -->
+                <div class="five columns omega">
                     {% if not user.id %}
                         <a data-bind="click: register">REGISTER</a>
                         <form id="registerModal" action="/account/register" method="post" style="display: none;">
@@ -85,26 +91,46 @@
         <div class="twelve columns">
             <div class="nine columns alpha video-title"
                  data-bind="if: model.player.currentVideo()">
-                <h2 data-bind="text: model.player.currentVideo().title"></h2>
             </div>
-            <div id='player'></div>
-            <form id='controls'>
-                <button data-bind="click: player.seekDiff" value="-30">&lt; 30</button>
-                <button data-bind="click: player.seekDiff" value="-5">&lt; 5</button>
-                <button data-bind="click: player.playPause">&gt;</button>
-                <button data-bind="click: player.seekDiff" value="5">5 &gt;</button>
-                <button data-bind="click: player.seekDiff" value="30">30 &gt;</button>
 
-                <button data-bind="click: player.addTimestamp">Add timestamp</button>
+            <div class="three columns omega video-category">
+                <div class="dropdown">
+                    <span class="icon sprite folder"></span>
+                    <span class="category">VIDEO CATEGORY</span>
+                    <span class="down-arrow"></span>
+                    <ul>
+                        <li><a href="#">Uncategorized</a></li>
+                        <li><a href="#">listitem2</a></li>
+                        <li><a href="#">listitem3</a></li>
+                        <li><a href="#">Manage Categories...</a></li>
+                    </ul>
+                </div>
+            </div>
 
-                <!-- TODO - audio gets screwed up, re-enable this if Youtube improves HTML5 player
-                <label for="playbackRates">Playback Rate</label>
-                <select id="playbackRates" data-bind="options: player.playbackRates, event: { change: player.setPlaybackRate }">
-                </select>
-                -->
+            <div class='video-box'>
+                <div class="volume-control">
+                    <div class="volume-bar-box">
+                        <figure class="volume-bar"></figure>
+                    </div>
+                    <figure class="icon sprite volume-wheel"></figure>
+                </div>
+                <div id='player'></div>
+                <form class="controls">
+                    <button data-bind="click: player.seekDiff" class="rew30" value="-30">&lt; 30</button>
+                    <button data-bind="click: player.seekDiff" class="rew5" value="-5">&lt; 5</button>
+                    <button data-bind="click: player.playPause"class="play-toggle">&gt;</button>
+                    <button data-bind="click: player.seekDiff" class="ffw30" value="5">5 &gt;</button>
+                    <button data-bind="click: player.seekDiff" class="ffw30" value="30">30 &gt;</button>
+                    <div class="help-txt">hidden text until hover</div>
+                    <button data-bind="click: player.addTimestamp" class="add-timestamp">ADD STAMP @ 0:00</button>
 
-                <button data-bind="click: deleteVideo">Delete video</button>
-            </form>
+                    <!-- TODO - audio gets screwed up, re-enable this if Youtube improves HTML5 player
+                    <label for="playbackRates">Playback Rate</label>
+                    <select id="playbackRates" data-bind="options: player.playbackRates, event: { change: player.setPlaybackRate }">
+                    </select>
+                    -->
+                </form>
+            </div>
             <!-- ko if: player.currentVideo -->
             <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
                 <tr>

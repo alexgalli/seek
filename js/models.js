@@ -102,8 +102,8 @@ function Player() {
 
         window.onYouTubePlayerAPIReady = function () {
             p = new YT.Player('player', {
-                width: 660,
-                height: 495,
+                width: 700,
+                height: 485,
                 videoId: videoID,
                 playerVars: {
                     html5: 1,

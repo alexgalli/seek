@@ -42,7 +42,7 @@
     <div class="container">
         <!-- HEADER - contains logo and account management -->
         <header>
-            <div class="twelve columns">
+            <div class="twelve columns alpha">
                 <!-- logo-->
                 <div class="two columns alpha">
                     <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
@@ -87,10 +87,10 @@
             </div>
         </header>
 
-        <!-- CONTENT - the player and timestamps -->
-        <div id="video" class="twelve columns">
-            <div class="video-box">
+        <div class="twelve columns alpha">
 
+            <!-- CONTENT - the player and timestamps -->
+            <section id="video" class="twelve columns alpha omega video-box">
                 <div class="volume-control">
                     <div class="volume-bar-box">
                         <figure class="volume-bar"></figure>
@@ -115,31 +115,49 @@
                     </select>
                     -->
                 </form>
+            </section>
+
+            <section class="twelve columns alpha omega timestamp-list">
+                <!-- ko if: player.currentVideo -->
+                <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
+                    <tr>
+                        <td class="time">
+                            <button data-bind="text: getDisplay(), click: $parent.player.seek" />
+                        </td>
+                        <td class="name" data-bind="text: name"></td>
+                        <td class="loop">
+                            <button data-bind="click: $parent.player.setStartPoint,
+                                               visible: $parent.player.showStartPoint($data)">Start</button>
+                            <button data-bind="click: $parent.player.setEndPoint,
+                                               visible: $parent.player.showEndPoint($data, $index())">End</button>
+                        </td>
+                        <td class="delete">
+                            <button data-bind="click: $parent.player.deleteTimestamp">X</button>
+                        </td>
+                    </tr>
+                </table>
+                <!-- /ko -->
+            </section>
+
+            <!-- FOOTER - copyright and technologies -->
+            <div id="footer" class="twelve columns">
+                <span id="copy">
+                    &copy; 2013
+                    <a href="http://chapterhouse.io">Alex Gallichotte</a>
+                </span>
+                <span id="tech">
+                    <a target="blank" href="https://djangoproject.com/">Django</a>
+                    <a target="blank" href="http://knockoutjs.com/">KnockoutJS</a>
+                    <a target="blank" href="http://jquery.com/">jQuery</a>
+                    <a target="blank" href="https://developers.google.com/youtube/iframe_api_reference">YouTube API</a>
+                    <a target="blank" href="https://heroku.com/">Heroku</a>
+                </span>
             </div>
-            <!-- ko if: player.currentVideo -->
-            <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
-                <tr>
-                    <td class="time">
-                        <button data-bind="text: getDisplay(), click: $parent.player.seek" />
-                    </td>
-                    <td class="name" data-bind="text: name"></td>
-                    <td class="loop">
-                        <button data-bind="click: $parent.player.setStartPoint,
-                                           visible: $parent.player.showStartPoint($data)">Start</button>
-                        <button data-bind="click: $parent.player.setEndPoint,
-                                           visible: $parent.player.showEndPoint($data, $index())">End</button>
-                    </td>
-                    <td class="delete">
-                        <button data-bind="click: $parent.player.deleteTimestamp">X</button>
-                    </td>
-                </tr>
-            </table>
-            <!-- /ko -->
+
         </div>
 
         <!-- VIDEOS - for selecting a video -->
-        <div class="four columns sidebar">
-            <div class="three columns omega video-category">
+        <aside class="four columns sidebar">
                 <div class="dropdown">
                     <span class="icon sprite folder"></span>
                     <span class="category">VIDEO CATEGORY</span>
@@ -151,7 +169,6 @@
                         <li><a href="#">Manage Categories...</a></li>
                     </ul>
                 </div>
-            </div>
 
             <div data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
@@ -162,22 +179,8 @@
                 <input id="youtubeUrl" type="text"
                        data-bind="event: { keypress: addVideo }" >
             </form>
-        </div>
+        </aside>
 
-        <!-- FOOTER - copyright and technologies -->
-        <div id="footer" class="sixteen columns">
-            <span id="copy">
-                &copy; 2013
-                <a href="http://chapterhouse.io">Alex Gallichotte</a>
-            </span>
-            <span id="tech">
-                <a target="blank" href="https://djangoproject.com/">Django</a>
-                <a target="blank" href="http://knockoutjs.com/">KnockoutJS</a>
-                <a target="blank" href="http://jquery.com/">jQuery</a>
-                <a target="blank" href="https://developers.google.com/youtube/iframe_api_reference">YouTube API</a>
-                <a target="blank" href="https://heroku.com/">Heroku</a>
-            </span>
-        </div>
     </div>
 </body>
 </html>

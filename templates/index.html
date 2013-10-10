@@ -88,33 +88,18 @@
         </header>
 
         <!-- CONTENT - the player and timestamps -->
-        <div class="twelve columns">
-            <div class="nine columns alpha video-title"
-                 data-bind="if: model.player.currentVideo()">
-            </div>
+        <div id="video" class="twelve columns">
+            <div class="video-box">
 
-            <div class="three columns omega video-category">
-                <div class="dropdown">
-                    <span class="icon sprite folder"></span>
-                    <span class="category">VIDEO CATEGORY</span>
-                    <span class="down-arrow"></span>
-                    <ul>
-                        <li><a href="#">Uncategorized</a></li>
-                        <li><a href="#">listitem2</a></li>
-                        <li><a href="#">listitem3</a></li>
-                        <li><a href="#">Manage Categories...</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class='video-box'>
                 <div class="volume-control">
                     <div class="volume-bar-box">
                         <figure class="volume-bar"></figure>
                     </div>
                     <figure class="icon sprite volume-wheel"></figure>
                 </div>
+
                 <div id='player'></div>
+
                 <form class="controls">
                     <button data-bind="click: player.seekDiff" class="rew30" value="-30">&lt; 30</button>
                     <button data-bind="click: player.seekDiff" class="rew5" value="-5">&lt; 5</button>
@@ -154,6 +139,20 @@
 
         <!-- VIDEOS - for selecting a video -->
         <div class="four columns sidebar">
+            <div class="three columns omega video-category">
+                <div class="dropdown">
+                    <span class="icon sprite folder"></span>
+                    <span class="category">VIDEO CATEGORY</span>
+                    <span class="down-arrow"></span>
+                    <ul>
+                        <li><a href="#">Uncategorized</a></li>
+                        <li><a href="#">listitem2</a></li>
+                        <li><a href="#">listitem3</a></li>
+                        <li><a href="#">Manage Categories...</a></li>
+                    </ul>
+                </div>
+            </div>
+
             <div data-bind="foreach: videos">
                 <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
             </div>

@@ -41,7 +41,6 @@ body {
 }
 
 .line-horz {
-	display: none;
 	position: absolute;
 	top: 50%;
 	left: 20px;
@@ -52,7 +51,6 @@ body {
 }
 
 .line-vert {
-	display: none;
 	position: absolute;
 	top: 20px;
 	left: 50%;
@@ -274,6 +272,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	float: left;
 	margin: 0;
 	padding: 0;
+    padding-bottom: 10px;
 }
 
 .video-box { float: left; position: relative; z-index: 1; }
@@ -284,7 +283,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	width: 30px;
 	height: 100%;
 	position: absolute;
-	left: -35px;
+	left: -31px;
 	top: 0;
 	overflow: hidden;
 }
@@ -317,7 +316,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 
 .volume-control .volume-wheel {
 	position: absolute;
-    top: 488px;
+    top: 478px;
 }
 
 .controls {

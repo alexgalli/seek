@@ -118,24 +118,42 @@
             </section>
 
             <section class="twelve columns alpha omega timestamp-list">
+                <div class="row">
+                    <div class="one column alpha">
+                        <h3>LOOP</h3>
+                    </div>
+                    <div class="two columns">
+                        <h3>JUMP TO</h3>
+                    </div>
+                    <div class="eight columns">
+                        <h3 class="label">LABEL</h3>
+                    </div>
+                    <div class="one column omega">
+                        <!--del label column-->
+                    </div>
+                </div>
                 <!-- ko if: player.currentVideo -->
-                <table id="timestamps" data-bind="foreach: player.currentVideo().timestamps">
-                    <tr>
-                        <td class="time">
-                            <button data-bind="text: getDisplay(), click: $parent.player.seek" />
-                        </td>
-                        <td class="name" data-bind="text: name"></td>
-                        <td class="loop">
-                            <button data-bind="click: $parent.player.setStartPoint,
-                                               visible: $parent.player.showStartPoint($data)">Start</button>
-                            <button data-bind="click: $parent.player.setEndPoint,
-                                               visible: $parent.player.showEndPoint($data, $index())">End</button>
-                        </td>
-                        <td class="delete">
-                            <button data-bind="click: $parent.player.deleteTimestamp">X</button>
-                        </td>
-                    </tr>
-                </table>
+                <div data-bind="foreach: player.currentVideo().timestamps">
+                    <div class="row">
+                        <div class="one column alpha loop-column">
+                            <figure class="icon sprite loop-start">
+                                <span class="line-horz"
+                                    data-bind="click: $parent.player.setStartPoint,
+                                               visible: $parent.player.showStartPoint($data)"></span>
+                                <span class="line-vert"
+                                    data-bind="click: $parent.player.setEndPoint,
+                                               visible: $parent.player.showEndPoint($data, $index())"></span>
+                            </figure>
+                        </div>
+                        <div class="two columns">
+                            <button class="timestamp" data-bind="text: getDisplay(), click: $parent.player.seek"></button>
+                        </div>
+                        <div class="eight columns" data-bind="text: name"></div>
+                        <div class="one column omega del-column">
+                            <figure class="icon sprite trashcan" data-bind="click: $parent.player.deleteTimestamp"></figure>
+                        </div>
+                    </div>
+                </div>
                 <!-- /ko -->
             </section>
 

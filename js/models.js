@@ -78,7 +78,15 @@ function Player() {
         } else {
             return -1;
         }
-    });
+    })
+
+    self.endPointIndex = ko.computed(function() {
+        if (self.currentVideo()) {
+            return self.currentVideo().timestamps().indexOf(self.endPoint());
+        } else {
+            return -1;
+        }
+    })
 
     self.testTimeInLoop = ko.computed(function() {
         return function() {
@@ -211,7 +219,7 @@ function Player() {
             // remove loop-start from other timestamps
             $(self.currentVideo().timestamps())
                 .filter(function (i, ts) {
-                    return ts == timestamp;
+                    return ts != timestamp;
                 })
                 .each(function(i, ts) {
                     ts.loopStart(false);
@@ -237,9 +245,33 @@ function Player() {
             self.startPoint(null);
             self.endPoint(null);
         }
+        // clear endpoint
+        else if (self.endPointIndex() == index) {
+            // restore loop
+            $(self.currentVideo().timestamps())
+                .filter(function (i, ts) {
+                    return i > index;
+                })
+                .each(function(i, ts) {
+                    ts.loopStart(false);
+                    ts.loopEnd(true);
+                });
+            // remove active
+            timestamp.active(false);
+
+            // zero endpoint
+            self.endPoint(null);
+        }
         // set endpoint
         else if (self.startPointIndex() < index) {
+            // remove endpoints from the rest of the timestamps
+            $(self.currentVideo().timestamps())
+                .filter(function (i, ts) { return i > index; })
+                .each(function (i, ts) {
+                })
+
             timestamp.active(true);
+
             self.endPoint(timestamp);
         }
     }

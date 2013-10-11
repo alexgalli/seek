@@ -40,7 +40,21 @@ body {
 	background-position: 0px -40px;
 }
 
+
+.loop-column, .del-column { position: relative; }
+
+.loop-start {
+	width: 20px;
+	height: 20px;
+	margin: 3px 0 0 -10px;
+	position: relative;
+	left: 50%;
+	z-index: 99;
+	background-position: 0px -40px;
+}
+
 .line-horz {
+	display: none;
 	position: absolute;
 	top: 50%;
 	left: 20px;
@@ -51,6 +65,7 @@ body {
 }
 
 .line-vert {
+	display: none;
 	position: absolute;
 	top: 20px;
 	left: 50%;
@@ -319,7 +334,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
     top: 478px;
 }
 
-.controls {
+.transport {
 	float: left;
 	width: 100%;
 	height: 35px;
@@ -330,7 +345,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	background: linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
 }
 
-.controls button {
+.transport button {
 	float: left;
 	position: relative;
 	height: 35px;
@@ -345,13 +360,13 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 button.rew30, button.rew5 { padding-left: 28px; }
 button.ffw30, button.ffw5 { padding-right: 28px; }
 
-.controls > button:first-child {
+.transport > button:first-child {
 	-webkit-border-bottom-left-radius: 3px;
 	-moz-border-bottom-left-radius: 3px;
 	border-bottom-left-radius: 3px;
 }
 
-.controls > button:last-child {
+.transport > button:last-child {
 	-webkit-border-bottom-right-radius: 3px;
 	-moz-border-bottom-right-radius: 3px;
 	border-bottom-right-radius: 3px;
@@ -359,7 +374,7 @@ button.ffw30, button.ffw5 { padding-right: 28px; }
 	border-left: 2px solid #fff;
 }
 
-.controls button.add-timestamp { float: right; }
+.transport button.add-timestamp { float: right; }
 
 .help-txt {
 	float: left;

@@ -49,6 +49,10 @@ function Timestamp(time, name) {
     self.time = time;
     self.name = name;
 
+    self.loopStart = ko.observable(true);
+    self.loopEnd = ko.observable(false);
+    self.active = ko.observable(false);
+
     self.getDisplay = function() {
         // pad a zero if necessary
         var seconds = ("0" + Math.floor(self.time % 60));
@@ -200,38 +204,46 @@ function Player() {
         p.setPlaybackRate(e.target.value);
     }
 
-    self.setStartPoint = function(timestamp) {
-        if (! self.startPoint()) {
+    /* TIMESTAMP LOOP BUTTON */
+    self.loop = function(timestamp, index) {
+        // set startpoint
+        if (!self.startPoint() || index < self.startPointIndex()) {
+            // remove loop-start from other timestamps
+            $(self.currentVideo().timestamps())
+                .filter(function (i, ts) {
+                    return ts == timestamp;
+                })
+                .each(function(i, ts) {
+                    ts.loopStart(false);
+                    ts.loopEnd(true);
+                });
+
+            // set timestamp .active
+            timestamp.active(true);
+
+            // set startPoint
             self.startPoint(timestamp);
-        } else {
+        }
+        // clear looping
+        else if (self.startPointIndex() == index) {
+            // zero out classes
+            $(self.currentVideo().timestamps()).each(function(i, ts) {
+                ts.loopStart(true);
+                ts.loopEnd(false);
+                ts.active(false);
+            })
+
+            // zero endpoints
             self.startPoint(null);
             self.endPoint(null);
         }
-    }
-
-    self.setEndPoint = function(timestamp) {
-        if (! self.endPoint()) {
+        // set endpoint
+        else if (self.startPointIndex() < index) {
+            timestamp.active(true);
             self.endPoint(timestamp);
-        } else {
-            self.endPoint(null);
         }
     }
 
-    self.showStartPoint = function(timestamp) {
-        return !self.startPoint() || self.startPoint() == timestamp;
-    }
-
-    self.showEndPoint = function(timestamp, index) {
-        if (!self.startPoint()) {
-            return false;
-        } else {
-            if (self.endPoint()) {
-                return timestamp == self.endPoint();
-            } else {
-                return index > self.startPointIndex();
-            }
-        }
-    }
 }
 
 function SeekViewModel() {

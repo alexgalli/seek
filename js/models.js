@@ -264,11 +264,8 @@ function Player() {
         }
         // set endpoint
         else if (self.startPointIndex() < index) {
-            // remove endpoints from the rest of the timestamps
-            $(self.currentVideo().timestamps())
-                .filter(function (i, ts) { return i > index; })
-                .each(function (i, ts) {
-                })
+            // remove active from current endpoint if it exists
+            if (self.endPoint()) self.endPoint().active(false);
 
             timestamp.active(true);
 

@@ -214,19 +214,22 @@ function Player() {
 
     /* TIMESTAMP LOOP BUTTON */
     self.loop = function(timestamp, index) {
-        // set startpoint
+        var timestamps = self.currentVideo().timestamps();
+
+        // set startpoint if loop unset or if it's before our current startpoint
         if (!self.startPoint() || index < self.startPointIndex()) {
-            // remove loop-start from other timestamps
-            $(self.currentVideo().timestamps())
-                .filter(function (i, ts) {
-                    return ts != timestamp;
-                })
-                .each(function(i, ts) {
+            $(timestamps).each(
+                function(i, ts) {
+                    // deactivate current start point
+                    if (ts.loopStart()) { ts.active(false); }
+                    // set everything to loopStart
                     ts.loopStart(false);
                     ts.loopEnd(true);
                 });
 
-            // set timestamp .active
+            // set clicked timestamp to .loopstart.active
+            timestamp.loopStart(true);
+            timestamp.loopEnd(false);
             timestamp.active(true);
 
             // set startPoint
@@ -235,7 +238,7 @@ function Player() {
         // clear looping
         else if (self.startPointIndex() == index) {
             // zero out classes
-            $(self.currentVideo().timestamps()).each(function(i, ts) {
+            $(timestamps).each(function(i, ts) {
                 ts.loopStart(true);
                 ts.loopEnd(false);
                 ts.active(false);
@@ -248,7 +251,7 @@ function Player() {
         // clear endpoint
         else if (self.endPointIndex() == index) {
             // restore loop
-            $(self.currentVideo().timestamps())
+            $(timestamps)
                 .filter(function (i, ts) {
                     return i > index;
                 })

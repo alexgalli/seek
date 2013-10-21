@@ -49,9 +49,17 @@ function Timestamp(time, name) {
     self.time = time;
     self.name = name;
 
+    // toggle potential start/end point
     self.loopStart = ko.observable(true);
-    self.loopEnd = ko.observable(false);
-    self.active = ko.observable(false);
+    self.loopEnd = ko.computed(function() {
+        return !self.loopStart();
+    })
+
+    // toggle loop markers
+    self.loopActive = ko.observable(false);
+
+    // toggle button activity
+    self.buttonInactive = ko.observable(false);
 
     self.getDisplay = function() {
         // pad a zero if necessary
@@ -218,21 +226,35 @@ function Player() {
 
         // set startpoint if loop unset or if it's before our current startpoint
         if (!self.startPoint() || index < self.startPointIndex()) {
+            // deactivate old start point
+            if (self.startPoint()) {
+                self.startPoint().loopActive(false);
+            }
+
             $(timestamps).each(
                 function(i, ts) {
-                    // deactivate current start point
-                    if (ts.loopStart()) { ts.active(false); }
-                    // set everything to loopStart
-                    ts.loopStart(false);
-                    ts.loopEnd(true);
+                    // deactive all previous timestamps
+                    if (i < index) {
+                        ts.loopStart(false);
+                        ts.loopActive(false);
+                        ts.buttonInactive(true);
+                    }
+
+                    // for all following timestamp
+                    if (i > index) {
+                        ts.loopStart(false);
+
+                        // deactivate buttons past end point
+                        if (self.endPoint() && i > self.endPointIndex()) {
+                            ts.buttonInactive(true);
+                        }
+                    }
                 });
 
             // set clicked timestamp to .loopstart.active
             timestamp.loopStart(true);
-            timestamp.loopEnd(false);
-            timestamp.active(true);
+            timestamp.loopActive(true);
 
-            // set startPoint
             self.startPoint(timestamp);
         }
         // clear looping
@@ -240,8 +262,8 @@ function Player() {
             // zero out classes
             $(timestamps).each(function(i, ts) {
                 ts.loopStart(true);
-                ts.loopEnd(false);
-                ts.active(false);
+                ts.loopActive(false);
+                ts.buttonInactive(false);
             })
 
             // zero endpoints
@@ -257,10 +279,9 @@ function Player() {
                 })
                 .each(function(i, ts) {
                     ts.loopStart(false);
-                    ts.loopEnd(true);
                 });
             // remove active
-            timestamp.active(false);
+            timestamp.loopActive(false);
 
             // zero endpoint
             self.endPoint(null);
@@ -268,14 +289,17 @@ function Player() {
         // set endpoint
         else if (self.startPointIndex() < index) {
             // remove active from current endpoint if it exists
-            if (self.endPoint()) self.endPoint().active(false);
+            if (self.endPoint()) {
+                self.endPoint().loopActive(false);
+            }
 
-            timestamp.active(true);
+            timestamp.loopActive(true);
 
             self.endPoint(timestamp);
+
+            // TODO - add function to set button activity between start and endpoint
         }
     }
-
 }
 
 function SeekViewModel() {

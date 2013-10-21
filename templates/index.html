@@ -146,14 +146,17 @@
                                     css: {
                                         'loop-start': loopStart,
                                         'loop-end': loopEnd,
-                                        'active': active
+                                        'active': loopActive
                                     }">
                                 <span class="line-horz"></span>
                                 <span class="line-vert"></span>
                             </figure>
                         </div>
                         <div class="two columns">
-                            <button class="timestamp" data-bind="text: getDisplay(), click: $parent.player.seek"></button>
+                            <button class="timestamp" data-bind="
+                                text: getDisplay(),
+                                click: $parent.player.seek,
+                                css: { 'inactive': buttonInactive }"></button>
                         </div>
                         <div class="eight columns" data-bind="text: name"></div>
                         <div class="one column omega del-column">

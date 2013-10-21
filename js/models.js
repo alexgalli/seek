@@ -254,6 +254,7 @@ function Player() {
             // set clicked timestamp to .loopstart.active
             timestamp.loopStart(true);
             timestamp.loopActive(true);
+            timestamp.buttonInactive(false);
 
             self.startPoint(timestamp);
         }
@@ -273,13 +274,15 @@ function Player() {
         // clear endpoint
         else if (self.endPointIndex() == index) {
             // restore loop
-            $(timestamps)
-                .filter(function (i, ts) {
-                    return i > index;
-                })
-                .each(function(i, ts) {
+            $(timestamps).each(function(i, ts) {
+                if (i > index) {
                     ts.loopStart(false);
-                });
+                }
+                if (i > self.startPointIndex()) {
+                    ts.buttonInactive(false);
+                }
+            });
+
             // remove active
             timestamp.loopActive(false);
 
@@ -293,9 +296,17 @@ function Player() {
                 self.endPoint().loopActive(false);
             }
 
+            // set new endpoint
             timestamp.loopActive(true);
-
             self.endPoint(timestamp);
+
+            $(timestamps).each(function (i, ts) {
+                // set buttons in bound active, other inactive
+                ts.buttonInactive(
+                    i < self.startPointIndex() || i > self.endPointIndex()
+                );
+            })
+
 
             // TODO - add function to set button activity between start and endpoint
         }

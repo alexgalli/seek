@@ -187,6 +187,11 @@ function Player() {
                         if (e.data == YT.PlayerState.CUED) {
                             self.loadEndTimestamp();
                         }
+                        // if we're looping and have reached the end, go back to start point
+                        if (e.data == YT.PlayerState.ENDED && self.startPoint()) {
+                            p.seekTo(self.startPoint().time);
+                            p.playVideo();
+                        }
                     }
                 }
             });

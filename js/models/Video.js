@@ -6,22 +6,26 @@ function Video(videoID, title, player) {
     self.timestamps = ko.observableArray();
     self.player = ko.observable(player);
 
-    // for exported to the api
+    // for exporting to the api
     self.timestampObjs = ko.computed(function() {
         return $.map(self.timestamps(), function(t) {
             return {name: t.name, time: t.time};
         });
     });
+
     // add a start and finish timestamp
     var beginning = new Timestamp(0, "BEGINNING");
-    // TODO - use real video length
-    var end = new Timestamp(60, "END")
+    var end = ko.observable(new Timestamp(60, "END"));
+    self.setEndLength = function (time) {
+        end(new Timestamp(time, "END"));
+    }
+
     self.timestampsDisplay = ko.computed(function() {
         var b = [].concat.apply(
             [beginning],
             [
                 self.timestamps(),
-                [end]
+                [end()]
             ]
         );
 

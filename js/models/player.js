@@ -6,6 +6,7 @@ function Player() {
     self.currentVideo = ko.observable();
     self.isPlayerReady = ko.observable(false);
 
+    // <editor-fold desc="looping functionality">
     self.startPoint = ko.observable(null);
     self.endPoint = ko.observable(null);
 
@@ -33,129 +34,6 @@ function Player() {
             return time >= self.startPoint().time && time <= endTime;
         }
     });
-
-    /*
-    self.playbackRates = ko.computed(function() {
-        // update every time a video is loaded
-        // TODO - figure out why getAvailable doesn't return rates even when it's ready
-        var rates = p ? p.getAvailablePlaybackRates() : null;
-        if (self.isPlayerReady() && self.currentVideo() && rates) {
-            return rates;
-        }
-        return [1.0];
-    });
-    */
-
-    self.init = function(video) {
-        var videoID = video ? video.videoID : 'FGVGFfj7POA';
-
-        window.onYouTubePlayerAPIReady = function () {
-            p = new YT.Player('player', {
-                width: 700,
-                height: 485,
-                videoId: videoID,
-                playerVars: {
-                    html5: 1,
-                    //origin: 'http://127.0.0.1:8000',
-                    controls: 1,
-                    modestbranding: 1,
-                    showinfo: 0,
-                    rel: 0
-                },
-                events: {
-                    'onReady': function() {
-                        // if we've not loaded a video, and were passed one in our constructor, load it up
-                        if (!self.currentVideo() && video) {
-                            self.loadVideo(video);
-                        }
-
-                        // update our observable
-                        self.isPlayerReady(true);
-
-                        // start checking for loop
-                        window.setInterval(function() {
-                            var state = p.getPlayerState();
-                            if (state == 1) {
-                                if (!self.testTimeInLoop()()) {
-                                    self.seek(self.startPoint());
-                                }
-                            }
-                        }, 100);
-                    }
-                }
-            });
-        };
-
-        // Load the IFrame Player API code asynchronously.
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/player_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    }
-
-    self.loadVideo = function(video) {
-        self.currentVideo(video);
-        self.startPoint(null);
-        self.endPoint(null);
-        p.cueVideoById(video.videoID);
-        video.getTimestamps();
-    }
-
-    self.playPause = function() {
-        // https://developers.google.com/youtube/js_api_reference#Playback_status
-        var state = p.getPlayerState();
-
-        if (state == 1 || state == 3) p.pauseVideo();
-        if (state == -1 || state == 2 || state == 5) p.playVideo();
-        if (state == 0) {
-            p.seekTo(0);
-            p.playVideo();
-        }
-    }
-
-    self.getTime = function() {
-        return p.getCurrentTime();
-    }
-
-    self.getMaxTime = function() {
-        return p.getDuration();
-    }
-
-    self.seek = function(timestamp, index) {
-        // clear looping if we're out of the loop bounds
-        if (self.startPoint() && index < self.startPointIndex()
-            || self.endPoint() && index > self.endPointIndex()) {
-            self.clearLooping();
-        }
-
-        p.seekTo(timestamp.time);
-    }
-
-    self.seekDiff = function(model, e) {
-        var time = parseInt(e.target.value);
-        var newTime = self.getTime() + time;
-        if (newTime < 0) newTime = 0;
-
-        var maxTime = self.getMaxTime();
-        if (newTime > maxTime) newTime = maxTime;
-        p.seekTo(newTime);
-    }
-
-    self.addTimestamp = function() {
-        self.currentVideo().addTimestamp(self.getTime());
-    }
-
-    self.deleteTimestamp = function(timestamp) {
-        if (self.startPoint() == timestamp) self.startPoint(null);
-        if (self.endPoint() == timestamp) self.endPoint(null);
-        self.currentVideo().deleteTimestamp(timestamp);
-    }
-
-    self.setPlaybackRate = function(model, e) {
-        p.setPlaybackRate(e.target.value);
-    }
-
-    /* TIMESTAMP LOOP BUTTON */
 
     self.clearLooping = function() {
         // zero out classes
@@ -248,4 +126,159 @@ function Player() {
             })
         }
     }
+
+    // </editor-fold>
+
+    //<editor-fold desc="playback rates">
+    /*
+    self.playbackRates = ko.computed(function() {
+        // update every time a video is loaded
+        // TODO - figure out why getAvailable doesn't return rates even when it's ready
+        var rates = p ? p.getAvailablePlaybackRates() : null;
+        if (self.isPlayerReady() && self.currentVideo() && rates) {
+            return rates;
+        }
+        return [1.0];
+    });
+    self.setPlaybackRate = function(model, e) {
+        p.setPlaybackRate(e.target.value);
+    }
+     */
+    //</editor-fold>
+
+    self.init = function(video) {
+        var videoID = video ? video.videoID : 'FGVGFfj7POA';
+
+        window.onYouTubePlayerAPIReady = function () {
+            p = new YT.Player('player', {
+                width: 700,
+                height: 485,
+                videoId: videoID,
+                playerVars: {
+                    html5: 1,
+                    //origin: 'http://127.0.0.1:8000',
+                    controls: 1,
+                    modestbranding: 1,
+                    showinfo: 0,
+                    rel: 0
+                },
+                events: {
+                    'onReady': function() {
+                        // if we've not loaded a video, and were passed one in our constructor, load it up
+                        if (!self.currentVideo() && video) {
+                            self.loadVideo(video);
+                        }
+
+                        // update our observable
+                        self.isPlayerReady(true);
+
+                        // start checking for loop
+                        window.setInterval(function() {
+                            var state = p.getPlayerState();
+                            if (state == 1) {
+                                if (!self.testTimeInLoop()()) {
+                                    self.seek(self.startPoint());
+                                }
+                            }
+                        }, 100);
+                    },
+                    'onStateChange': function(e) {
+                        // if we've loaded a new video, update our end timestamp
+                        if (e.data == YT.PlayerState.CUED) {
+                            self.loadEndTimestamp();
+                        }
+                    }
+                }
+            });
+        };
+
+        // Load the IFrame Player API code asynchronously.
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/player_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+
+    self.loadVideo = function(video) {
+        // hack - in order to detect cue, need to make sure it's in a non-queued-state first
+        self.playPause();
+
+        self.currentVideo(video);
+        self.clearLooping();
+        p.cueVideoById(video.videoID);
+        video.getTimestamps();
+    }
+
+    self.loadEndTimestamp = function() {
+        // before we can get get the time, video must be started
+        p.mute();
+        p.playVideo();
+        function pauseWhenQueued() {
+            var t = self.getMaxTime();
+            if (t > 0) {
+                p.pauseVideo();
+                p.unMute();
+                self.currentVideo().setEndLength(t);
+            }
+            else {
+                setTimeout(pauseWhenQueued, 10);
+            }
+        }
+        pauseWhenQueued();
+    }
+
+    //<editor-fold desc="transport">
+    self.playPause = function() {
+        // https://developers.google.com/youtube/js_api_reference#Playback_status
+        var state = p.getPlayerState();
+
+        if (state == 1 || state == 3) p.pauseVideo();
+        if (state == -1 || state == 2 || state == 5) p.playVideo();
+        if (state == 0) {
+            p.seekTo(0);
+            p.playVideo();
+        }
+    }
+
+    self.getTime = function() {
+        return p.getCurrentTime();
+    }
+
+    self.getMaxTime = function() {
+        return p.getDuration();
+    }
+
+    self.seek = function(timestamp, index) {
+        // clear looping if we're out of the loop bounds
+        if (self.startPoint() && index < self.startPointIndex()
+            || self.endPoint() && index > self.endPointIndex()) {
+            self.clearLooping();
+        }
+
+        p.seekTo(timestamp.time);
+    }
+
+    self.seekDiff = function(model, e) {
+        var time = parseInt(e.target.value);
+        var newTime = self.getTime() + time;
+        if (newTime < 0) newTime = 0;
+
+        var maxTime = self.getMaxTime();
+        if (newTime > maxTime) newTime = maxTime;
+        p.seekTo(newTime);
+    }
+    //</editor-fold>
+
+    // <editor-fold desc="timestamp management">
+    self.addTimestamp = function() {
+        self.currentVideo().addTimestamp(self.getTime());
+    }
+
+    self.deleteTimestamp = function(timestamp) {
+        if (self.startPoint() == timestamp) self.startPoint(null);
+        if (self.endPoint() == timestamp) self.endPoint(null);
+        self.currentVideo().deleteTimestamp(timestamp);
+    }
+    // </editor-fold>
+
 }

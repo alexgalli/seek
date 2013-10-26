@@ -24,15 +24,3 @@ setupCsrf();
 
 // instantiate model
 var model = new SeekViewModel();
-
-// load our videos, and when complete load our player
-api.getVideos(function(videos) {
-    if (videos.length != 0) {
-        model.videos(videos);
-        model.player.init(videos[0]);
-    } else {
-        model.player.init();
-    }
-
-    ko.applyBindings(model);
-});

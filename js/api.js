@@ -1,5 +1,5 @@
 var api = {
-    getVideos: function(callback) {
+    getVideos: function(player, callback) {
         $.ajax(
             "/api/get_videos",
             {
@@ -7,7 +7,7 @@ var api = {
                 dataType: "json",
                 success: function(data) {
                     var newVideos = $.map(data, function(v) {
-                        return new Video(v.videoID, v.title);
+                        return new Video(v.videoID, v.title, player);
                     });
 
                     if (callback) callback(newVideos);

@@ -1,16 +1,33 @@
 /* knockout models */
 
-function Video(videoID, title) {
+function Video(videoID, title, player) {
     var self = this;
 
     self.videoID = videoID;
     self.title = ko.observable(title);
     self.timestamps = ko.observableArray();
+    self.player = ko.observable(player);
+
+    // for exported to the api
     self.timestampObjs = ko.computed(function() {
         return $.map(self.timestamps(), function(t) {
             return {name: t.name, time: t.time};
         });
     });
+    // add a start and finish timestamp
+    var beginning = new Timestamp(0, "BEGINNING");
+    var end = new Timestamp(60, "END")
+    self.timestampsDisplay = ko.computed(function() {
+        var b = [].concat.apply(
+            [beginning],
+            [
+                self.timestamps(),
+                [end]
+            ]
+        );
+
+        return b;
+    })
 
     self.getThumbnailUrl = function() {
         return "http://img.youtube.com/vi/" + videoID + "/default.jpg";
@@ -82,7 +99,7 @@ function Player() {
 
     self.startPointIndex = ko.computed(function() {
         if (self.currentVideo()) {
-            return self.currentVideo().timestamps().indexOf(self.startPoint());
+            return self.currentVideo().timestampsDisplay().indexOf(self.startPoint());
         } else {
             return -1;
         }
@@ -90,7 +107,7 @@ function Player() {
 
     self.endPointIndex = ko.computed(function() {
         if (self.currentVideo()) {
-            return self.currentVideo().timestamps().indexOf(self.endPoint());
+            return self.currentVideo().timestampsDisplay().indexOf(self.endPoint());
         } else {
             return -1;
         }
@@ -192,7 +209,13 @@ function Player() {
         return p.getDuration();
     }
 
-    self.seek = function(timestamp) {
+    self.seek = function(timestamp, index) {
+        // clear looping if we're out of the loop bounds
+        if (self.startPoint() && index < self.startPointIndex()
+            || self.endPoint() && index > self.endPointIndex()) {
+            self.clearLooping();
+        }
+
         p.seekTo(timestamp.time);
     }
 
@@ -221,8 +244,22 @@ function Player() {
     }
 
     /* TIMESTAMP LOOP BUTTON */
+
+    self.clearLooping = function() {
+        // zero out classes
+        $(self.currentVideo().timestampsDisplay()).each(function(i, ts) {
+            ts.loopStart(true);
+            ts.loopActive(false);
+            ts.buttonInactive(false);
+        })
+
+        // zero endpoints
+        self.startPoint(null);
+        self.endPoint(null);
+    }
+
     self.loop = function(timestamp, index) {
-        var timestamps = self.currentVideo().timestamps();
+        var timestamps = self.currentVideo().timestampsDisplay();
 
         // set startpoint if loop unset or if it's before our current startpoint
         if (!self.startPoint() || index < self.startPointIndex()) {
@@ -260,16 +297,7 @@ function Player() {
         }
         // clear looping
         else if (self.startPointIndex() == index) {
-            // zero out classes
-            $(timestamps).each(function(i, ts) {
-                ts.loopStart(true);
-                ts.loopActive(false);
-                ts.buttonInactive(false);
-            })
-
-            // zero endpoints
-            self.startPoint(null);
-            self.endPoint(null);
+            self.clearLooping();
         }
         // clear endpoint
         else if (self.endPointIndex() == index) {
@@ -320,6 +348,18 @@ function SeekViewModel() {
 
     self.player = new Player();
 
+    // load our videos, and when complete load our player
+    api.getVideos(self.player, function(videos) {
+        if (videos.length != 0) {
+            self.videos(videos);
+            self.player.init(videos[0]);
+        } else {
+            self.player.init();
+        }
+
+        ko.applyBindings(self);
+    });
+
     /* event handlers */
     self.register = function() {
         $("#registerModal").modal();
@@ -344,7 +384,7 @@ function SeekViewModel() {
 
             var videoID = res[1];
 
-            var video = new Video(videoID);
+            var video = new Video(videoID, '', self.player);
 
             self.videos.unshift(video);
             self.player.loadVideo(video);

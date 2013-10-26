@@ -138,7 +138,7 @@
                 </div>
 
                 <!-- ko if: player.currentVideo -->
-                <div data-bind="foreach: player.currentVideo().timestamps">
+                <div data-bind="foreach: player.currentVideo().timestampsDisplay">
                     <div class="row">
                         <div class="one column alpha loop-column">
                             <figure class="icon sprite"
@@ -156,7 +156,7 @@
                         <div class="two columns">
                             <button class="timestamp" data-bind="
                                 text: getDisplay(),
-                                click: $parent.player.seek,
+                                click: function() { $parent.player.seek($data, $index()); },
                                 css: { 'inactive': buttonInactive }"></button>
                         </div>
                         <div class="eight columns" data-bind="text: name"></div>

@@ -361,15 +361,15 @@ function SeekViewModel() {
     });
 
     /* event handlers */
-    self.register = function() {
+    self.registerModal = function() {
         $("#registerModal").modal();
     }
 
-    self.login = function() {
+    self.loginModal = function() {
         $("#loginModal").modal();
     }
 
-    self.openVideoModal = function() {
+    self.addVideoModal = function() {
         $("#addVideoModal").modal();
     }
 

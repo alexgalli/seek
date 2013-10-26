@@ -18,9 +18,13 @@ function setupCsrf() {
 }
 
 /* code */
+$(document).ready(function() {
+    // configure AJAX authentication
+    setupCsrf();
 
-// configure AJAX authentication
-setupCsrf();
+    // push modal z-index up
+    $.modal.defaults.zIndex = 10;
 
-// instantiate model
-var model = new SeekViewModel();
+    // instantiate model global
+    model = new SeekViewModel();
+})

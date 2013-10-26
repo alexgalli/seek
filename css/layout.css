@@ -8,6 +8,15 @@ body {
 
 .alert-delete-timestamp, .alert-add-video, .alert-manage-categories, .alert-delete-video { display: none; }
 
+
+
+/* modals */
+.modal {
+    color: black;
+    text-align: left;
+    vertical-align: top;
+}
+
 /*
 
 	#SPRITE

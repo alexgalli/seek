@@ -53,20 +53,21 @@
                 <!-- nav -->
                 <div class="five columns omega">
                     {% if not user.id %}
-                        <a data-bind="click: register">REGISTER</a>
+                        <a data-bind="click: registerModal">REGISTER</a>
                         <form id="registerModal" action="/account/register" method="post" style="display: none;">
                             {% csrf_token %}
                             <label for="username">Username</label>
-                            <input id="username" name="username" type="text"><br/>
+                            <input id="username" name="username" type="text">
                             <label for="email">Email</label>
-                            <input id="email" name="email" type="text"><br/>
+                            <input id="email" name="email" type="text">
                             <label for="password">Password</label>
-                            <input id="password" name="password" type="password"><br/>
+                            <input id="password" name="password" type="password">
                             <label for="repassword">Re-enter Password</label>
-                            <input id="repassword" name="repassword" type="password"><br/>
+                            <input id="repassword" name="repassword" type="password">
+                            <br>
                             <input type="submit" value="Register">
                         </form>
-                        <a data-bind="click: login">LOGIN</a>
+                        <a data-bind="click: loginModal">LOGIN</a>
                         <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
                             {% csrf_token %}
                             <label for="username">Username</label>
@@ -82,7 +83,12 @@
                 </div>
             </div>
             <div class="four columns">
-                <a class="add-video" data-bind="click: openVideoModal">+ ADD VIDEO</a>
+                <a class="add-video" data-bind="click: addVideoModal">+ ADD VIDEO</a>
+                <form id="addVideoModal" style="display:none;">
+                    <label for="youtubeUrl">YouTube Video URL</label>
+                    <!-- TODO add jquery watermark -->
+                    <input id="youtubeUrl" type="text" data-bind="event: { keypress: addVideo }" >
+                </form>
             </div>
         </header>
 
@@ -92,7 +98,8 @@
             <!-- PLAYER - youtube iframe, transport, pop-up volume control  -->
             <section id="video" class="twelve columns alpha omega video-box">
 
-                <div class="volume-control">
+                <!-- TODO - get volume control hooked up -->
+                <div class="volume-control" style="display: none;">
                     <div class="volume-bar-box">
                         <figure class="volume-bar"></figure>
                     </div>
@@ -187,7 +194,8 @@
 
         <!-- SIDEBAR - video selection and categorizes -->
         <aside class="four columns sidebar">
-                <div class="dropdown">
+                <!-- TODO - add categories -->
+                <div class="dropdown" style="display: none;">
                     <span class="icon sprite folder"></span>
                     <span class="category">VIDEO CATEGORY</span>
                     <span class="down-arrow"></span>
@@ -200,14 +208,10 @@
                 </div>
 
             <div data-bind="foreach: videos">
+                <!-- TODO - add stars and garbage cans -->
                 <img data-bind="attr: { src: getThumbnailUrl(), title: title }, click: model.player.loadVideo">
             </div>
-            <form id="addVideoModal" style="display:none;">
-                <label for="youtubeUrl">YouTube Video URL</label>
-                <!-- TODO add jquery watermark -->
-                <input id="youtubeUrl" type="text"
-                       data-bind="event: { keypress: addVideo }" >
-            </form>
+
         </aside>
 
     </div>

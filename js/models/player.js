@@ -146,6 +146,7 @@ function Player() {
      */
     //</editor-fold>
 
+    //<editor-fold desc="youtube player management">
     self.init = function(video) {
         var videoID = video ? video.videoID : 'FGVGFfj7POA';
 
@@ -231,8 +232,38 @@ function Player() {
         }
         pauseWhenQueued();
     }
+    //</editor-fold>
 
     //<editor-fold desc="transport">
+    // enable key bindings
+    $(document).keydown(function (e) {
+        // check to see if modal open
+        if ($(".modal.current").length != 0) {
+            return true;
+        }
+
+        switch (e.keyCode) {
+            case 32:
+                self.playPause();
+                return false;
+            case 37:
+                if (e.shiftKey === true) {
+                    self.seekDiff(-30);
+                } else {
+                    self.seekDiff(-5);
+                }
+                return false;
+            case 39:
+                if (e.shiftKey === true) {
+                    self.seekDiff(30);
+                } else {
+                    self.seekDiff(5);
+                }
+                return false;
+        }
+        return true;
+    });
+
     self.playPause = function() {
         // https://developers.google.com/youtube/js_api_reference#Playback_status
         var state = p.getPlayerState();
@@ -263,9 +294,12 @@ function Player() {
         p.seekTo(timestamp.time);
     }
 
-    self.seekDiff = function(model, e) {
-        var time = parseInt(e.target.value);
-        var newTime = self.getTime() + time;
+    self.seekDiffEvent = function(model, e) {
+        self.seekDiff(parseInt(e.target.value));
+    }
+
+    self.seekDiff = function(diff) {
+        var newTime = self.getTime() + diff;
         if (newTime < 0) newTime = 0;
 
         var maxTime = self.getMaxTime();

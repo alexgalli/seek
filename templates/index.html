@@ -112,11 +112,11 @@
                 <div id='player'></div>
 
                 <form class="transport">
-                    <button data-bind="click: player.seekDiff" class="rew30" value="-30">&lt; 30</button>
-                    <button data-bind="click: player.seekDiff" class="rew5" value="-5">&lt; 5</button>
-                    <button data-bind="click: player.playPause"class="play-toggle">&gt;</button>
-                    <button data-bind="click: player.seekDiff" class="ffw30" value="5">5 &gt;</button>
-                    <button data-bind="click: player.seekDiff" class="ffw30" value="30">30 &gt;</button>
+                    <button data-bind="click: player.seekDiffEvent" class="rew30" value="-30">&lt; 30</button>
+                    <button data-bind="click: player.seekDiffEvent" class="rew5" value="-5">&lt; 5</button>
+                    <button data-bind="click: player.playPause" class="play-toggle">&gt;</button>
+                    <button data-bind="click: player.seekDiffEvent" class="ffw30" value="5">5 &gt;</button>
+                    <button data-bind="click: player.seekDiffEvent" class="ffw30" value="30">30 &gt;</button>
                     <!-- TODO - add mouseover text -->
                     <div class="help-txt"></div>
                     <!-- TODO - add current time to timestamp button -->

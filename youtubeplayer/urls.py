@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     url(r'^api/get_videos$', 'player.api.get_videos'),
     url(r'^api/add_video$', 'player.api.add_video'),
     url(r'^api/del_video$', 'player.api.del_video'),
+    url(r'^api/star_video$', 'player.api.star_video'),
     url(r'^api/get_timestamps$', 'player.api.get_timestamps'),
     url(r'^api/set_timestamps$', 'player.api.set_timestamps'),
 

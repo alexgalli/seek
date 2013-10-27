@@ -13,8 +13,9 @@ def get_video_query(user, videoID):
 def get_videos(request):
     if request.user.is_authenticated():
         # TODO refactor into get_video_query
-        vs = [{"videoID": v.videoID, "title": v.title} for v in Video.objects.filter(user=request.user).order_by("videoID").all()]
-        return HttpResponse(status=200, content=json.dumps(vs))
+        vs = Video.objects.filter(user=request.user).order_by("videoID").all()
+        vsjs = json.dumps([v.render() for v in vs])
+        return HttpResponse(status=200, content=vsjs)
     else:
         vs = [
             {"videoID": "_lK4cX5xGiQ", "title": "Tenacious D - Tribute"},
@@ -47,7 +48,7 @@ def add_video(request):
     v = Video(videoID=videoID, user=request.user, title=data.media.title.text)
     v.save()
 
-    return HttpResponse(status=201, content=json.dumps({"videoID": v.videoID, "title": v.title}))
+    return HttpResponse(status=201, content=json.dumps(v.render()))
 
 @require_POST
 @login_required
@@ -63,6 +64,32 @@ def del_video(request):
 
     # delete video
     vq[0].delete()
+
+    return HttpResponse(status=200)
+
+@require_POST
+@login_required
+def star_video(request):
+    # check input
+    if "videoID" not in request.POST or not request.POST["videoID"]:
+        return HttpResponse(status=400, content="must include videoID")
+
+    if "star" not in request.POST or not request.POST["star"]:
+        return HttpResponse(status=400, content="must include star")
+
+    star = request.POST['star'].lower()
+    if star != 'true' and star != 'false':
+        return HttpResponse(status=400, content="star must be equal to true or false")
+
+    # check to see if video exists for user
+    vq = get_video_query(request.user, request.POST["videoID"])
+    if vq.count() == 0:
+        return HttpResponse(status=404, content="videoID %s does not exist for user" % request.POST["videoID"])
+
+    # set star value
+    v = vq[0]
+    v.star = star == 'true'
+    v.save()
 
     return HttpResponse(status=200)
 

@@ -13,6 +13,22 @@ import json
 from django.contrib.auth.models import User
 from models import Video, Timestamp
 
+
+##### model tests
+
+class VideoMode(TestCase):
+    def video_render_returns_valid_JSON(self):
+        v = Video()
+        v.videoID = "asdfasdf"
+        v.title = "ASDF asdf"
+        v.star = True
+
+        r = v.render()
+
+        assert len(v.keys()) == 3
+
+##### api tests
+
 class PlayerTestCase(TestCase):
     # charlie bit my finger, figure that's not going anywhere
     videoID = '_OBlgSz8sSM'
@@ -93,7 +109,7 @@ class add_video(PlayerTestCase):
         res = self.get_add_response({"videoID": self.videoID})
         assert res.status_code == 201
         assert Video.objects.filter(user=self.get_user(), videoID=self.videoID).count() == 1
-        assert res.content == '{"videoID": "_OBlgSz8sSM", "title": "Charlie bit my finger - again !"}'
+        assert res.content == '{"star": false, "videoID": "_OBlgSz8sSM", "title": "Charlie bit my finger - again !"}'
 
     def test_no_ID_returns_badrequest(self):
         res = self.get_add_response({})
@@ -107,6 +123,17 @@ class add_video(PlayerTestCase):
         self.get_add_response({"videoID": self.videoID})
         res = self.get_add_response({"videoID": self.videoID})
         assert res.status_code == 409
+
+class star_video(PlayerTestCase):
+    def get_star_response(self, data):
+        return self.get_response("star_video", data)
+
+    def test_valid_ID_star_true_changes_and_returns(self):
+        self.add_video()
+        res = self.get_star_response({"videoID": "asdf", "star": "True"})
+        assert res.status_code == 200
+        v = self.get_video()
+        assert v.star == True
 
 class del_video(PlayerTestCase):
     def get_del_response(self, data):
@@ -201,3 +228,4 @@ class set_timestamps(PlayerTestCase):
     def test_incomplete_timestamp_JSON_returns_badrequest(self):
         self.add_video()
         assert self.get_set_timestamps({"videoID": "asdf", "timestamps": "[{}]"}).status_code == 400
+

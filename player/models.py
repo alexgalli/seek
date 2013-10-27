@@ -7,6 +7,13 @@ class Video(models.Model):
     title = models.CharField(max_length=200)
     star = models.BooleanField(default=False)
 
+    def render(self):
+        return {
+            "videoID": self.videoID,
+            "title": self.title,
+            "star": self.star
+        }
+
 class Timestamp(models.Model):
     video = models.ForeignKey(Video)
     name = models.TextField()

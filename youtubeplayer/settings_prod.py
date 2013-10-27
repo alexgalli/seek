@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'account',
     # for Heroku
     'gunicorn',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging

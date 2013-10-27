@@ -153,7 +153,13 @@
                     </div>
 
                     <!-- TODO - add current time to timestamp button -->
-                    <button data-bind="click: player.addTimestamp" class="add-timestamp">ADD STAMP</button>
+                    <button class="add-timestamp" data-bind=
+                            "click: player.addTimestamp,
+                            event: {
+                                mouseover: function() { player.helpText('create a new timestamp'); },
+                                mouseout: function() { player.helpText(''); }
+                            } ">
+                        ADD STAMP</button>
 
                     <!-- TODO - audio gets screwed up, re-enable this if Youtube improves HTML5 player
                     <label for="playbackRates">Playback Rate</label>
@@ -279,7 +285,7 @@
                     attr: { src: getThumbnailUrl(), title: title },
                     click: model.player.loadVideo,
                     event: {
-                        mouseover: function() { $parent.player.helpText('load video ' + title() ); },
+                        mouseover: function() { $parent.player.helpText('load \'' + title() + '\'' ); },
                         mouseout: function() { $parent.player.helpText(''); }
                     }">
             </div>

@@ -41,7 +41,7 @@ function SeekViewModel() {
 
             var videoID = res[1];
 
-            var video = new Video(videoID, '', self.player);
+            var video = new Video(videoID, '', false, self.player);
 
             self.videos.unshift(video);
             self.player.loadVideo(video);

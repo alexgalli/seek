@@ -7,7 +7,7 @@ var api = {
                 dataType: "json",
                 success: function(data) {
                     var newVideos = $.map(data, function(v) {
-                        return new Video(v.videoID, v.title, player);
+                        return new Video(v.videoID, v.title, v.star, player);
                     });
 
                     if (callback) callback(newVideos);
@@ -36,6 +36,16 @@ var api = {
                 data: { "videoID": videoID }
             }
         );
+    },
+
+    starVideo: function(videoID, star) {
+        $.ajax(
+            "/api/star_video",
+            {
+                method: "post",
+                data: { "videoID": videoID, star: star }
+            }
+        )
     },
 
     getTimestamps: function(videoID, callback) {

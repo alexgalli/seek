@@ -281,13 +281,16 @@
 
             <div data-bind="foreach: videos">
                 <!-- TODO - add stars and garbage cans -->
-                <img data-bind="
-                    attr: { src: getThumbnailUrl(), title: title },
-                    click: model.player.loadVideo,
-                    event: {
-                        mouseover: function() { $parent.player.helpText('load \'' + title() + '\'' ); },
-                        mouseout: function() { $parent.player.helpText(''); }
-                    }">
+                <div class="row">
+                    <div class="icon sprite star" data-bind="css: { active: star }, click: toggleStar"></div>
+                    <img data-bind="
+                        attr: { src: getThumbnailUrl(), title: title },
+                        click: model.player.loadVideo,
+                        event: {
+                            mouseover: function() { $parent.player.helpText('load \'' + title() + '\'' ); },
+                            mouseout: function() { $parent.player.helpText(''); }
+                        }">
+                </div>
             </div>
 
         </aside>

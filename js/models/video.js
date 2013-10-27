@@ -1,8 +1,9 @@
-function Video(videoID, title, player) {
+function Video(videoID, title, star, player) {
     var self = this;
 
     self.videoID = videoID;
     self.title = ko.observable(title);
+    self.star = ko.observable(star);
     self.timestamps = ko.observableArray();
     self.player = ko.observable(player);
 
@@ -34,6 +35,11 @@ function Video(videoID, title, player) {
 
     self.getThumbnailUrl = function() {
         return "http://img.youtube.com/vi/" + videoID + "/default.jpg";
+    }
+
+    self.toggleStar = function() {
+        self.star(!self.star());
+        api.starVideo(videoID, self.star());
     }
 
     self.getTimestamps = function() {

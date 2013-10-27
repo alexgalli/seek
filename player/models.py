@@ -5,6 +5,7 @@ class Video(models.Model):
     user = models.ForeignKey(User)
     videoID = models.CharField(max_length=30)
     title = models.CharField(max_length=200)
+    star = models.BooleanField(default=False)
 
 class Timestamp(models.Model):
     video = models.ForeignKey(Video)

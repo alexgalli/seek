@@ -52,9 +52,8 @@
                 <div class="two columns alpha">
                     <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
                 </div>
-                <!-- title -->
-                <div class="five columns" data-bind="if: model.player.currentVideo()">
-                    <h3 data-bind="text: model.player.currentVideo().title"></h3>
+                <!-- TODO - can put stuff here? -->
+                <div class="five columns">
                 </div>
                 <!-- nav -->
                 <div class="five columns omega">
@@ -145,7 +144,14 @@
                             mouseover: function() { player.helpText('[SHIFT + &rarr;] fast-forward 30 seconds'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&gt; 30</button>
-                    <div class="help-txt" data-bind="text: player.helpText"></div>
+
+                    <div class="help-txt">
+                        <span data-bind="text: player.helpText"></span>
+                        <!-- ko if: model.player.currentVideo() && ! model.player.helpText() -->
+                        <span data-bind="text: model.player.currentVideo().title"></span>
+                        <!-- /ko -->
+                    </div>
+
                     <!-- TODO - add current time to timestamp button -->
                     <button data-bind="click: player.addTimestamp" class="add-timestamp">ADD STAMP</button>
 

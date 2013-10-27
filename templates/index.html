@@ -112,13 +112,37 @@
                 <div id='player'></div>
 
                 <form class="transport">
-                    <button data-bind="click: player.seekDiffEvent" class="rew30" value="-30">&lt; 30</button>
-                    <button data-bind="click: player.seekDiffEvent" class="rew5" value="-5">&lt; 5</button>
-                    <button data-bind="click: player.playPause" class="play-toggle">&gt;</button>
-                    <button data-bind="click: player.seekDiffEvent" class="ffw30" value="5">5 &gt;</button>
-                    <button data-bind="click: player.seekDiffEvent" class="ffw30" value="30">30 &gt;</button>
-                    <!-- TODO - add mouseover text -->
-                    <div class="help-txt"></div>
+                    <button class="rew30" value="-30" data-bind="
+                        click: player.seekDiffEvent,
+                        event: {
+                            mouseover: function() { player.helpText('rewind 30 seconds'); },
+                            mouseout: function() { player.helpText(''); }
+                        }" >&lt; 30</button>
+                    <button class="rew5" value="-5" data-bind="
+                        click: player.seekDiffEvent,
+                        event: {
+                            mouseover: function() { player.helpText('rewind 5 seconds'); },
+                            mouseout: function() { player.helpText(''); }
+                        }" >&lt; 5</button>
+                    <button class="play-toggle" data-bind="
+                        click: player.playPause,
+                        event: {
+                            mouseover: function() { player.helpText('play/pause'); },
+                            mouseout: function() { player.helpText(''); }
+                        }" >&gt;</button>
+                    <button class="ffw5" value="5" data-bind="
+                        click: player.seekDiffEvent,
+                        event: {
+                            mouseover: function() { player.helpText('fast-forward 5 seconds'); },
+                            mouseout: function() { player.helpText(''); }
+                        }" >&gt; 5</button>
+                    <button class="ffw30" value="30" data-bind="
+                        click: player.seekDiffEvent,
+                        event: {
+                            mouseover: function() { player.helpText('fast-forward 30 seconds'); },
+                            mouseout: function() { player.helpText(''); }
+                        }" >&gt; 30</button>
+                    <div class="help-txt" data-bind="text: player.helpText"></div>
                     <!-- TODO - add current time to timestamp button -->
                     <button data-bind="click: player.addTimestamp" class="add-timestamp">ADD STAMP</button>
 

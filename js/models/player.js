@@ -235,6 +235,9 @@ function Player() {
     //</editor-fold>
 
     //<editor-fold desc="transport">
+
+    self.helpText = ko.observable("");
+
     // enable key bindings
     $(document).keydown(function (e) {
         // check to see if modal open

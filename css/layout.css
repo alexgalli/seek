@@ -352,6 +352,8 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	background: -webkit-linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
 	background: -moz-linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
 	background: linear-gradient(left, rgb(255,255,255) 10%, rgb(51,51,51) 10%, rgb(51,51,51) 90%, rgb(255,255,255) 90%);
+
+
 }
 
 .transport button {
@@ -364,6 +366,17 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	-moz-border-radius: 0px;
 	border-radius: 0px;
 	border-right: 2px solid #fff;
+}
+
+.transport .help-txt {
+	float: left;
+	color: #fff;
+	height: 35px;
+	line-height: 13px;
+	padding: 12px 10px;
+
+    font-family: 'Ubuntu Mono';
+    font-size: 13px;
 }
 
 button.rew30, button.rew5 { padding-left: 28px; }
@@ -385,14 +398,6 @@ button.ffw30, button.ffw5 { padding-right: 28px; }
 
 .transport button.add-timestamp { float: right; }
 
-.help-txt {
-	float: left;
-	color: #fff;
-	height: 35px;
-	font-size: 11px;
-	line-height: 11px;
-	padding: 12px 10px;
-}
 
 /*
 

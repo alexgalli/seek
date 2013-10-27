@@ -36,6 +36,9 @@
     <script src="/static/models/model.js" type="text/javascript"></script>
     <script src="/static/code.js" type="text/javascript"></script>
 
+    <!-- fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -115,31 +118,31 @@
                     <button class="rew30" value="-30" data-bind="
                         click: player.seekDiffEvent,
                         event: {
-                            mouseover: function() { player.helpText('rewind 30 seconds'); },
+                            mouseover: function() { player.helpText('[SHIFT + &larr;] rewind 30 seconds'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&lt; 30</button>
                     <button class="rew5" value="-5" data-bind="
                         click: player.seekDiffEvent,
                         event: {
-                            mouseover: function() { player.helpText('rewind 5 seconds'); },
+                            mouseover: function() { player.helpText('[&larr;] rewind 5 seconds'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&lt; 5</button>
                     <button class="play-toggle" data-bind="
                         click: player.playPause,
                         event: {
-                            mouseover: function() { player.helpText('play/pause'); },
+                            mouseover: function() { player.helpText('[SPACE] play/pause'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&gt;</button>
                     <button class="ffw5" value="5" data-bind="
                         click: player.seekDiffEvent,
                         event: {
-                            mouseover: function() { player.helpText('fast-forward 5 seconds'); },
+                            mouseover: function() { player.helpText('[&rarr;] fast-forward 5 seconds'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&gt; 5</button>
                     <button class="ffw30" value="30" data-bind="
                         click: player.seekDiffEvent,
                         event: {
-                            mouseover: function() { player.helpText('fast-forward 30 seconds'); },
+                            mouseover: function() { player.helpText('[SHIFT + &rarr;] fast-forward 30 seconds'); },
                             mouseout: function() { player.helpText(''); }
                         }" >&gt; 30</button>
                     <div class="help-txt" data-bind="text: player.helpText"></div>

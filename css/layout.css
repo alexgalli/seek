@@ -371,9 +371,16 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 .transport .help-txt {
 	float: left;
 	color: #fff;
-	height: 35px;
-	line-height: 13px;
 	padding: 12px 10px;
+
+    height: 13px;
+    line-height: 13px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    width: 270px;
 
     font-family: 'Ubuntu Mono';
     font-size: 13px;

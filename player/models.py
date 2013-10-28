@@ -8,10 +8,12 @@ class Video(models.Model):
     star = models.BooleanField(default=False)
 
     def render(self):
+        ts = [t.render() for t in Timestamp.objects.filter(video=self).order_by("time")]
         return {
             "videoID": self.videoID,
             "title": self.title,
-            "star": self.star
+            "star": self.star,
+            "timestamps": ts
         }
 
 class Timestamp(models.Model):
@@ -19,3 +21,9 @@ class Timestamp(models.Model):
     name = models.TextField()
     # time in seconds
     time = models.BigIntegerField()
+
+    def render(self):
+        return {
+            "name": self.name,
+            "time": self.time
+        }

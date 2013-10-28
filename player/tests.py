@@ -109,7 +109,8 @@ class add_video(PlayerTestCase):
         res = self.get_add_response({"videoID": self.videoID})
         assert res.status_code == 201
         assert Video.objects.filter(user=self.get_user(), videoID=self.videoID).count() == 1
-        assert res.content == '{"star": false, "videoID": "_OBlgSz8sSM", "title": "Charlie bit my finger - again !"}'
+        v = json.loads(res.content)
+        assert len(v) == 4
 
     def test_no_ID_returns_badrequest(self):
         res = self.get_add_response({})

@@ -212,7 +212,12 @@ function Player() {
         self.currentVideo(video);
         self.clearLooping();
         p.cueVideoById(video.videoID);
-        video.getTimestamps();
+
+        /* we pass back timestamps with the video
+        if (user) {
+            video.getTimestamps();
+        }
+        */
     }
 
     self.loadEndTimestamp = function() {

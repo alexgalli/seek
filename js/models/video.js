@@ -1,4 +1,4 @@
-function Video(videoID, title, star, player) {
+function Video(videoID, title, star, player, ts) {
     var self = this;
 
     self.videoID = videoID;
@@ -6,6 +6,10 @@ function Video(videoID, title, star, player) {
     self.star = ko.observable(star);
     self.timestamps = ko.observableArray();
     self.player = ko.observable(player);
+
+    if (ts) {
+        self.timestamps(ts);
+    }
 
     // for exporting to the api
     self.timestampObjs = ko.computed(function() {

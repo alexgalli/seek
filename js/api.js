@@ -7,7 +7,10 @@ var api = {
                 dataType: "json",
                 success: function(data) {
                     var newVideos = $.map(data, function(v) {
-                        return new Video(v.videoID, v.title, v.star, player);
+                        var ts = $.map(v.timestamps, function(t) {
+                            return new Timestamp(t.time, t.name);
+                        });
+                        return new Video(v.videoID, v.title, v.star, player, ts);
                     });
 
                     if (callback) callback(newVideos);

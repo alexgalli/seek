@@ -111,7 +111,7 @@ def get_timestamps(request):
         return HttpResponse(status=404, content="videoID %s does not exist for user" % request.POST["videoID"])
 
     # get the list of all timestamps for this video
-    ts = [{"name": t.name, "time": t.time} for t in Timestamp.objects.filter(video=vq[0]).order_by("time")]
+    ts = [t.render() for t in Timestamp.objects.filter(video=vq[0]).order_by("time")]
 
     return HttpResponse(status=200, content_type="application/json", content=json.dumps(ts))
 

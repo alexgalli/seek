@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Timestamp.time'
-        db.alter_column(u'player_timestamp', 'time', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=3))
+        db.alter_column(u'player_timestamp', 'time', self.gf('django.db.models.fields.FloatField')())
 
     def backwards(self, orm):
 
@@ -58,7 +58,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Timestamp'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.TextField', [], {}),
-            'time': ('django.db.models.fields.DecimalField', [], {'max_digits': '6', 'decimal_places': '3'}),
+            'time': ('django.db.models.fields.FloatField', [], {}),
             'video': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['player.Video']"})
         },
         u'player.video': {

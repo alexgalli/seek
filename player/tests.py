@@ -52,8 +52,8 @@ class PlayerTestCase(TestCase):
     def get_video_count(self):
         return Video.objects.filter(user=self.get_user(), videoID="asdf").count()
 
-    def add_video(self, videoID="asdf", title="title"):
-        v = Video(user=self.get_user(), videoID=videoID, title=title)
+    def add_video(self, videoID="asdf", title="title", star=False):
+        v = Video(user=self.get_user(), videoID=videoID, title=title, star=star)
         v.save()
         return v
 
@@ -93,13 +93,13 @@ class get_videos(PlayerTestCase):
         assert vs[2]["title"] == "c"
 
     def test_not_logged_in_returns_default_videos(self):
+        self.add_video(star=True)
+        self.add_video(star=True)
+        self.add_video(star=False)
         res = self.get_get_videos_response({}, log_in=False)
         assert res.status_code == 200
         vs = json.loads(res.content)
-        assert len(vs) == 3
-        assert vs[0] == "_lK4cX5xGiQ"
-        assert vs[1] == "iaAkWy55V3A"
-        assert vs[2] == "1ZxN9iQM7OY"
+        assert len(vs) == 2
 
 class add_video(PlayerTestCase):
     def get_add_response(self, data):

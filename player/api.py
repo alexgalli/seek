@@ -14,16 +14,11 @@ def get_videos(request):
     if request.user.is_authenticated():
         # TODO refactor into get_video_query
         vs = Video.objects.filter(user=request.user).order_by("videoID").all()
-        vsjs = json.dumps([v.render() for v in vs])
-        return HttpResponse(status=200, content=vsjs)
     else:
-        vs = [
-            {"videoID": "_lK4cX5xGiQ", "title": "Tenacious D - Tribute"},
-            {"videoID": "iaAkWy55V3A", "title": "30 Shredders In One Solo!"},
-            {"videoID": "1ZxN9iQM7OY", "title": "Otis Redding - Hard To Handle"}
-        ]
+        vs = Video.objects.filter(star=True).order_by("videoID").all()
 
-        return HttpResponse(status=200, content=json.dumps(vs))
+    vsjs = json.dumps([v.render() for v in vs])
+    return HttpResponse(status=200, content=vsjs)
 
 @require_POST
 @login_required

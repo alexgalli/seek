@@ -290,6 +290,7 @@
                             mouseover: function() { $parent.player.helpText('load \'' + title() + '\'' ); },
                             mouseout: function() { $parent.player.helpText(''); }
                         }">
+                    <div class="icon sprite trashcan" data-bind="click: function() { $parent.deleteVideo($data); }"></div>
                 </div>
             </div>
 

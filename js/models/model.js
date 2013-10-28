@@ -59,11 +59,11 @@ function SeekViewModel() {
         return true;
     }
 
-    self.deleteVideo = function() {
-        var i = self.videos.indexOf(self.player.currentVideo());
+    self.deleteVideo = function(video) {
+        var i = self.videos.indexOf(video);
 
-        api.deleteVideo(self.player.currentVideo().videoID);
-        self.videos.remove(self.player.currentVideo());
+        api.deleteVideo(video.videoID);
+        self.videos.remove(video);
 
         if (self.videos().length == 0) {
             self.player.currentVideo(null);

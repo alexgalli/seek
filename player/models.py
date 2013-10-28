@@ -20,7 +20,7 @@ class Timestamp(models.Model):
     video = models.ForeignKey(Video)
     name = models.TextField()
     # time in seconds
-    time = models.BigIntegerField()
+    time = models.FloatField()
 
     def render(self):
         return {

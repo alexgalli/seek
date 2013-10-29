@@ -268,6 +268,9 @@ function Player() {
                     self.seekDiff(5);
                 }
                 return false;
+            case 65:
+                self.addTimestamp.call(self);
+                return false;
         }
         return true;
     });

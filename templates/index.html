@@ -95,6 +95,9 @@
                     <input id="youtubeUrl" type="text" data-bind="event: { keypress: addVideo }" >
                 </form>
             </div>
+            <div>
+                <!-- other modals go here TODO -->
+            </div>
         </header>
 
         <!-- CONTENT pane -->
@@ -230,7 +233,7 @@
                                     mouseout: function() { $parent.player.helpText(''); }
                                 }"></button>
                         </div>
-                        <div class="eight columns" data-bind="text: name"></div>
+                        <div class="eight columns" data-bind="html: name"></div>
                         <div class="one column omega del-column">
                             <figure class="icon sprite trashcan" data-bind="
                                 click: $parent.player.deleteTimestamp,

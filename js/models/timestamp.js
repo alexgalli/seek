@@ -1,7 +1,12 @@
-function Timestamp(time, name) {
+function Timestamp(time, name, showDelete) {
     var self = this;
     self.time = time;
     self.name = name;
+    self.showDelete = ko.observable(true);
+
+    if (showDelete === false) {
+        self.showDelete(false);
+    }
 
     // toggle potential start/end point
     self.loopStart = ko.observable(true);

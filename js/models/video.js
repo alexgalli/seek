@@ -19,10 +19,10 @@ function Video(videoID, title, star, player, ts) {
     });
 
     // add a start and finish timestamp
-    var beginning = new Timestamp(0, "BEGINNING");
-    var end = ko.observable(new Timestamp(60, "END"));
+    var beginning = new Timestamp(0, "BEGINNING", false);
+    var end = ko.observable(new Timestamp(60, "END", false));
     self.setEndLength = function (time) {
-        end(new Timestamp(time, "END"));
+        end(new Timestamp(time, "END", false));
     }
 
     self.timestampsDisplay = ko.computed(function() {

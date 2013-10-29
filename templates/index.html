@@ -236,6 +236,7 @@
                         <div class="eight columns" data-bind="html: name"></div>
                         <div class="one column omega del-column">
                             <figure class="icon sprite trashcan" data-bind="
+                                visible: showDelete,
                                 click: $parent.player.deleteTimestamp,
                                 event: {
                                     mouseover: function() { $parent.player.helpText('delete timestamp ' + getDisplay()); },

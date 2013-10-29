@@ -20,10 +20,14 @@ function Timestamp(time, name, showDelete) {
     // toggle button activity
     self.buttonInactive = ko.observable(false);
 
-    self.getDisplay = function() {
+    self.getDisplay = function(t) {
+        if (arguments.length == 0) {
+            t = self.time;
+        }
+
         // pad a zero if necessary
-        var seconds = ("0" + Math.floor(self.time % 60));
+        var seconds = ("0" + Math.floor(t % 60));
         seconds = seconds.substr(seconds.length - 2);
-        return Math.floor(self.time / 60) + ":" + seconds;
+        return Math.floor(t / 60) + ":" + seconds;
     }
 }

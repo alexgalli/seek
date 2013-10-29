@@ -56,14 +56,8 @@ function Video(videoID, title, star, player, ts) {
         api.setTimestamps(videoID, self.timestampObjs());
     }
 
-    self.addTimestamp = function(time) {
-        var timestamp = new Timestamp(time, "");
-
-        // TODO - use a modal instead of a prompt
-        timestamp.name = prompt("(" + timestamp.getDisplay() + ") Name");
-        if (! timestamp.name) {
-            timestamp.name = "&nbsp;";
-        }
+    self.addTimestamp = function(time, name) {
+        var timestamp = new Timestamp(time, name);
 
         self.timestamps.push(timestamp);
         self.timestamps.sort(function (a, b) {

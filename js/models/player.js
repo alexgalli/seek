@@ -269,7 +269,7 @@ function Player() {
                 }
                 return false;
             case 65:
-                self.addTimestamp.call(self);
+                self.addTimestampModal();
                 return false;
         }
         return true;
@@ -320,8 +320,24 @@ function Player() {
     //</editor-fold>
 
     // <editor-fold desc="timestamp management">
+    self.currentTime = ko.observable();
+    self.currentTimeDisplay = ko.computed(function() {
+        return new Timestamp().getDisplay(self.currentTime());
+    });
+    self.newTimestampName = ko.observable();
+
+    self.addTimestampModal = function() {
+        self.newTimestampName("");
+        self.currentTime(self.getTime());
+        $("#addTimestampModal").modal();
+    }
+
     self.addTimestamp = function() {
-        self.currentVideo().addTimestamp(self.getTime());
+        $.modal.close();
+        if (!self.newTimestampName()) {
+            self.newTimestampName("&nbsp;")
+        }
+        self.currentVideo().addTimestamp(self.getTime(), self.newTimestampName());
     }
 
     self.deleteTimestamp = function(timestamp) {

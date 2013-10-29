@@ -96,6 +96,14 @@
                 </form>
             </div>
             <div>
+                <form id="addTimestampModal" style="display: none;">
+                    <label for="timestampName">
+                        Create timestamp at
+                        <span data-bind="text: player.currentTimeDisplay"></span>
+                    </label>
+                    <input id="timestampName" type="text" data-bind="value: player.newTimestampName">
+                    <input type="button" value="Create timestamp" data-bind="click: player.addTimestamp">
+                </form>
                 <!-- other modals go here TODO -->
             </div>
         </header>
@@ -157,7 +165,7 @@
 
                     <!-- TODO - add current time to timestamp button -->
                     <button class="add-timestamp" data-bind=
-                            "click: player.addTimestamp,
+                            "click: player.addTimestampModal,
                             event: {
                                 mouseover: function() { player.helpText('[a] create a new timestamp'); },
                                 mouseout: function() { player.helpText(''); }

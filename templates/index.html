@@ -96,14 +96,15 @@
                 </form>
             </div>
             <div>
-                <form id="addTimestampModal" style="display: none;">
+                <dialog id="addTimestampModal" style="display: none;">
                     <label for="timestampName">
                         Create timestamp at
                         <span data-bind="text: player.currentTimeDisplay"></span>
                     </label>
-                    <input id="timestampName" type="text" data-bind="value: player.newTimestampName">
-                    <input type="button" value="Create timestamp" data-bind="click: player.addTimestamp">
-                </form>
+                    <input id="timestampName" type="text" data-bind="
+                        value: player.newTimestampName,
+                        event: { keypress: player.addTimestamp }" > <button data-bind="click: player.addTimestamp">Create Timestamp</button>
+                </dialog>
                 <!-- other modals go here TODO -->
             </div>
         </header>

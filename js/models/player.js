@@ -243,34 +243,37 @@ function Player() {
 
     self.helpText = ko.observable("");
 
-    // enable key bindings
-    $(document).keydown(function (e) {
-        // check to see if modal open
-        if ($(".modal.current").length != 0) {
-            return true;
-        }
 
-        switch (e.keyCode) {
-            case 32:
-                self.playPause();
+    // enable key bindings - TODO refactor this into keys.js and constants
+
+    $(document).keydown(function (e) {
+        if ($(".modal.current").length != 0) {
+            if (e.charCode == 13) {
                 return false;
-            case 37:
-                if (e.shiftKey === true) {
-                    self.seekDiff(-30);
-                } else {
-                    self.seekDiff(-5);
-                }
-                return false;
-            case 39:
-                if (e.shiftKey === true) {
-                    self.seekDiff(30);
-                } else {
-                    self.seekDiff(5);
-                }
-                return false;
-            case 65:
-                self.addTimestampModal();
-                return false;
+            }
+        } else {
+            switch (e.keyCode) {
+                case 32:
+                    self.playPause();
+                    return false;
+                case 37:
+                    if (e.shiftKey === true) {
+                        self.seekDiff(-30);
+                    } else {
+                        self.seekDiff(-5);
+                    }
+                    return false;
+                case 39:
+                    if (e.shiftKey === true) {
+                        self.seekDiff(30);
+                    } else {
+                        self.seekDiff(5);
+                    }
+                    return false;
+                case 65:
+                    self.addTimestampModal();
+                    return false;
+            }
         }
         return true;
     });
@@ -332,12 +335,17 @@ function Player() {
         $("#addTimestampModal").modal();
     }
 
-    self.addTimestamp = function() {
-        $.modal.close();
-        if (!self.newTimestampName()) {
-            self.newTimestampName("&nbsp;")
+    self.addTimestamp = function(model, e) {
+        if (e.charCode === 13 || e.type === "click") {
+            $.modal.close();
+            if (!self.newTimestampName()) {
+                self.newTimestampName("&nbsp;")
+            }
+            self.currentVideo().addTimestamp(self.getTime(), self.newTimestampName());
+            return false;
         }
-        self.currentVideo().addTimestamp(self.getTime(), self.newTimestampName());
+
+        return true;
     }
 
     self.deleteTimestamp = function(timestamp) {

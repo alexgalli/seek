@@ -5,6 +5,7 @@ function Player() {
 
     self.currentVideo = ko.observable();
     self.isPlayerReady = ko.observable(false);
+    self.helpText = ko.observable("");
 
     // <editor-fold desc="looping functionality">
     self.startPoint = ko.observable(null);
@@ -239,13 +240,9 @@ function Player() {
     }
     //</editor-fold>
 
-    //<editor-fold desc="transport">
-
-    self.helpText = ko.observable("");
-
+    //<editor-fold desc="key bindings">
 
     // enable key bindings - TODO refactor this into keys.js and constants
-
     $(document).keydown(function (e) {
         if ($(".modal.current").length != 0) {
             if (e.charCode == 13) {
@@ -278,6 +275,9 @@ function Player() {
         return true;
     });
 
+    //</editor-fold>
+
+    //<editor-fold desc="transport">
     self.playPause = function() {
         // https://developers.google.com/youtube/js_api_reference#Playback_status
         var state = p.getPlayerState();
@@ -323,11 +323,12 @@ function Player() {
     //</editor-fold>
 
     // <editor-fold desc="timestamp management">
-    self.currentTime = ko.observable();
+    self.newTimestampName = ko.observable();
+    self.currentTime = ko.observable()
+
     self.currentTimeDisplay = ko.computed(function() {
         return new Timestamp().getDisplay(self.currentTime());
     });
-    self.newTimestampName = ko.observable();
 
     self.addTimestampModal = function() {
         self.newTimestampName("");
@@ -341,7 +342,7 @@ function Player() {
             if (!self.newTimestampName()) {
                 self.newTimestampName("&nbsp;")
             }
-            self.currentVideo().addTimestamp(self.getTime(), self.newTimestampName());
+            self.currentVideo().addTimestamp(self.currentTime(), self.newTimestampName());
             return false;
         }
 

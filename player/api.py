@@ -6,8 +6,19 @@ import json
 
 from models import Video, Timestamp
 
+#region private methods
+
 def get_video_query(user, videoID):
     return Video.objects.filter(user=user, videoID=videoID)
+
+def check_arguments(request, arguments):
+    for arg in arguments:
+        if arg not in request.POST or not request.POST[arg]:
+            return HttpResponse(status=400, content="must include " + arg)
+
+# endregion
+
+#region endpoints
 
 @require_POST
 def get_videos(request):
@@ -23,9 +34,8 @@ def get_videos(request):
 @require_POST
 @login_required
 def add_video(request):
-    # check input
-    if "videoID" not in request.POST or not request.POST["videoID"]:
-        return HttpResponse(status=400, content="must include videoID")
+    err = check_arguments(request, ["videoID"])
+    if err: return err
 
     videoID = request.POST["videoID"]
 
@@ -48,9 +58,8 @@ def add_video(request):
 @require_POST
 @login_required
 def del_video(request):
-    # check input
-    if "videoID" not in request.POST or not request.POST["videoID"]:
-        return HttpResponse(status=400, content="must include videoID")
+    err = check_arguments(request, ["videoID"])
+    if err: return err
 
     # check to see if video exists for user
     vq = get_video_query(request.user, request.POST["videoID"])
@@ -65,12 +74,8 @@ def del_video(request):
 @require_POST
 @login_required
 def star_video(request):
-    # check input
-    if "videoID" not in request.POST or not request.POST["videoID"]:
-        return HttpResponse(status=400, content="must include videoID")
-
-    if "star" not in request.POST or not request.POST["star"]:
-        return HttpResponse(status=400, content="must include star")
+    err = check_arguments(request, ["videoID", "star"])
+    if err: return err
 
     star = request.POST['star'].lower()
     if star != 'true' and star != 'false':
@@ -90,9 +95,8 @@ def star_video(request):
 
 @require_POST
 def get_timestamps(request):
-    # check input
-    if "videoID" not in request.POST or not request.POST["videoID"]:
-        return HttpResponse(status=400, content="must include videoID")
+    err = check_arguments(request, ["videoID"])
+    if err: return err
 
     # give a default value for Tribute
     if not request.user.id and request.POST["videoID"] == "_lK4cX5xGiQ":
@@ -118,12 +122,8 @@ def get_timestamps(request):
 @require_POST
 @login_required
 def set_timestamps(request):
-    # check input
-    if "videoID" not in request.POST or not request.POST["videoID"]:
-        return HttpResponse(status=400, content="must include videoID")
-
-    if "timestamps" not in request.POST or not request.POST["timestamps"]:
-        return HttpResponse(status=400, content="must include timestamps")
+    err = check_arguments(request, ["videoID"])
+    if err: return err
 
     # parse input
     try:
@@ -149,3 +149,5 @@ def set_timestamps(request):
         t.save()
 
     return HttpResponse(status=200)
+
+#endregion

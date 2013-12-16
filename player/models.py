@@ -27,3 +27,7 @@ class Timestamp(models.Model):
             "name": self.name,
             "time": self.time
         }
+
+class Category(models.Model):
+    user = models.ForeignKey(User)
+    title = models.TextField()

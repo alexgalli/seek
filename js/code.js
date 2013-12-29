@@ -22,8 +22,19 @@ $(document).ready(function() {
     // configure AJAX authentication
     setupCsrf();
 
-    // push modal z-index up
+    ///// configure jquery-modal
+
+    // push z-index up
     $.modal.defaults.zIndex = 10;
+
+    // enable fade-in
+    $.modal.defaults.fadeDuration = 70;
+
+    // decrease default opacity (from 0.75)
+    $.modal.defaults.opacity = 0.20
+
+    // disable close button
+    $.modal.defaults.closet
 
     // instantiate model global
     model = new SeekViewModel();

@@ -3,11 +3,11 @@
   width: 400px;
   background: #fff;
   padding: 15px 30px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -o-border-radius: 8px;
-  -ms-border-radius: 8px;
-  border-radius: 8px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  border-radius: 3px;
   -webkit-box-shadow: 0 0 10px #000;
   -moz-box-shadow: 0 0 10px #000;
   -o-box-shadow: 0 0 10px #000;
@@ -26,6 +26,20 @@
   background: url(close.png) no-repeat 0 0;
 }
 
+.modal div {
+    overflow: hidden;
+    padding-right: 0.5em;
+}
+
+.modal input[type="text"] {
+    margin-top: 4px;
+    width: 270px;
+}
+
+.modal button {
+    float: right;
+}
+
 .modal-spinner {
   display: none;
   width: 64px;
@@ -42,3 +56,4 @@
   -ms-border-radius: 8px;
   border-radius: 8px;
 }
+

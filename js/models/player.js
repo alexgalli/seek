@@ -1,11 +1,24 @@
-function Player() {
+function Player(model) {
     var self = this;
 
     var p;
 
+    self.videos = ko.observableArray();
     self.currentVideo = ko.observable();
     self.isPlayerReady = ko.observable(false);
     self.helpText = ko.observable("");
+
+    // load our videos, and when complete load our player
+    api.getVideos(self, function(videos) {
+        if (videos.length != 0) {
+            self.videos(videos);
+            self.init(videos[0]);
+        } else {
+            self.init();
+        }
+
+        ko.applyBindings(model);
+    });
 
     // <editor-fold desc="looping functionality">
     self.startPoint = ko.observable(null);
@@ -270,6 +283,10 @@ function Player() {
                 case 65:
                     self.addTimestampModal();
                     return false;
+                case 107:
+                case 187:
+                    self.addVideoModal();
+                    return false;
             }
         }
         return true;
@@ -319,6 +336,56 @@ function Player() {
         var maxTime = self.getMaxTime();
         if (newTime > maxTime) newTime = maxTime;
         p.seekTo(newTime);
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="video management">
+    self.addVideoModal = function() {
+        $("#addVideoModal").modal();
+    }
+
+    self.addVideo = function(model, e) {
+        if (e.charCode === 13 || e.type === "click") {
+            var youtubeUrl = $("#youtubeUrl").val();
+
+            // http://stackoverflow.com/questions/5830387/how-to-find-all-youtube-video-ids-in-a-string-using-a-regex/5831191#5831191
+            var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
+            var res = re.exec(youtubeUrl);
+            if (! res || res.length < 2) return;
+
+            var videoID = res[1];
+
+            var video = new Video(videoID, '', false, self, []);
+
+            self.videos.unshift(video);
+            self.loadVideo(video);
+
+            api.addVideo(videoID, function(data) {
+                video.title(data.title);
+            });
+
+            $.modal.close();
+
+            $("#youtubeUrl").val("");
+
+            return;
+        }
+        return true;
+    }
+
+    self.deleteVideo = function(video) {
+        var i = self.videos.indexOf(video);
+
+        api.deleteVideo(video.videoID);
+        self.videos.remove(video);
+
+        if (self.videos().length == 0) {
+            self.currentVideo(null);
+            return;
+        } else if (i > 0) {
+            i -= 1;
+        }
+        self.loadVideo(self.videos()[i]);
     }
     //</editor-fold>
 

@@ -88,23 +88,34 @@
                 </div>
             </div>
             <div class="four columns">
-                <a class="add-video" data-bind="click: addVideoModal">+ ADD VIDEO</a>
+                <a class="add-video" data-bind="
+                    click: player.addVideoModal,
+                    event: {
+                        mouseover: function() { player.helpText('[+] add new video'); },
+                        mouseout: function() { player.helpText(''); }
+                    }">ADD VIDEO</a>
                 <form id="addVideoModal" style="display:none;">
-                    <label for="youtubeUrl">YouTube Video URL</label>
+                    <label for="youtubeUrl">Enter YouTube URL</label>
                     <!-- TODO add jquery watermark -->
-                    <input id="youtubeUrl" type="text" data-bind="event: { keypress: addVideo }" >
+                    <button data-bind="click: player.addVideo">Add</button>
+                    <div>
+                        <input id="youtubeUrl" type="text" data-bind="event: { keypress: player.addVideo }" >
+                    </div>
                 </form>
             </div>
             <div>
                 <dialog id="addTimestampModal" style="display: none;">
                     <label for="timestampName">
-                        Create timestamp at
+                        New timestamp at
                         <span data-bind="text: player.currentTimeDisplay"></span>
                     </label>
-                    <input id="timestampName" type="text" data-bind="
-                        value: player.newTimestampName,
-                        valueUpdate: 'afterkeydown',
-                        event: { keypress: player.addTimestamp }" > <button data-bind="click: player.addTimestamp">Create Timestamp</button>
+                    <button data-bind="click: player.addTimestamp">Create</button>
+                    <div>
+                        <input id="timestampName" type="text" data-bind="
+                            value: player.newTimestampName,
+                            valueUpdate: 'afterkeydown',
+                            event: { keypress: player.addTimestamp }" >
+                    </div>
                 </dialog>
                 <!-- other modals go here TODO -->
             </div>
@@ -150,13 +161,13 @@
                         event: {
                             mouseover: function() { player.helpText('[&rarr;] fast-forward 5 seconds'); },
                             mouseout: function() { player.helpText(''); }
-                        }" >&gt; 5</button>
+                        }" >5 &gt;</button>
                     <button class="ffw30" value="30" data-bind="
                         click: player.seekDiffEvent,
                         event: {
                             mouseover: function() { player.helpText('[SHIFT + &rarr;] fast-forward 30 seconds'); },
                             mouseout: function() { player.helpText(''); }
-                        }" >&gt; 30</button>
+                        }" >30 &gt;</button>
 
                     <div class="help-txt">
                         <span data-bind="text: player.helpText"></span>
@@ -169,7 +180,7 @@
                     <button class="add-timestamp" data-bind=
                             "click: player.addTimestampModal,
                             event: {
-                                mouseover: function() { player.helpText('[a] create a new timestamp'); },
+                                mouseover: function() { player.helpText('[A] create a new timestamp'); },
                                 mouseout: function() { player.helpText(''); }
                             } ">
                         ADD STAMP</button>
@@ -205,7 +216,7 @@
                         <div class="one column alpha loop-column">
                             <figure class="icon sprite"
                                 data-bind="
-                                    click: function() { $parent.player.loop($data, $index()); },
+                                    click: function() { $root.player.loop($data, $index()); },
                                     css: {
                                         'loop-start': loopStart,
                                         'loop-end': loopEnd,
@@ -215,19 +226,19 @@
                                         mouseover: function() {
                                             if (loopStart()) {
                                                 if (loopActive()) {
-                                                    $parent.player.helpText('clear looping');
+                                                    $root.player.helpText('clear looping');
                                                 } else {
-                                                    $parent.player.helpText('start looping at ' + getDisplay());
+                                                    $root.player.helpText('start looping at ' + getDisplay());
                                                 }
                                             } else {
                                                 if (loopActive()) {
-                                                    $parent.player.helpText('clear loop end point');
+                                                    $root.player.helpText('clear loop end point');
                                                 } else {
-                                                    $parent.player.helpText('end loop at ' + getDisplay());
+                                                    $root.player.helpText('end loop at ' + getDisplay());
                                                 }
                                             }
                                         },
-                                        mouseout: function() { $parent.player.helpText(''); }
+                                        mouseout: function() { $root.player.helpText(''); }
                                     }">
                                 <span class="line-horz"></span>
                                 <span class="line-vert"></span>
@@ -236,21 +247,21 @@
                         <div class="two columns">
                             <button class="timestamp" data-bind="
                                 text: getDisplay(),
-                                click: function() { $parent.player.seek($data, $index()); },
+                                click: function() { $root.player.seek($data, $index()); },
                                 css: { 'inactive': buttonInactive },
                                 event: {
-                                    mouseover: function() { $parent.player.helpText('jump to ' + getDisplay()); },
-                                    mouseout: function() { $parent.player.helpText(''); }
+                                    mouseover: function() { $root.player.helpText('jump to ' + getDisplay()); },
+                                    mouseout: function() { $root.player.helpText(''); }
                                 }"></button>
                         </div>
                         <div class="eight columns" data-bind="html: name"></div>
                         <div class="one column omega del-column">
                             <figure class="icon sprite trashcan" data-bind="
                                 visible: showDelete,
-                                click: $parent.player.deleteTimestamp,
+                                click: $root.player.deleteTimestamp,
                                 event: {
-                                    mouseover: function() { $parent.player.helpText('delete timestamp ' + getDisplay()); },
-                                    mouseout: function() { $parent.player.helpText(''); }
+                                    mouseover: function() { $root.player.helpText('delete timestamp ' + getDisplay()); },
+                                    mouseout: function() { $root.player.helpText(''); }
                                 }"></figure>
                         </div>
                     </div>
@@ -293,7 +304,7 @@
                     </ul>
                 </div>
 
-            <div data-bind="foreach: videos">
+            <div data-bind="foreach: player.videos">
                 <!-- TODO - add stars and garbage cans -->
                 <div class="row">
                     <div class="icon sprite star" data-bind="css: { active: star }, click: toggleStar"></div>
@@ -301,10 +312,10 @@
                         attr: { src: getThumbnailUrl(), title: title },
                         click: model.player.loadVideo,
                         event: {
-                            mouseover: function() { $parent.player.helpText('load \'' + title() + '\'' ); },
-                            mouseout: function() { $parent.player.helpText(''); }
+                            mouseover: function() { $root.player.helpText('load \'' + title() + '\'' ); },
+                            mouseout: function() { $root.player.helpText(''); }
                         }">
-                    <div class="icon sprite trashcan" data-bind="click: function() { $parent.deleteVideo($data); }"></div>
+                    <div class="icon sprite trashcan" data-bind="click: function() { $root.player.deleteVideo($data); }"></div>
                 </div>
             </div>
 

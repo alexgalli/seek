@@ -33,9 +33,6 @@ $(document).ready(function() {
     // decrease default opacity (from 0.75)
     $.modal.defaults.opacity = 0.20
 
-    // disable close button
-    $.modal.defaults.closet
-
     // instantiate model global
     model = new SeekViewModel();
 })

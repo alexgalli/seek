@@ -103,6 +103,7 @@
                     </label>
                     <input id="timestampName" type="text" data-bind="
                         value: player.newTimestampName,
+                        valueUpdate: 'afterkeydown',
                         event: { keypress: player.addTimestamp }" > <button data-bind="click: player.addTimestamp">Create Timestamp</button>
                 </dialog>
                 <!-- other modals go here TODO -->

@@ -39,6 +39,7 @@
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
 
+
 	<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
@@ -115,7 +116,15 @@
             </div>
             <div class="four columns">
                 <a class="add-video" data-bind="
+                    {% if user.id %}
                     click: player.addVideoModal,
+                    {% else %}
+                    click: function() {
+                        if (saveWarn() == true) {
+                            player.addVideoModal();
+                        }
+                    },
+                    {% endif %}
                     event: {
                         mouseover: function() { player.helpText('[+] add new video'); },
                         mouseout: function() { player.helpText(''); }
@@ -203,8 +212,16 @@
                     </div>
 
                     <!-- TODO - add current time to timestamp button -->
-                    <button class="add-timestamp" data-bind=
-                            "click: player.addTimestampModal,
+                    <button class="add-timestamp" data-bind="
+                            {% if user.id %}
+                                click: player.addTimestampModal,
+                            {% else %}
+                                click: function() {
+                                    if (saveWarn() == true) {
+                                        player.addTimestampModal();
+                                    }
+                                },
+                            {% endif %}
                             event: {
                                 mouseover: function() { player.helpText('[A] create a new timestamp'); },
                                 mouseout: function() { player.helpText(''); }
@@ -349,4 +366,11 @@
 
     </div>
 </body>
+{% if not user.id %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            model.saveWarning = true;
+        });
+    </script>
+{% endif %}
 </html>

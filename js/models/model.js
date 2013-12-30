@@ -1,10 +1,10 @@
 function SeekViewModel() {
     var self = this;
 
+    self.saveWarning = false;
 
     self.player = new Player(self);
 
-    /* event handlers */
     self.helpModal = function() {
         $("#helpModal").modal();
     }
@@ -17,5 +17,12 @@ function SeekViewModel() {
         $("#loginModal").modal();
     }
 
-
+    self.saveWarn = function() {
+        if (self.saveWarning == true) {
+            self.saveWarning = false;
+            self.helpModal();
+            return false;
+        }
+        return true;
+    }
 }

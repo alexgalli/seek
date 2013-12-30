@@ -30,6 +30,11 @@
     padding-right: 0.5em;
 }
 
+.modal ul {
+    list-style-position: inside;
+    list-style-type: disc;
+}
+
 .modal input[type="text"] {
     margin-top: 4px;
     width: 270px;
@@ -37,6 +42,11 @@
 
 .modal button {
     float: right;
+}
+
+.modal .warning {
+    color: red;
+    line-height: 1.7;
 }
 
 .modal-spinner {

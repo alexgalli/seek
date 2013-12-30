@@ -5,6 +5,10 @@ function SeekViewModel() {
     self.player = new Player(self);
 
     /* event handlers */
+    self.helpModal = function() {
+        $("#helpModal").modal();
+    }
+
     self.registerModal = function() {
         $("#registerModal").modal();
     }
@@ -12,5 +16,6 @@ function SeekViewModel() {
     self.loginModal = function() {
         $("#loginModal").modal();
     }
+
 
 }

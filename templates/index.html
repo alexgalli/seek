@@ -57,6 +57,33 @@
                 </div>
                 <!-- nav -->
                 <div class="buttons five columns omega">
+                    <a href="#" data-bind="click: helpModal">HELP</a>
+                    <dialog id="helpModal" style="display: none;">
+                        <p>
+                            SEEK is an advanced video player and manager for Youtube.<br>
+
+                            <ul>
+                                <li>Save collections of videos</li>
+                                <li>Create and track timestamps in videos</li>
+                                <li>Loop sections of a video</li>
+                            </ul>
+
+                            {% if not user.id %}
+                                <p class="warning">
+                                    Anyone can add videos and timestamps using SEEK,<br>
+                                    but you must be logged in for your changes to be saved.<br>
+                                    Creating an account is free and easy!
+                                </p>
+                            {% endif %}
+
+                            &copy; Alex Gallichotte 2013<br>
+                            {% if not user.id %}
+                                <button data-bind="click: registerModal">REGISTER</button>
+                                <button data-bind="click: loginModal">LOGIN</button>
+                            {% endif %}
+
+                        </p>
+                    </dialog>
                     {% if not user.id %}
                         <a data-bind="click: registerModal">REGISTER</a>
                         <form id="registerModal" action="/account/register" method="post" style="display: none;">
@@ -82,7 +109,6 @@
                             <input type="submit" value="Log In">
                         </form>
                     {% else %}
-                        <a href="#">{{ user.username.upper }}</a>
                         <a href="/account/log_out">LOGOUT</a>
                     {% endif %}
                 </div>

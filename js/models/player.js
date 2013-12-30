@@ -24,6 +24,14 @@ function Player(model) {
     self.startPoint = ko.observable(null);
     self.endPoint = ko.observable(null);
 
+    self.loopConnector = ko.computed(function() {
+        if (self.startPoint() && self.endPoint()) {
+            var length = $(".loop-end.active").offset().top - $(".loop-start.active").offset().top;
+            return length + "px";
+        }
+        return "500px";
+    });
+
     self.startPointIndex = ko.computed(function() {
         if (self.currentVideo()) {
             return self.currentVideo().timestampsDisplay().indexOf(self.startPoint());

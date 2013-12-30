@@ -22,6 +22,8 @@ $(document).ready(function() {
     // configure AJAX authentication
     setupCsrf();
 
+
+
     ///// configure jquery-modal
 
     // push z-index up

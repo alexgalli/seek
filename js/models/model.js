@@ -5,6 +5,8 @@ function SeekViewModel() {
 
     self.player = new Player(self);
 
+    // configure modals
+
     self.helpModal = function() {
         $("#helpModal").modal();
     }
@@ -15,6 +17,22 @@ function SeekViewModel() {
 
     self.loginModal = function() {
         $("#loginModal").modal();
+    }
+
+    $("#accountModal").ajaxForm({
+        type: "POST",
+        error: function(r) {
+            $("#accountModal").find(".warning").text(r.responseText);
+        },
+        success: function() {
+            $("#accountModal").find(".warning").text("Password changed successfully");
+        }
+    });
+
+    self.accountModal = function() {
+        $("#accountModal").find("input[type!='submit']").val("");
+        $("#accountModal").find(".warning").text("");
+        $("#accountModal").modal();
     }
 
     self.saveWarn = function() {

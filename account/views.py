@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 @require_POST
 def log_in(request):
@@ -53,3 +54,22 @@ def register(request):
 
     User.objects.create_user(username=username, email=email, password=password)
     return log_in(request)
+
+@require_POST
+@login_required
+def change_password(request):
+    if not all(k in request.POST and request.POST[k] for k in ('oldpassword', 'password', 'repassword')):
+        return HttpResponse(status=400, content="Must fill in all fields")
+
+    password = request.POST["password"]
+    repassword = request.POST["repassword"]
+    if password != repassword:
+        return HttpResponse(status=400, content="New passwords do not match")
+
+    oldpassword = request.POST['oldpassword']
+    if not request.user.check_password(oldpassword):
+        return HttpResponse(status=400, content="Old password is incorrect")
+
+    request.user.set_password(password)
+    request.user.save()
+    return HttpResponse(status=200)

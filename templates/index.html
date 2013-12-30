@@ -23,8 +23,8 @@
     <script src="/static/library/jquery-1.10.2.min.js" type="text/javascript"></script>
     <script src="/static/library/jquery.cookie.js" type="text/javascript"></script>
     <script src="/static/library/jquery.modal.min.js" type="text/javascript"></script>
+    <script src="/static/library/jquery.form.min.js" type="text/javascript"></script>
 
-    <!--<script src="jq.js"></script>-->
     <link href="/static/jquery.modal.css" rel="stylesheet" type="text/css" />
 
     <!-- knockout -->
@@ -54,10 +54,10 @@
                     <img class="logo" alt="SEEK" src="/static/seek-logo.png" />
                 </div>
                 <!-- TODO - can put stuff here? -->
-                <div class="five columns">
+                <div class="three columns">
                 </div>
                 <!-- nav -->
-                <div class="buttons five columns omega">
+                <div class="buttons seven columns omega">
                     <a data-bind="click: helpModal">HELP</a>
                     <dialog id="helpModal" style="display: none;">
                         <p>
@@ -98,18 +98,29 @@
                             <label for="repassword">Re-enter Password</label>
                             <input id="repassword" name="repassword" type="password">
                             <br>
-                            <input type="submit" value="Register">
+                            <button>Change Password</button>
                         </form>
                         <a data-bind="click: loginModal">LOGIN</a>
                         <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
                             {% csrf_token %}
                             <label for="username">Username</label>
-                            <input id="username" name="username" type="text"><br/>
+                            <input id="username" name="username" type="text">
                             <label for="password">Password</label>
-                            <input id="password" name="password" type="password"><br/>
+                            <input id="password" name="password" type="password"><br>
                             <input type="submit" value="Log In">
                         </form>
                     {% else %}
+                        <a data-bind="click: accountModal">ACCOUNT</a>
+                        <form id="accountModal" action="/account/change_password" style="display: none;">
+                            <label for="oldpassword">Old Password</label>
+                            <input id="oldpassword" name="oldpassword" type="password">
+                            <label for="password">New Password</label>
+                            <input id="password" name="password" type="password">
+                            <label for="repassword">Re-enter New Password</label>
+                            <input id="repassword" name="repassword" type="password">
+                            <span class="warning"></span><br>
+                            <input type="submit" value="Change Password">
+                        </form>
                         <a href="/account/log_out">LOGOUT</a>
                     {% endif %}
                 </div>

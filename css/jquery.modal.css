@@ -40,8 +40,10 @@
     width: 270px;
 }
 
-.modal button {
+.modal input[type="submit"] {
     float: right;
+    padding: 10px 20px;
+    margin-left: 10px;
 }
 
 .modal .warning {

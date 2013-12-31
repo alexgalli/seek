@@ -59,7 +59,7 @@
                 <!-- nav -->
                 <div class="buttons seven columns omega">
                     <a data-bind="click: helpModal">HELP</a>
-                    <dialog id="helpModal" style="display: none;">
+                    <form id="helpModal" style="display: none;">
                         <p>
                             SEEK is an advanced video player and manager for Youtube.<br>
 
@@ -79,12 +79,12 @@
 
                             &copy; Alex Gallichotte 2013<br>
                             {% if not user.id %}
-                                <button data-bind="click: registerModal">REGISTER</button>
-                                <button data-bind="click: loginModal">LOGIN</button>
+                                <input type="submit" data-bind="click: registerModal" value="REGISTER">
+                                <input type="submit" data-bind="click: loginModal" value="LOGIN">
                             {% endif %}
 
                         </p>
-                    </dialog>
+                    </form>
                     {% if not user.id %}
                         <a data-bind="click: registerModal">REGISTER</a>
                         <form id="registerModal" action="/account/register" method="post" style="display: none;">
@@ -98,7 +98,7 @@
                             <label for="repassword">Re-enter Password</label>
                             <input id="repassword" name="repassword" type="password">
                             <br>
-                            <button>Change Password</button>
+                            <input type="submit" value="REGISTER">
                         </form>
                         <a data-bind="click: loginModal">LOGIN</a>
                         <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
@@ -140,30 +140,26 @@
                         mouseover: function() { player.helpText('[+] add new video'); },
                         mouseout: function() { player.helpText(''); }
                     }">ADD VIDEO</a>
-                <form id="addVideoModal" style="display:none;">
+                <form id="addVideoModal" style="display:none;" data-bind="submit: player.addVideo">
                     <label for="youtubeUrl">Enter YouTube URL</label>
                     <!-- TODO add jquery watermark -->
-                    <button data-bind="click: player.addVideo">Add</button>
+                    <input type="submit" value="Add Video">
                     <div>
-                        <input id="youtubeUrl" type="text" data-bind="event: { keypress: player.addVideo }" >
+                        <input id="youtubeUrl" type="text">
                     </div>
                 </form>
             </div>
             <div>
-                <dialog id="addTimestampModal" style="display: none;">
+                <form id="addTimestampModal" style="display: none;" data-bind="submit: player.addTimestamp">
                     <label for="timestampName">
                         New timestamp at
                         <span data-bind="text: player.currentTimeDisplay"></span>
                     </label>
-                    <button data-bind="click: player.addTimestamp">Create</button>
+                    <input type="submit" value="Create">
                     <div>
-                        <input id="timestampName" type="text" data-bind="
-                            value: player.newTimestampName,
-                            valueUpdate: 'afterkeydown',
-                            event: { keypress: player.addTimestamp }" >
+                        <input id="timestampName" type="text">
                     </div>
-                </dialog>
-                <!-- other modals go here TODO -->
+                </form>
             </div>
         </header>
 

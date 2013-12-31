@@ -12,10 +12,12 @@ function SeekViewModel() {
     }
 
     self.registerModal = function() {
+        $("#registerModal").clearForm();
         $("#registerModal").modal();
     }
 
     self.loginModal = function() {
+        $("#loginModal").clearForm();
         $("#loginModal").modal();
     }
 
@@ -30,8 +32,7 @@ function SeekViewModel() {
     });
 
     self.accountModal = function() {
-        $("#accountModal").find("input[type!='submit']").val("");
-        $("#accountModal").find(".warning").text("");
+        $("#accountModal").clearForm();
         $("#accountModal").modal();
     }
 

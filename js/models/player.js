@@ -349,36 +349,30 @@ function Player(model) {
 
     //<editor-fold desc="video management">
     self.addVideoModal = function() {
+        $("#addVideoModal").clearForm();
         $("#addVideoModal").modal();
     }
 
-    self.addVideo = function(model, e) {
-        if (e.charCode === 13 || e.type === "click") {
-            var youtubeUrl = $("#youtubeUrl").val();
+    self.addVideo = function() {
+        var youtubeUrl = $("#youtubeUrl").val();
 
-            // http://stackoverflow.com/questions/5830387/how-to-find-all-youtube-video-ids-in-a-string-using-a-regex/5831191#5831191
-            var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
-            var res = re.exec(youtubeUrl);
-            if (! res || res.length < 2) return;
+        // http://stackoverflow.com/questions/5830387/how-to-find-all-youtube-video-ids-in-a-string-using-a-regex/5831191#5831191
+        var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
+        var res = re.exec(youtubeUrl);
+        if (! res || res.length < 2) return;
 
-            var videoID = res[1];
+        var videoID = res[1];
 
-            var video = new Video(videoID, '', false, self, []);
+        var video = new Video(videoID, '', false, self, []);
 
-            self.videos.unshift(video);
-            self.loadVideo(video);
+        self.videos.unshift(video);
+        self.loadVideo(video);
 
-            api.addVideo(videoID, function(data) {
-                video.title(data.title);
-            });
+        api.addVideo(videoID, function(data) {
+            video.title(data.title);
+        });
 
-            $.modal.close();
-
-            $("#youtubeUrl").val("");
-
-            return;
-        }
-        return true;
+        $.modal.close();
     }
 
     self.deleteVideo = function(video) {
@@ -398,7 +392,6 @@ function Player(model) {
     //</editor-fold>
 
     // <editor-fold desc="timestamp management">
-    self.newTimestampName = ko.observable();
     self.currentTime = ko.observable()
 
     self.currentTimeDisplay = ko.computed(function() {
@@ -406,22 +399,19 @@ function Player(model) {
     });
 
     self.addTimestampModal = function() {
-        self.newTimestampName("");
         self.currentTime(self.getTime());
+        $("#addTimestampModal").clearForm();
         $("#addTimestampModal").modal();
     }
 
-    self.addTimestamp = function(model, e) {
-        if (e.charCode === 13 || e.type === "click") {
-            $.modal.close();
-            if (!self.newTimestampName()) {
-                self.newTimestampName("&nbsp;")
-            }
-            self.currentVideo().addTimestamp(self.currentTime(), self.newTimestampName());
-            return false;
+    self.addTimestamp = function() {
+        var timestampName = $("#timestampName").val();
+        if (!timestampName) {
+            timestampName = "&nbsp;";
         }
+        self.currentVideo().addTimestamp(self.currentTime(), timestampName);
 
-        return true;
+        $.modal.close();
     }
 
     self.deleteTimestamp = function(timestamp) {

@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 def log_in(request):
     if (not 'username' in request.POST or not 'password' in request.POST
       or not request.POST['username'] or not request.POST['password']):
-        return HttpResponse(status=400, content="must specify username and password")
+        return HttpResponse(status=400, content="Must fill in all fields")
 
     username = request.POST['username']
     password = request.POST['password']
@@ -19,11 +19,11 @@ def log_in(request):
     if user is not None:
         if user.is_active:
             login(request, user)
-            return HttpResponseRedirect("/")
+            return HttpResponse(status=200)
         else:
-            return HttpResponseRedirect("/?error=inactive")
+            return HttpResponse(status=400, content="Account has been de-activated")
     else:
-        return HttpResponseRedirect("/?error=invalid")
+        return HttpResponse(status=400, content="Username or password is incorrect")
 
 def log_out(request):
     logout(request)
@@ -33,7 +33,7 @@ def log_out(request):
 @require_POST
 def register(request):
     if not all(k in request.POST and request.POST[k] for k in ('username', 'email', 'password', 'repassword')):
-        return HttpResponse(status=400, content="must provide valid values for username, email, password")
+        return HttpResponse(status=400, content="Must fill in all fields")
 
     email = request.POST["email"]
 
@@ -42,15 +42,15 @@ def register(request):
     try:
         validate_email(email)
     except ValidationError:
-        return HttpResponse(status=400, content="must provide valid email")
+        return HttpResponse(status=400, content="Must provide valid email address")
 
     username = request.POST["username"]
     if any(User.objects.filter(username=username)):
-        return HttpResponse(status=400, content="username already taken")
+        return HttpResponse(status=400, content="Username already taken")
 
     password = request.POST["password"]
     if not password == request.POST["repassword"]:
-        return HttpResponse(status=400, content="passwords must match")
+        return HttpResponse(status=400, content="Passwords must match")
 
     User.objects.create_user(username=username, email=email, password=password)
     return log_in(request)

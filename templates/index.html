@@ -96,8 +96,8 @@
                             <label for="password">Password</label>
                             <input id="password" name="password" type="password">
                             <label for="repassword">Re-enter Password</label>
-                            <input id="repassword" name="repassword" type="password">
-                            <br>
+                            <input id="repassword" name="repassword" type="password"><br>
+                            <span class="warning"></span><br>
                             <input type="submit" value="REGISTER">
                         </form>
                         <a data-bind="click: loginModal">LOGIN</a>
@@ -107,6 +107,7 @@
                             <input id="username" name="username" type="text">
                             <label for="password">Password</label>
                             <input id="password" name="password" type="password"><br>
+                            <span class="warning"></span><br>
                             <input type="submit" value="Log In">
                         </form>
                     {% else %}

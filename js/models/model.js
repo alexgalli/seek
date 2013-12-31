@@ -11,10 +11,30 @@ function SeekViewModel() {
         $("#helpModal").modal();
     }
 
+    $("#registerModal").ajaxForm({
+        type: "POST",
+        error: function(r) {
+            $("#registerModal").find(".warning").text(r.responseText);
+        },
+        success: function() {
+            location.reload(true);
+        }
+    })
+
     self.registerModal = function() {
         $("#registerModal").clearForm();
         $("#registerModal").modal();
     }
+
+    $("#loginModal").ajaxForm({
+        type: "POST",
+        error: function(r) {
+            $("#loginModal").find(".warning").text(r.responseText);
+        },
+        success: function() {
+            location.reload(true);
+        }
+    })
 
     self.loginModal = function() {
         $("#loginModal").clearForm();

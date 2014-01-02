@@ -21,6 +21,9 @@ DATABASES = {
     }
 }
 
+# post to endpoints instead of directories
+APPEND_SLASH=False
+
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
@@ -118,7 +121,6 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
@@ -158,3 +160,9 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'famousbirds'
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASS']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

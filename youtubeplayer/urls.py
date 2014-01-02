@@ -9,10 +9,6 @@ admin.autodiscover()
 from django.views.generic.base import RedirectView
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'youtubeplayer.views.home', name='home'),
-    # url(r'^youtubeplayer/', include('youtubeplayer.foo.urls')),
-
     # views
     url(r'^$', 'player.views.index'),
 
@@ -29,6 +25,12 @@ urlpatterns = patterns('',
     url(r'^account/log_out', 'account.views.log_out'),
     url(r'^account/register', 'account.views.register'),
     url(r'^account/change_password', 'account.views.change_password'),
+
+    # native password reset forms with our views
+    url(r'^account/reset_password$', 'account.views.reset_password', name='reset_password'),
+    url(r'^account/reset_password/sent$', 'account.views.reset_password_sent'),
+    url(r'^account/reset_password/change/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)$', 'account.views.reset_password_change', name='reset_password_change'),
+    url(r'^account/reset_password/done$', 'account.views.reset_password_done', name='reset_password_done'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),

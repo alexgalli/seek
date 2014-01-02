@@ -6,6 +6,10 @@ def index(request):
     c = RequestContext(request)
     c["user"] = request.user
 
-    t = get_template('index.html')
+    if request.user.id != None:
+        t = get_template("loggedin.html")
+    else:
+        t = get_template("loggedout.html")
+
     html = t.render(c)
     return HttpResponse(html)

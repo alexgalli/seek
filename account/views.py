@@ -5,6 +5,8 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+from django.template.loader import get_template
 
 @require_POST
 def log_in(request):
@@ -73,3 +75,27 @@ def change_password(request):
     request.user.set_password(password)
     request.user.save()
     return HttpResponse(status=200)
+
+from django.contrib.auth import forms as authForms
+from django.contrib.auth import views as authViews
+def reset_password(request):
+    return authViews.password_reset(request, template_name="reset_password.html",
+                                    post_reset_redirect="/account/reset_password/sent",
+                                    email_template_name="reset_email.txt",
+                                    subject_template_name="reset_email_subject.txt",
+                                    from_email="webmaster@chapterhouse.io")
+
+def reset_password_sent(request):
+    t = get_template("reset_password_sent.html")
+    return HttpResponse(t.render(RequestContext(request)))
+
+def reset_password_change(request, uidb36, token):
+    return authViews.password_reset_confirm(request,
+                                            uidb36=uidb36,
+                                            token=token,
+                                            template_name="reset_password_change.html",
+                                            post_reset_redirect="/account/reset_password/done")
+
+def reset_password_done(request):
+    return authViews.password_reset_complete(request,
+                                             template_name="reset_password_done.html")

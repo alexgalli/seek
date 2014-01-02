@@ -1,0 +1,20 @@
+{% extends "player.html" %}
+
+{% block nav %}
+    <a data-bind="click: accountModal">ACCOUNT</a>
+
+    <a href="/account/log_out">LOGOUT</a>
+{% endblock %}
+
+{% block navmodals %}
+    <form id="accountModal" action="/account/change_password" style="display: none;">
+        <label for="oldpassword">Old Password</label>
+        <input id="oldpassword" name="oldpassword" type="password">
+        <label for="password">New Password</label>
+        <input id="password" name="password" type="password">
+        <label for="repassword">Re-enter New Password</label>
+        <input id="repassword" name="repassword" type="password">
+        <span class="warning"></span><br>
+        <input type="submit" value="Change Password">
+    </form>
+{% endblock %}

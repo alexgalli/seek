@@ -109,6 +109,7 @@
                             <input id="password" name="password" type="password"><br>
                             <span class="warning"></span><br>
                             <input type="submit" value="Log In">
+                            <a href="{% url 'reset_password' %}">Forgot password?</a>
                         </form>
                     {% else %}
                         <a data-bind="click: accountModal">ACCOUNT</a>

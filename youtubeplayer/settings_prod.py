@@ -1,6 +1,6 @@
 # Django settings for youtubeplayer project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -20,6 +20,10 @@ DATABASES = {
         'PORT': '3306',                       # Set to empty string for default.
     }
 }
+
+
+# post to endpoints instead of directories
+APPEND_SLASH=False
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -159,6 +163,12 @@ LOGGING = {
         },
     }
 }
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'famousbirds'
+EMAIL_HOST_PASSWORD = os.environ['SENDGRID_PASS']
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # added for Heroku
 # Parse database configuration from $DATABASE_URL

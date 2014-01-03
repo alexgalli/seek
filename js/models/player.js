@@ -398,6 +398,16 @@ function Player(model) {
         }
         self.loadVideo(self.videos()[i]);
     }
+
+    self.sortVideos = function() {
+        self.videos.sort(function (l, r){
+            return l.star() == r.star()
+                ? l.videoID > r.videoID ? 1 : -1
+                : l.star() < r.star() ? 1 : -1;
+        })
+
+        self.videos.valueHasMutated();
+    }
     //</editor-fold>
 
     // <editor-fold desc="timestamp management">

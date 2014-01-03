@@ -8,23 +8,13 @@
 {% block navmodals %}
     <form id="registerModal" action="/account/register" method="post" style="display: none;">
         {% csrf_token %}
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="text">
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password">
-        <label for="repassword">Re-enter Password</label>
-        <input id="repassword" name="repassword" type="password"><br>
-        <span class="warning"></span><br>
+        {{ form.register.as_p }}
+        <span class="warning"></span>
         <input type="submit" value="REGISTER">
     </form>
     <form id="loginModal" action="/account/log_in" method="post" style="display: none;">
         {% csrf_token %}
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text">
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password"><br>
+        {{ form.login.as_p }}
         <span class="warning"></span><br>
         <input type="submit" value="Log In">
         <a href="{% url 'reset_password' %}">Forgot password?</a>

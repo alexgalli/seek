@@ -6,6 +6,8 @@ import json
 
 from models import Video, Timestamp
 
+# TODO - use forms for api
+
 #region private methods
 
 def get_video_query(user, videoID):

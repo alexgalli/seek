@@ -17,28 +17,24 @@
         }">ADD VIDEO</a>
 
     <form id="addVideoModal" style="display:none;" data-bind="submit: player.addVideo">
-        <label for="youtubeUrl">Enter YouTube URL</label>
-        <!-- TODO add jquery watermark -->
+        {{ form.addvideo.as_p }}
+        <span class="warning"></span>
         <input type="submit" value="Add Video">
-        <div>
-            <input id="youtubeUrl" type="text">
-        </div>
     </form>
 {% endblock %}
 
 {% block content %}
     <div>
         <form id="addTimestampModal" style="display: none;" data-bind="submit: player.addTimestamp">
-            <label for="timestampName">
-                New timestamp at
-                <span data-bind="text: player.currentTimeDisplay"></span>
-            </label>
+            <p>
+                <label for="id_timestampName">
+                    {{ form.addtimestamp.timestampName.label }}
+                    <span data-bind="text: player.currentTimeDisplay"></span>
+                </label>
+                {{ form.addtimestamp.timestampName }}
+            </p>
             <input type="submit" value="Create">
-            <div>
-                <input id="timestampName" type="text">
-            </div>
         </form>
-
     </div>
 
     <!-- PLAYER - youtube iframe, transport, pop-up volume control  -->

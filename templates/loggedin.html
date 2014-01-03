@@ -8,13 +8,8 @@
 
 {% block navmodals %}
     <form id="accountModal" action="/account/change_password" style="display: none;">
-        <label for="oldpassword">Old Password</label>
-        <input id="oldpassword" name="oldpassword" type="password">
-        <label for="password">New Password</label>
-        <input id="password" name="password" type="password">
-        <label for="repassword">Re-enter New Password</label>
-        <input id="repassword" name="repassword" type="password">
-        <span class="warning"></span><br>
+        {{ form.account.as_p }}
+        <span class="warning"></span>
         <input type="submit" value="Change Password">
     </form>
 {% endblock %}

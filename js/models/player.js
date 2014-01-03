@@ -355,7 +355,7 @@ function Player(model) {
     }
 
     self.addVideo = function() {
-        var youtubeUrl = $("#youtubeUrl").val();
+        var youtubeUrl = $("#id_youtubeUrl").val();
 
         // http://stackoverflow.com/questions/5830387/how-to-find-all-youtube-video-ids-in-a-string-using-a-regex/5831191#5831191
         var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
@@ -406,7 +406,7 @@ function Player(model) {
     }
 
     self.addTimestamp = function() {
-        var timestampName = $("#timestampName").val();
+        var timestampName = $("#id_timestampName").val();
         if (!timestampName) {
             timestampName = "&nbsp;";
         }

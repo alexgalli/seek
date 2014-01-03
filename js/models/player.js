@@ -350,6 +350,7 @@ function Player(model) {
     //<editor-fold desc="video management">
     self.addVideoModal = function() {
         $("#addVideoModal").clearForm();
+        $("#addVideoModal").find(".warning").text("");
         $("#addVideoModal").modal();
     }
 

@@ -23,6 +23,7 @@ function SeekViewModel() {
 
     self.registerModal = function() {
         $("#registerModal").clearForm();
+        $("#registerModal").find(".warning").text("");
         $("#registerModal").modal();
     }
 
@@ -38,6 +39,7 @@ function SeekViewModel() {
 
     self.loginModal = function() {
         $("#loginModal").clearForm();
+        $("#loginModal").find(".warning").text("");
         $("#loginModal").modal();
     }
 
@@ -53,6 +55,7 @@ function SeekViewModel() {
 
     self.accountModal = function() {
         $("#accountModal").clearForm();
+        $("#accountModal").find(".warning").text("");
         $("#accountModal").modal();
     }
 

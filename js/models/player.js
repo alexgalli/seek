@@ -364,6 +364,14 @@ function Player(model) {
 
         var videoID = res[1];
 
+        // if we already have the video, back out
+        if(ko.utils.arrayFirst(self.videos(), function(video){
+            return video.videoID == videoID;
+        })) {
+            $("#addVideoModal").find(".warning").text("This video has already been added!");
+            return;
+        }
+
         var video = new Video(videoID, '', false, self, []);
 
         self.videos.unshift(video);

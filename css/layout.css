@@ -190,6 +190,7 @@ header h3, header input[type="submit"]
     color: #fff !important;
     padding-left: 5px;
     padding-right: 5px;
+    cursor: default;
 }
 header a:hover, header a:focus,
 header input[type="submit"]:hover, header input[type=submit]:hover

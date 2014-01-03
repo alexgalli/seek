@@ -12,6 +12,7 @@ function Player(model) {
     api.getVideos(self, function(videos) {
         if (videos.length != 0) {
             self.videos(videos);
+            self.sortVideos();
             self.init(videos[0]);
         } else {
             self.init();
@@ -375,11 +376,13 @@ function Player(model) {
         var video = new Video(videoID, '', false, self, []);
 
         self.videos.unshift(video);
+        self.sortVideos();
         self.loadVideo(video);
 
         api.addVideo(videoID, function(data) {
             video.title(data.title);
         });
+
 
         $.modal.close();
     }
@@ -389,6 +392,7 @@ function Player(model) {
 
         api.deleteVideo(video.videoID);
         self.videos.remove(video);
+        self.sortVideos();
 
         if (self.videos().length == 0) {
             self.currentVideo(null);

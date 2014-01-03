@@ -43,6 +43,7 @@ function Video(videoID, title, star, player, ts) {
 
     self.toggleStar = function() {
         self.star(!self.star());
+        self.player().sortVideos();
         api.starVideo(videoID, self.star());
     }
 

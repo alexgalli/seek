@@ -209,7 +209,9 @@
     <div data-bind="foreach: player.videos">
         <!-- TODO - add stars and garbage cans -->
         <div class="row">
-            <div class="icon sprite star" data-bind="css: { active: star }, click: toggleStar"></div>
+            {% if user.id %}
+                <div class="icon sprite star" data-bind="css: { active: star }, click: toggleStar"></div>
+            {% endif %}
             <img data-bind="
                 attr: { src: getThumbnailUrl(), title: title },
                 click: model.player.loadVideo,
@@ -217,7 +219,9 @@
                     mouseover: function() { $root.player.helpText('load \'' + title() + '\'' ); },
                     mouseout: function() { $root.player.helpText(''); }
                 }">
-            <div class="icon sprite trashcan" data-bind="click: function() { $root.player.deleteVideo($data); }"></div>
+            {% if user.id %}
+                <div class="icon sprite trashcan" data-bind="click: function() { $root.player.deleteVideo($data); }"></div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

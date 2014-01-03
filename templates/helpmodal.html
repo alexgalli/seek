@@ -1,0 +1,28 @@
+<form id="helpModal" style="display: none;">
+    <h2>SEEK</h2>
+    <h3>Advanced video player and manager for Youtube</h3>
+
+    <p>
+        SEEK is for anyone who wants a better way to navigate videos.
+    </p>
+
+    <ul>
+        <li>Save collections of videos</li>
+        <li>Create and track timestamps in videos</li>
+        <li>Loop sections of a video</li>
+    </ul>
+
+    {% if not user.id %}
+        <p class="warning">
+            Anyone can add videos and timestamps using SEEK,<br>
+            but you must be logged in for your changes to be saved.<br>
+            Creating an account is free and easy!
+        </p>
+    {% endif %}
+
+    &copy; Alex Gallichotte 2013<br>
+    {% if not user.id %}
+        <input type="submit" data-bind="click: registerModal" value="REGISTER">
+        <input type="submit" data-bind="click: loginModal" value="LOGIN">
+    {% endif %}
+</form>

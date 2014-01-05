@@ -1,5 +1,6 @@
 .modal {
   display: none;
+  position: fixed;
   width: 400px;
   background: #fff;
   padding: 15px 30px;
@@ -69,3 +70,27 @@
   border-radius: 8px;
 }
 
+#helpModal {
+    width: 700px;
+}
+
+#helpModal * {
+    display: block;
+}
+
+#helpModal img {
+    border: 1px solid black;
+}
+
+#helpModal div {
+    padding-bottom: 10px;
+}
+
+#helpModal div p {
+    padding: 20px;
+}
+
+#helpModal table {
+    border: 1px solid black;
+    margin: 10px;
+}

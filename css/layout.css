@@ -28,7 +28,7 @@ body {
 	display: block; 
 	background: url(/static/sprite.png) 0 0 no-repeat;
 	position: relative; 
-	z-index: 99; 
+	z-index: 5;
 }
 
 .folder {
@@ -45,7 +45,7 @@ body {
 	margin: 3px 0 0 -10px;
 	position: relative;
 	left: 50%;
-	z-index: 99;
+	z-index: 5;
 	background-position: 0px -40px;
 }
 
@@ -58,7 +58,7 @@ body {
 	margin: 3px 0 0 -10px;
 	position: relative;
 	left: 50%;
-	z-index: 99;
+	z-index: 5;
 	background-position: 0px -40px;
 }
 
@@ -95,7 +95,7 @@ body {
 	margin: 4px 0 0 -10px;
 	position: relative;
 	left: 50%;
-	z-index: 99;
+	z-index: 5;
 	background-position: 0px -20px;
 }
 
@@ -138,7 +138,7 @@ body {
 .star, .star.active:hover {
 	width: 15px;
 	height: 14px;
-	z-index: 99;
+	z-index: 5;
 	background-position: 0px -80px;
 }
 
@@ -146,12 +146,6 @@ body {
 	background-position: -20px -80px;	
 	cursor: pointer;
 }
-
-/*
-
-	
-
-*/
 
 header {
 	width: 100%;
@@ -240,7 +234,7 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 	width: 100%;
 	position: absolute;
 	top: 20px;
-	z-index: 99;
+	z-index: 5;
 	margin: 0;
 	padding: 5px 0;
 	background: #000;
@@ -590,7 +584,7 @@ button.ffw30, button.ffw5 { padding-right: 28px; }
 			height: 75px;
 			margin: 0;
 			position: relative;
-			z-index: 9;
+			z-index: 6;
 		}
 
 		.help-txt { display: none; }

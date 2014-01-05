@@ -59,10 +59,14 @@ function SeekViewModel() {
         $("#accountModal").modal();
     }
 
+    self.warnModal = function() {
+        $("#warnModal").modal();
+    }
+
     self.saveWarn = function() {
         if (self.saveWarning == true) {
             self.saveWarning = false;
-            self.helpModal();
+            self.warnModal();
             return false;
         }
         return true;

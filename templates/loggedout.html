@@ -19,6 +19,17 @@
         <input type="submit" value="Log In">
         <a href="{% url 'reset_password' %}">Forgot password?</a>
     </form>
+    <form id="warnModal" style="display: none;">
+        <p class='warning'>
+            Anyone can add videos and timestamps using SEEK, <br>
+            but you must be logged in for your changes to be saved.
+        </p>
+        <p>
+            Creating an account is free and easy!
+        </p>
+        <input type="submit" data-bind="click: registerModal" value="REGISTER">
+        <input type="submit" data-bind="click: loginModal" value="LOGIN">
+    </form>
 {% endblock %}
 
 {% block code %}

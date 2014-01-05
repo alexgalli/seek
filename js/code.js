@@ -22,8 +22,6 @@ $(document).ready(function() {
     // configure AJAX authentication
     setupCsrf();
 
-
-
     ///// configure jquery-modal
 
     // push z-index up
@@ -33,7 +31,10 @@ $(document).ready(function() {
     $.modal.defaults.fadeDuration = 70;
 
     // decrease default opacity (from 0.75)
-    $.modal.defaults.opacity = 0.20
+    $.modal.defaults.opacity = 0.20;
+
+    // overflow with scrollbar if modal is too big
+    $.modal.defaults.maxHeight = 0.90;
 
     // instantiate model global
     model = new SeekViewModel();

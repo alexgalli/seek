@@ -74,16 +74,9 @@
     width: 700px;
 }
 
-#helpModal * {
-    display: block;
-}
-
-#helpModal img {
-    border: 1px solid black;
-}
-
 #helpModal div {
-    padding-bottom: 10px;
+    display: block;
+    padding-bottom: 20px;
 }
 
 #helpModal div p {
@@ -91,6 +84,15 @@
 }
 
 #helpModal table {
-    border: 1px solid black;
-    margin: 10px;
+    margin: 0 auto;
 }
+
+#helpModal th, #helpModal td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#helpModal th {
+    font-weight: bold;
+}
+

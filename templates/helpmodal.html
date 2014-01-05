@@ -1,28 +1,76 @@
 <form id="helpModal" style="display: none;">
-    <h2>SEEK</h2>
-    <h3>Advanced video player and manager for Youtube</h3>
+    <h2>SEEK Video Looper And Manager</h2>
 
     <p>
-        SEEK is for anyone who wants a better way to navigate videos.
+        <b>SEEK</b> combines Youtube with looping, timestamps, and powerful keyboard
+        transport controls to create the ultimate video player.
     </p>
-
-    <ul>
-        <li>Save collections of videos</li>
-        <li>Create and track timestamps in videos</li>
-        <li>Loop sections of a video</li>
-    </ul>
 
     {% if not user.id %}
         <p class="warning">
-            Anyone can add videos and timestamps using SEEK,<br>
-            but you must be logged in for your changes to be saved.<br>
+            Anyone can add videos and timestamps using SEEK, but you must be logged in for your changes to be saved.<br>
             Creating an account is free and easy!
+            <input type="submit" data-bind="click: registerModal" value="REGISTER">
+            <input type="submit" data-bind="click: loginModal" value="LOGIN">
         </p>
     {% endif %}
 
+    <ul>
+        <li>Add timestamps to lessons for easy reference</li>
+        <li>Break up full albums into individual tracks</li>
+        <li>Musicians: Create perfect loops for study and performance</li>
+    </ul>
+
+    <h3>Using SEEK</h3>
+
+    <div>
+        <img src="/static/help-addvideo.png" style="float: left;">
+        <p style="float: right; width: 400px">
+            Click the "ADD VIDEO" button in top right to get started
+        </p>
+    </div>
+
+    <div>
+        <img src="/static/help-addvideomodal.png" style="float: right;">
+        <p style="float: left; width: 130px;">
+            Copy and paste any Youtube URL
+        </p>
+    </div>
+
+    <div>
+        <img src="/static/help-transport.png" style="float: left;">
+        <p style="float: right; width: 110px; padding: 5px;">
+            Use the transport controls to navigate, with keyboard controls:
+        </p>
+        <table style="width: 70%; margin: 0 auto;">
+            <tr><th>[space]</th><td>play/pause</td></tr>
+            <tr><th>[right]</th><td>jump ahead five seconds</td></tr>
+            <tr><th>[shift + right arrow]</th><td>jump ahead thirty seconds</td></tr>
+            <tr><th>[left arrow]</th><td>jump back five seconds</td></tr>
+            <tr><th>[shift + left arrow]</th><td>jump back thirty seconds</td></tr>
+        </table>
+    </div>
+
+    <div>
+        <img src="/static/help-addvideomodal.png" style="float: right;">
+        <p style="float: left; width: 130px;">
+            Copy and paste any Youtube URL
+        </p>
+    </div>
+
+    <div>
+        <img src="/static/help-addvideomodal.png" style="float: right;">
+        <p style="float: left; width: 130px;">
+            Copy and paste any Youtube URL
+        </p>
+    </div>
+
+    <div>
+        <img src="/static/help-addvideomodal.png" style="float: right;">
+        <p style="float: left; width: 130px;">
+            Copy and paste any Youtube URL
+        </p>
+    </div>
+
     &copy; Alex Gallichotte 2013<br>
-    {% if not user.id %}
-        <input type="submit" data-bind="click: registerModal" value="REGISTER">
-        <input type="submit" data-bind="click: loginModal" value="LOGIN">
-    {% endif %}
 </form>

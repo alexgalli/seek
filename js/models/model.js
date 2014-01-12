@@ -63,6 +63,10 @@ function SeekViewModel() {
         $("#warnModal").modal();
     }
 
+    self.aboutModal = function() {
+        $("#aboutModal").modal();
+    }
+
     self.saveWarn = function() {
         if (self.saveWarning == true) {
             self.saveWarning = false;

@@ -357,6 +357,7 @@ function Player(model) {
         $("#addVideoModal").clearForm();
         $("#addVideoModal").find(".warning").text("");
         $("#addVideoModal").modal();
+        $("#id_youtubeUrl").watermark("http://www.youtube.com/watch?v=_lK4cX5xGiQ");
     }
 
     self.addVideo = function() {
@@ -365,7 +366,10 @@ function Player(model) {
         // http://stackoverflow.com/questions/5830387/how-to-find-all-youtube-video-ids-in-a-string-using-a-regex/5831191#5831191
         var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
         var res = re.exec(youtubeUrl);
-        if (! res || res.length < 2) return;
+        if (! res || res.length < 2) {
+            $("#addVideoModal").find('.warning').text("Please enter a valid Youtube URL");
+            return;
+        }
 
         var videoID = res[1];
 

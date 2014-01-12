@@ -289,6 +289,14 @@ header input[type="submit"]:hover, header input[type=submit]:hover
 
 */
 
+#addAVideo {
+    display: table-cell;
+    vertical-align: middle;
+    width: 700px;
+    height: 491px;
+    text-align: center;
+}
+
 #video {
 	width: 700px;
 	float: left;
@@ -602,9 +610,3 @@ button.ffw30, button.ffw5 { padding-right: 28px; }
 
 	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 	@media only screen and (max-width: 479px) {}
-
-
-
-
-
-	

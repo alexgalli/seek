@@ -48,7 +48,12 @@
             <figure class="icon sprite volume-wheel"></figure>
         </div>
 
-        <div id='player'></div>
+        <div id='addAVideo' data-bind="visible: !player.showPlayer()">
+            <a data-bind="click: player.addVideoModal">Add a video</a> to get started with SEEK!
+        </div>
+        <div data-bind="visible: player.showPlayer">
+            <div id='player'></div>
+        </div>
 
         <form class="transport">
             <button class="rew30" value="-30" data-bind="

@@ -170,8 +170,12 @@ function Player(model) {
     //</editor-fold>
 
     //<editor-fold desc="youtube player management">
+    self.showPlayer = ko.computed(function() {
+        return self.videos().length > 0;
+    })
+
     self.init = function(video) {
-        var videoID = video ? video.videoID : 'FGVGFfj7POA';
+        var videoID = video ? video.videoID : '_lK4cX5xGiQ';
 
         window.onYouTubePlayerAPIReady = function () {
             p = new YT.Player('player', {

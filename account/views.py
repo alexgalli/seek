@@ -54,6 +54,7 @@ def register(request):
         return HttpResponse(status=400, content="Passwords must match")
 
     User.objects.create_user(username=username, email=email, password=password)
+
     return log_in(request)
 
 @require_POST

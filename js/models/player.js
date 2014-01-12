@@ -367,7 +367,7 @@ function Player(model) {
         var re = /https?:\/\/(?:[0-9A-Z-]+\.)?(?:youtu\.be\/|youtube\.com\S*[^\w\-\s])([\w\-]{11})(?=[^\w\-]|$)(?![?=&+%\w.-]*(?:['"][^<>]*>|<\/a>))[?=&+%\w.-]*/ig;
         var res = re.exec(youtubeUrl);
         if (! res || res.length < 2) {
-            $("#addVideoModal").find('.warning').text("Please enter a valid Youtube URL");
+            $("#addVideoModal").find('.warning').text("Please enter a valid YouTube URL");
             return;
         }
 

@@ -1,4 +1,4 @@
-SEEK combines Youtube with looping, timestamps, and powerful keyboard transport controls to create the ultimate video player.
+SEEK combines YouTube with looping, timestamps, and powerful keyboard controls to create the ultimate video player.
 
 * Add timestamps to videos for instant recall
 * Break down video lessons step-by-step
